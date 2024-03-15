@@ -1,14 +1,11 @@
 from typing import Optional, Literal
 from uuid import UUID
 from fastapi import APIRouter, Depends, Query, HTTPException
-from fastapi.exceptions import RequestValidationError
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
-from pydantic_core import ErrorDetails
-from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
-from app.routers.dependency import  get_async_db, get_commons
+from app.routers.dependency import get_async_db, get_commons
 from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
 
 from .repository import chat_favorite_repo, chat_history_repo
@@ -164,4 +161,22 @@ async def update_chat_favorite(
     return {
         "message": "Chat favorite updated",
         "data": result
+    }
+
+
+@api.get('/favorite/{obj_id}/delete/', name='chat-favorite-delete', response_model=IResponseBase[ChatFavoriteVisible])
+async def delete_chat(
+        obj_id: UUID,
+        async_db: AsyncSession = Depends(get_async_db)
+) -> dict:
+    db_obj = await chat_favorite_repo.get(async_db, obj_id=obj_id)
+    try:
+
+        await chat_favorite_repo.delete(async_db, db_obj=db_obj)
+    except IntegrityError:
+        await async_db.rollback()
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat favorite can't be deleted")
+    return {
+        "message": "Chat favorite deleted successfully",
+        "data": db_obj
     }
