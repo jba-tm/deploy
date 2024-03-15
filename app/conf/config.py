@@ -20,10 +20,6 @@ class Settings(BaseSettings):
     ROOT_PATH_IN_SERVERS: Optional[bool] = True
     OPENAPI_URL: Optional[str] = '/openapi.json'
 
-    ADMIN_ROOT_PATH: Optional[str] = ""
-    ADMIN_OPENAPI_URL: Optional[str] = '/openapi.json'
-    ADMIN_ROOT_PATH_IN_SERVERS: Optional[bool] = True
-
     API_V1_STR: Optional[str] = "/api/v1"
 
     SERVER_NAME: Optional[str] = 'localhost'
@@ -99,7 +95,7 @@ class Settings(BaseSettings):
 
     LANGUAGE_CODE: Optional[str] = 'en'
     LANGUAGE_CODE_LENGTH: Optional[int] = 5
-    LANGUAGES: tuple = ('en', 'ru', 'tk',)
+    LANGUAGES: tuple = ('en', )
 
     model_config = SettingsConfigDict(
         case_sensitive=True, env_file=".env", env_file_encoding='utf-8',

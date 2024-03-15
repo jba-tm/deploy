@@ -31,7 +31,7 @@ class IResponseBase(PydanticBaseModel, Generic[DataType]):
 
 
 class IPaginationDataBase(PydanticBaseModel, Generic[DataType]):
-    count: int
+    count: Optional[int] = None
     limit: int
     page: int
     rows: List[DataType]

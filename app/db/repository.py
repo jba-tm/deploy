@@ -4,9 +4,12 @@ from typing import (
 )
 from uuid import UUID, uuid4
 from sqlalchemy import func, select, text, delete
+from sqlalchemy.exc import NoResultFound
+
 from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel
 
+from app.core.exceptions import DocumentRawNotFound
 from app.core.enums import Choices
 from app.utils.slugify import slugify
 
@@ -379,8 +382,10 @@ class CRUDBase(Generic[ModelType]):
         if params:
             stmt = stmt.filter_by(**params)
         result = await async_db.execute(stmt)
-        return result.scalar_one()
-
+        try:
+            return result.scalar_one()
+        except NoResultFound:
+            self.does_not_exist()
     async def first(
             self,
             async_db: "AsyncSession",
@@ -428,10 +433,11 @@ class CRUDBase(Generic[ModelType]):
         stmt = select(self.model)
         if options:
             stmt = stmt.options(*options)
-
         result = await async_db.execute(stmt.where(self.model.id == obj_id))
-
-        return result.scalar_one()
+        try:
+            return result.scalar_one()
+        except NoResultFound:
+            self.does_not_exist()
 
     async def get_all(
             self,
@@ -530,3 +536,6 @@ class CRUDBase(Generic[ModelType]):
         result = await async_db.execute(statement)
         await async_db.commit()
         return result
+
+    def does_not_exist(self):
+        raise DocumentRawNotFound(f"No one row found on - {self.model.__name__}")

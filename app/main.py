@@ -11,12 +11,11 @@ from starlette.middleware import Middleware
 from app.conf.config import settings
 from app.core.exceptions import DocumentRawNotFound
 from app.core.handlers import request_document_raw_not_found_exception
-from app.utils.translation.middleware import (
-    # LocaleFromHeaderMiddleware,
-    # LocaleFromCookieMiddleware,
-    LocaleFromQueryParamsMiddleware
-)
-from app.utils.translation import load_gettext_translations
+# from app.utils.translation.middleware import (
+#     LocaleFromHeaderMiddleware,
+#     LocaleFromCookieMiddleware,
+#     LocaleFromQueryParamsMiddleware
+# )
 from app.routers.urls import router
 from app.routers.api import api
 from app.routers.dependency import get_language
@@ -34,8 +33,6 @@ def get_application(
         openapi_url: Optional[str] = "/openapi.json",
         api_prefix: Optional[str] = ''
 ) -> FastAPI:
-    load_gettext_translations(directory=settings.LOCALE_PATH, domain='messages')
-
     application = FastAPI(
         dependencies=[Depends(get_language)],
         default_response_class=ORJSONResponse,
@@ -51,14 +48,14 @@ def get_application(
             # RequestValidationError: request_validation_error,
         },
 
-        middleware=[
-            # Middleware(
-            #     LocaleFromHeaderMiddleware, language_header=settings.LANGUAGE_HEADER,
-            #     default_code=settings.LANGUAGE_CODE
-            # ),
-            # Middleware(LocaleFromCookieMiddleware, language_cookie=settings.LANGUAGE_COOKIE),
-            Middleware(LocaleFromQueryParamsMiddleware),
-        ],
+        # middleware=[
+        #     Middleware(
+        #         LocaleFromHeaderMiddleware, language_header=settings.LANGUAGE_HEADER,
+        #         default_code=settings.LANGUAGE_CODE
+        #     ),
+        #     Middleware(LocaleFromCookieMiddleware, language_cookie=settings.LANGUAGE_COOKIE),
+        #     Middleware(LocaleFromQueryParamsMiddleware),
+        # ],
     )
     if settings.BACKEND_CORS_ORIGINS:
         application.add_middleware(

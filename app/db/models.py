@@ -1,15 +1,14 @@
 import re
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Any
+from uuid import uuid4, UUID
 
 import sqlalchemy as sa
 from sqlalchemy.orm import declarative_base, declared_attr, Mapped, mapped_column
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.sql import func
-
-from app.conf.config import settings
-
-from .i18n import Translatable as BaseTranslatable
+from sqlalchemy.dialects.postgresql import UUID as SUUID
+from sqlalchemy.ext.hybrid import hybrid_method
 
 metadata = sa.MetaData()
 
@@ -32,6 +31,11 @@ class Base(PlainBase):
     def __tablename__(cls) -> str:
         pattern = re.compile(r'(?<!^)(?=[A-Z])')
         return pattern.sub('_', cls.__name__).lower()
+
+
+class UUIDBase(Base):
+    __abstract__ = True
+    id: Mapped[UUID] = mapped_column(SUUID(as_uuid=True), primary_key=True, index=True, default=uuid4, nullable=False)
 
 
 class SlugBase(Base):
@@ -68,3 +72,47 @@ class SeoModelBase(Base):
     seo_title: Mapped[str] = mapped_column('seo_title', sa.String(255), default='')
     seo_description: Mapped[str] = mapped_column('seo_description', sa.String(255), default='')
     seo_keywords: Mapped[str] = mapped_column('seo_keywords', sa.String(500), default='')
+
+
+class ModelWithMetadataBase(Base):
+    __abstract__ = True
+    private_metadata: Mapped[dict] = mapped_column(sa.JSON, default={}, nullable=False)
+    public_metadata: Mapped[dict] = mapped_column(sa.JSON, default={}, nullable=False)
+
+    @hybrid_method
+    def get_value_from_private_metadata(self, key: str, default: Any = None) -> Any:
+        return self.private_metadata.get(key, default)
+
+    @hybrid_method
+    def store_value_in_private_metadata(self, items: dict):
+        if not self.private_metadata:
+            self.private_metadata = {}
+        self.private_metadata.update(items)
+
+    @hybrid_method
+    def clear_private_metadata(self):
+        self.private_metadata = {}
+
+    @hybrid_method
+    def delete_value_from_private_metadata(self, key: str):
+        if key in self.private_metadata:
+            del self.private_metadata[key]
+
+    @hybrid_method
+    def get_value_from_metadata(self, key: str, default: Any = None) -> Any:
+        return self.public_metadata.get(key, default)
+
+    @hybrid_method
+    def store_value_in_metadata(self, items: dict):
+        if not self.public_metadata:
+            self.public_metadata = {}
+        self.public_metadata.update(items)
+
+    @hybrid_method
+    def clear_metadata(self):
+        self.public_metadata = {}
+
+    @hybrid_method
+    def delete_value_from_metadata(self, key: str):
+        if key in self.public_metadata:
+            del self.public_metadata[key]
