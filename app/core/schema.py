@@ -46,6 +46,7 @@ class CommonsModel(PydanticBaseModel):
     limit: Optional[int] = settings.PAGINATION_MAX_SIZE
     offset: Optional[int] = 0
     page: Optional[int] = 1
+    with_count: Optional[bool] = False
 
 
 class VisibleBase(PydanticBaseModel):

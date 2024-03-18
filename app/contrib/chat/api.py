@@ -24,7 +24,6 @@ async def retrieve_chat_list(
         order_by: Optional[Literal[
             "id", "-id"
         ]] = "-id",
-        with_count: Optional[bool] = Query(False, alias="withCount"),
 ):
     obj_list = await chat_history_repo.get_all(
         async_db=async_db,
@@ -32,7 +31,7 @@ async def retrieve_chat_list(
         offset=commons.offset,
         order_by=(order_by,),
     )
-    if with_count:
+    if commons.with_count:
         count = await chat_history_repo.count(async_db)
     else:
         count = None

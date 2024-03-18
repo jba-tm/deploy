@@ -2,8 +2,9 @@ from typing import Optional
 from datetime import datetime
 from uuid import UUID
 
-from sqlalchemy import String, Text, DateTime, ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy import String, Text, DateTime, ForeignKey, Boolean
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
 from sqlalchemy_utils import ChoiceType
 from sqlalchemy.dialects.postgresql import UUID as SUUID
 
@@ -21,6 +22,7 @@ class User(UUIDBase, CreationModificationDateBase):
     birthday: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
     signature: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     description: Mapped[str] = mapped_column(Text(), nullable=False, default="")
+    is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
 
 
 class FileInfo(CreationModificationDateBase):

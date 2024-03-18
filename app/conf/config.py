@@ -80,6 +80,8 @@ class Settings(BaseSettings):
     EMAILS_FROM_EMAIL: Optional[EmailStr] = None
     EMAILS_FROM_NAME: Optional[str] = "Mailer"
 
+    VERIFICATION_CODE_EXPIRE_SECONDS: Optional[int] = 1800
+    VERIFICATION_CODE_LENGTH: Optional[int] = 4
     EMAIL_TEMPLATES_DIR: Optional[str] = "app/email-templates/build"
     EMAILS_ENABLED: Optional[bool] = True
 
@@ -113,6 +115,10 @@ class JWTSettings(BaseSettings):
     JWT_LEEWAY: Optional[int] = 0
     JWT_ARGUMENT_NAME: Optional[str] = 'token'
     JWT_EXPIRATION_MINUTES: Optional[int] = 60 * 24 * 30
+    JWT_ALLOW_REFRESH: Optional[bool] = True
+    JWT_REFRESH_EXPIRATION_DAYS: Optional[int] = 365
+    JWT_PASSWORD_RESET_EXPIRATION_MINUTES: Optional[int] = 1440
+
     JWT_AUTH_HEADER_NAME: Optional[str] = 'HTTP_AUTHORIZATION'
     JWT_AUTH_HEADER_PREFIX: str = 'Bearer'
     JWT_AUDIENCE: Optional[str] = 'client'

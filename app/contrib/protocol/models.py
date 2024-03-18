@@ -1,6 +1,7 @@
 from sqlalchemy import Text, Integer
-from sqlalchemy.orm import Mapped, mapped_column
-from app.db.models import UUIDBase,CreationModificationDateBase
+from sqlalchemy.orm import Mapped
+from sqlalchemy.orm import mapped_column
+from app.db.models import UUIDBase, CreationModificationDateBase
 
 
 class Protocol(UUIDBase, CreationModificationDateBase):

@@ -21,7 +21,6 @@ async def retrieve_protocol_list(
         order_by: Optional[Literal[
             "id", "-id"
         ]] = "-id",
-        with_count: Optional[bool] = Query(False, alias="withCount"),
 ):
     obj_list = await protocol_repo.get_all(
         async_db=async_db,
@@ -29,7 +28,7 @@ async def retrieve_protocol_list(
         offset=commons.offset,
         order_by=(order_by,),
     )
-    if with_count:
+    if commons.with_count:
         count = await protocol_repo.count(async_db)
     else:
         count = None

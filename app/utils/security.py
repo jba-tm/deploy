@@ -1,5 +1,6 @@
 import os
 import json
+import random
 
 from typing import Optional, Dict
 from datetime import datetime, timedelta
@@ -33,12 +34,6 @@ IMPORT_STRINGS = (
     'JWT_ENCODE_HANDLER',
     'JWT_DECODE_HANDLER',
     'JWT_PAYLOAD_HANDLER',
-    'JWT_PAYLOAD_GET_USERNAME_HANDLER',
-    'JWT_GET_USER_BY_NATURAL_KEY_HANDLER',
-    'JWT_REFRESH_EXPIRED_HANDLER',
-    'JWT_GET_REFRESH_TOKEN_HANDLER',
-    'JWT_ALLOW_ANY_HANDLER',
-    'JWT_ALLOW_ANY_CLASSES',
 )
 
 
@@ -218,3 +213,13 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
             else:
                 return None
         return param
+
+
+def rand_code(length: int):
+    # Takes random choices from
+    # ascii_letters and digits
+    # generated_code = ''.join([random.choice(string.digits) for n in range(length)])
+
+    random_number = random.randint(1, 10 ** length - 1)
+    string_format = '{:0' + str(length) + '}'
+    return string_format.format(random_number)
