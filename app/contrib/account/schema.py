@@ -83,9 +83,10 @@ class PineconeApiInfoVisible(VisibleBase):
 
 
 class Token(BaseModel):
-    access_token: str
-    token_type: str
     user: UserVisible
+    token_type: str
+    access_token: str
+    refresh_token: Optional[str] = None
 
 
 class TokenPayload(PydanticBaseModel):

@@ -107,8 +107,7 @@ async def retrieve_chat_favorite_list(
         commons: CommonsModel = Depends(get_commons),
         order_by: Optional[Literal[
             "id", "-id"
-        ]] = "-id",
-        with_count: Optional[bool] = Query(False, alias="withCount"),
+        ]] = "-id"
 ) -> dict:
     obj_list = await chat_favorite_repo.get_all(
         async_db=async_db,

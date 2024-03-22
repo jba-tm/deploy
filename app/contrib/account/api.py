@@ -1,5 +1,4 @@
-from typing import Optional, Literal
-
+from datetime import timedelta
 from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from pydantic_core import ErrorDetails
@@ -68,7 +67,12 @@ async def get_token(
         'token_type': 'bearer',
         "user": user
     }
-
+    if lazy_jwt_settings.JWT_ALLOW_REFRESH:
+        refresh_payload = lazy_jwt_settings.JWT_PAYLOAD_HANDLER(
+            {"user_id": str(user.id)},
+            expires_delta=timedelta(days=lazy_jwt_settings.JWT_REFRESH_EXPIRATION_DAYS))
+        refresh = lazy_jwt_settings.JWT_ENCODE_HANDLER(refresh_payload)
+        result["refresh_token"] = refresh
     return result
 
 
