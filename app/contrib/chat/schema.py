@@ -1,22 +1,37 @@
 from uuid import UUID
-
+from datetime import datetime
 from pydantic import Field
 from app.core.schema import BaseModel, VisibleBase
 
 
-class ChatHistoryBase(BaseModel):
+class ChatBase(BaseModel):
     title: str = Field(max_length=255)
-    chat_data: dict = Field({}, alias="chatData")
 
 
-class ChatHistoryCreate(ChatHistoryBase):
+class ChatCreate(ChatBase):
     title: str = Field(..., max_length=255)
 
 
 class ChatVisible(VisibleBase):
     id: UUID
     title: str
-    chat_data: dict = Field(alias="chatData")
+    created_at: datetime = Field(alias="createdAt")
+    # user_id: UUID = field(alias="")
+
+
+class ChatItemBase(BaseModel):
+    body: str = Field(max_length=2500)
+
+
+class ChatItemCreate(BaseModel):
+    body: str = Field(..., max_length=2500)
+
+
+class ChatItemVisible(VisibleBase):
+    id: int
+    chat_id: UUID
+    body: str
+    created_at: datetime = Field(alias="createdAt")
 
 
 class ChatFavoriteBase(BaseModel):

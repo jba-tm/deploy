@@ -1,16 +1,18 @@
 from typing import Optional, Literal
 from uuid import UUID
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends,  HTTPException
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
 
-from app.routers.dependency import get_async_db, get_commons
+from app.routers.dependency import get_async_db, get_commons, get_active_user
 from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
+from app.contrib.account.models import User
 
-from .repository import chat_favorite_repo, chat_history_repo
+from .repository import chat_favorite_repo, chat_repo, chat_item_repo
 from .schema import (
-    ChatHistoryBase, ChatHistoryCreate, ChatVisible,
+    ChatBase, ChatCreate, ChatVisible,
+    ChatItemVisible, ChatItemBase, ChatItemCreate,
     ChatFavoriteBase, ChatFavoriteCreate, ChatFavoriteVisible
 )
 
@@ -19,20 +21,23 @@ api = APIRouter()
 
 @api.get('/', name='chat-list', response_model=IPaginationDataBase[ChatVisible])
 async def retrieve_chat_list(
+        user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db),
         commons: CommonsModel = Depends(get_commons),
         order_by: Optional[Literal[
             "id", "-id"
         ]] = "-id",
 ):
-    obj_list = await chat_history_repo.get_all(
+    q = {"user_id": user.id}
+    obj_list = await chat_repo.get_all(
         async_db=async_db,
         limit=commons.limit,
         offset=commons.offset,
         order_by=(order_by,),
+        q=q
     )
     if commons.with_count:
-        count = await chat_history_repo.count(async_db)
+        count = await chat_repo.count(async_db, params=q)
     else:
         count = None
     return {
@@ -48,10 +53,15 @@ async def retrieve_chat_list(
     status_code=HTTP_201_CREATED
 )
 async def create_chat(
-        obj_in: ChatHistoryCreate,
+        obj_in: ChatCreate,
+        user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db)
 ):
-    result = await chat_history_repo.create(async_db, obj_in=obj_in)
+    data = {
+        "user_id": user.id,
+        # "title":
+    }
+    result = await chat_repo.create(async_db, obj_in=obj_in)
     return {
         'message': "Created successfully",
         'data': result
@@ -63,23 +73,23 @@ async def get_single_chat(
         obj_id: UUID,
         async_db: AsyncSession = Depends(get_async_db)
 ):
-    return await chat_history_repo.get(async_db, obj_id=obj_id)
+    return await chat_repo.get(async_db, obj_id=obj_id)
 
 
 @api.patch("/{obj_id}/update/", name="chat-update", response_model=IResponseBase[ChatVisible])
 async def update_chat(
-
         obj_id: UUID,
-        obj_in: ChatHistoryBase,
+        obj_in: ChatBase,
         async_db: AsyncSession = Depends(get_async_db)
 ) -> dict:
-    db_obj = await chat_history_repo.get(async_db, obj_id=obj_id)
+    db_obj = await chat_repo.get(async_db, obj_id=obj_id)
 
-    result = await chat_history_repo.update(async_db, db_obj=db_obj, obj_in=obj_in.model_dump(exclude_unset=True))
+    result = await chat_repo.update(async_db, db_obj=db_obj, obj_in=obj_in.model_dump(exclude_unset=True))
     return {
         "message": "Chat Updated successfully",
         "data": result
     }
+
 
 
 @api.get('/{obj_id}/delete/', name='chat-delete', response_model=IResponseBase[ChatVisible])
@@ -88,10 +98,9 @@ async def delete_chat(
         async_db: AsyncSession = Depends(get_async_db)
 
 ) -> dict:
-    db_obj = await chat_history_repo.get(async_db, obj_id=obj_id)
+    db_obj = await chat_repo.get(async_db, obj_id=obj_id)
     try:
-
-        await chat_history_repo.delete(async_db, db_obj=db_obj)
+        await chat_repo.delete(async_db, db_obj=db_obj)
     except IntegrityError:
         await async_db.rollback()
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat can't be deleted")
@@ -115,7 +124,7 @@ async def retrieve_chat_favorite_list(
         offset=commons.offset,
         order_by=(order_by,),
     )
-    if with_count:
+    if commons.with_count:
         count = await chat_favorite_repo.count(async_db)
     else:
         count = None

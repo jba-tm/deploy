@@ -43,6 +43,10 @@ sqlalchemy = "2.0.27"
 sqlalchemy-utils = "^0.41.1"
 tenacity = "^8.2.3"
 uvicorn = "^0.28.0"
+langchain = "^0.1.13"
+langchain-community = "^0.0.29"
+langchain-core = "^0.1.33"
+langchain-openai = "^0.1.0"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"

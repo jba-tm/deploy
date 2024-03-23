@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Request, HTTPException
 from fastapi.exceptions import RequestValidationError
 from pydantic_core import ErrorDetails
 from fastapi.security import OAuth2PasswordRequestForm
-from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
+from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.contrib.account.repository import user_repo
@@ -36,22 +36,14 @@ async def get_token(
     )
 
     if not user:
-        raise RequestValidationError(
-            [ErrorDetails(
-                msg='Incorrect email or password',
-                loc=("body", "email",),
-                type='value_error',
-                input=data.username
-            )]
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail="incorrect-email-password"
         )
     if not user.is_active:
-        raise RequestValidationError(
-            [ErrorDetails(
-                msg='User is disabled',
-                loc=("body", 'username',),
-                type="value_error",
-                input=data.username
-            )]
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail="user-account-locked"
         )
 
     payload = lazy_jwt_settings.JWT_PAYLOAD_HANDLER(

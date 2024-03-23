@@ -1,4 +1,4 @@
-"""3_protocol
+"""2_protocol
 
 Revision ID: 1943935a1011
 Revises: 394854b45131
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '1943935a1011'
-down_revision = '394854b45131'
+down_revision = '0238ee6479cd'
 branch_labels = None
 depends_on = None
 
