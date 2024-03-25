@@ -34,21 +34,29 @@ async def get_token(
         email=data.username,
         password=data.password,
     )
-
     if not user:
-        raise HTTPException(
-            status_code=HTTP_400_BAD_REQUEST,
-            detail="incorrect-email-password"
+        raise RequestValidationError(
+            [ErrorDetails(
+                msg='Incorrect email or password',
+                loc=("body", "username",),
+                type='value_error',
+                input=data.username
+            )]
         )
     if not user.is_active:
-        raise HTTPException(
-            status_code=HTTP_400_BAD_REQUEST,
-            detail="user-account-locked"
+        raise RequestValidationError(
+            [ErrorDetails(
+                msg='User is disabled',
+                loc=("body", 'username',),
+                type="value_error",
+                input=data.username
+            )]
         )
 
     payload = lazy_jwt_settings.JWT_PAYLOAD_HANDLER(
         {
             'user_id': user.id,
+            "email": user.email,
             'aud': lazy_jwt_settings.JWT_AUDIENCE,
         },
     )
@@ -100,7 +108,11 @@ async def sign_up(
     )
 
     payload = lazy_jwt_settings.JWT_PAYLOAD_HANDLER(
-        {"user_id": str(user.id)},
+        {
+            'user_id': user.id,
+            "email": user.email,
+            'aud': lazy_jwt_settings.JWT_AUDIENCE,
+        },
     )
     jwt_token = lazy_jwt_settings.JWT_ENCODE_HANDLER(payload)
     result = {"access_token": jwt_token, "token_type": "bearer", "user": user}
@@ -108,7 +120,7 @@ async def sign_up(
     if lazy_jwt_settings.JWT_ALLOW_REFRESH:
         refresh_payload = lazy_jwt_settings.JWT_PAYLOAD_HANDLER(
             {"user_id": str(user.id)},
-            expires_delta=lazy_jwt_settings.JWT_REFRESH_EXPIRATION_DELTA
+            expires_delta=timedelta(days=lazy_jwt_settings.JWT_REFRESH_EXPIRATION_DAYS)
         )
         refresh = lazy_jwt_settings.JWT_ENCODE_HANDLER(refresh_payload)
         result["refresh_token"] = refresh

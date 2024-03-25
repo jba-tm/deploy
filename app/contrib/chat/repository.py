@@ -1,7 +1,10 @@
 from app.db.repository import CRUDBase
 
-from .models import ChatFavorite, Chat, ChatItem
+from .models import ChatFavorite, Chat, ChatItem, ChatItemBody
 
+
+class CRUDChatItemBody(CRUDBase[ChatItemBody]):
+    pass
 
 class CRUDChat(CRUDBase[Chat]):
     pass
@@ -17,4 +20,5 @@ class CRUDChatFavorite(CRUDBase[ChatFavorite]):
 
 chat_repo = CRUDChat(Chat)
 chat_item_repo = CRUDChatItem(ChatItem)
+chat_item_body_repo = CRUDChatItemBody(ChatItemBody)
 chat_favorite_repo = CRUDChatFavorite(ChatFavorite)

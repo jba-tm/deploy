@@ -91,6 +91,7 @@ class Token(BaseModel):
 
 class TokenPayload(PydanticBaseModel):
     user_id: UUID
+    email: str
     iat: Optional[int] = None
     exp: int
     aud: str

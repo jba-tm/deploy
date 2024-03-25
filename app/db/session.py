@@ -17,7 +17,6 @@ SessionLocal = sessionmaker(
     bind=engine
 )
 
-sync_maker = sessionmaker()
 AsyncSessionLocal = async_sessionmaker(
     class_=AsyncSession,
     expire_on_commit=False,
@@ -25,7 +24,7 @@ AsyncSessionLocal = async_sessionmaker(
     autoflush=False,
     bind=async_engine,
     # future=True,
-    sync_session_class=sync_maker
+    sync_session_class=SessionLocal
 )
 
 test_db_uri = str(settings.TEST_DATABASE_URL).replace('+asyncpg', '')
@@ -42,8 +41,6 @@ TestingSessionLocal = sessionmaker(
     bind=testing_engine
 )
 
-test_sync_maker = sessionmaker()
-
 AsyncTestingSessionLocal = async_sessionmaker(
     class_=AsyncSession,
     expire_on_commit=False,
@@ -52,6 +49,6 @@ AsyncTestingSessionLocal = async_sessionmaker(
     autocommit=False,
     bind=test_async_engine,
     # future=True,
-    sync_session_class=test_sync_maker,
+    sync_session_class=TestingSessionLocal,
     # join_transaction_mode="create_savepoint"
 )
