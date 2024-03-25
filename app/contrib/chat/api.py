@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, lazyload
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 
@@ -15,13 +15,16 @@ from app.routers.dependency import get_async_db, get_commons, get_active_user, g
 from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
 from app.contrib.account.models import User
 
-from .models import ChatItem
-from .repository import chat_favorite_repo, chat_repo, chat_item_repo, chat_item_body_repo
+from .models import ChatItem, ChatItemBody
+from .repository import (
+    chat_favorite_repo, chat_repo, chat_item_repo, chat_item_body_repo, chat_item_answer_repo
+)
 from .schema import (
     ChatBase, ChatCreate, ChatVisible,
     ChatItemVisible, ChatItemBase, ChatItemCreate,
     ChatFavoriteBase, ChatFavoriteCreate, ChatFavoriteVisible
 )
+from .utils import retrieve_ai_answer
 
 CursorPage = CursorPage.with_custom_options(size=10)
 
@@ -70,9 +73,9 @@ async def create_chat(
 ):
     data = {
         "user_id": user.id,
-        # "title":
+        "title": obj_in.title,
     }
-    result = await chat_repo.create(async_db, obj_in=obj_in)
+    result = await chat_repo.create(async_db, obj_in=data)
     return {
         'message': "Created successfully",
         'data': result
@@ -85,6 +88,10 @@ async def create_chat_item(
         user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db)
 ) -> dict:
+    result, is_error = retrieve_ai_answer(obj_in.body)
+    if is_error:
+        raise HTTPException(detail="Something went wrong!", status_code=400)
+
     chat = await chat_repo.create(async_db, obj_in={
         "user_id": user.id,
         "title": "Test chat title",
@@ -101,12 +108,11 @@ async def create_chat_item(
             "body": obj_in.body,
         }
     )
-    answer = await chat_item_body_repo.create(
+    answer = await chat_item_answer_repo.create(
         async_db,
         obj_in={
-            "item_id": chat_item.id,
-            "is_ai": True,
-            "body": "Test ait answer 1"
+            "body_id": chat_item_body.id,
+            "answer": result
         }
     )
     return {
@@ -118,8 +124,16 @@ async def create_chat_item(
             "items": [
                 {
                     "id": chat_item.id,
-                    "body": [chat_item_body],
-                    "answers": [answer],
+                    "body": [
+                        {
+                            "id": chat_item_body.id,
+                            "body": chat_item_body.body,
+                            "created_at": chat_item_body.created_at,
+                            "answers": [
+                                {"id": answer.id, "answer": answer.answer, "created_at": answer.created_at}
+                            ]
+                        }
+                    ],
                     "created_at": chat_item.created_at,
                 }
             ]}}
@@ -173,13 +187,47 @@ async def chat_item_list(
         db: Session = Depends(get_db),
         async_db: AsyncSession = Depends(get_async_db),
         ctx=Depends(pagination_ctx(CursorPage[ChatItem]))
-
 ):
-    r = await chat_item_repo.get_all(async_db, expressions=(ChatItem.chat_id==obj_id,))
-    print(r)
-    from sqlakeyset import select_page
-    stmt = select(ChatItem).filter(ChatItem.chat_id == obj_id).order_by(ChatItem.created_at.desc())
+    stmt = select(ChatItem).options(
+        lazyload(ChatItem.body).lazyload(ChatItemBody.answers)
+    ).join(ChatItem.body).join(ChatItemBody.answers).filter(ChatItem.chat_id == obj_id).order_by(
+        ChatItem.created_at.desc())
     return paginate(db, stmt)
+
+
+@api.post('/{obj_id}/items/add/', name='chat-item-add', response_model=IResponseBase[ChatItemVisible])
+async def chat_item_add(
+        obj_id: UUID,
+        obj_in: ChatItemCreate,
+        user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db),
+
+) -> dict:
+    chat = await chat_repo.get_by_params(async_db, params={'user_id': user.id, "id": obj_id})
+    ai_result, is_error = retrieve_ai_answer(question=obj_in.body)
+    if is_error:
+        raise HTTPException(detail="Something went wrong!", status_code=400)
+    chat_item = await chat_item_repo.create(async_db, obj_in={'chat_id': chat.id})
+    question = await chat_item_body_repo.create(async_db, obj_in={'item_id': chat_item.id, "body": obj_in.body})
+    answer = await chat_item_answer_repo.create(async_db, obj_in={'body_id': question.id, "answer": ai_result})
+    return {
+        "message": "Chat item created",
+        "data": {
+
+            "id": chat_item.id,
+            "body": [
+                {
+                    "id": question.id,
+                    "body": question.body,
+                    "created_at": question.created_at,
+                    "answers": [
+                        {"id": answer.id, "answer": answer.answer, "created_at": answer.created_at}
+                    ]
+                }
+            ],
+            "created_at": chat_item.created_at,
+        }
+    }
 
 
 @api.get('/favorite/', name='chat-favorite-list', response_model=IPaginationDataBase[ChatFavoriteVisible])

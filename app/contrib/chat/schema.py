@@ -13,16 +13,22 @@ class ChatItemCreate(BaseModel):
     body: str = Field(..., max_length=2500)
 
 
+class ChatItemAnswer(BaseModel):
+    id: int
+    answer: str
+    created_at: datetime = Field(alias="createdAt")
+
+
 class ChatItemBody(BaseModel):
+    id: int
     body: str
-    is_ai: bool = Field(alias="isAi")
+    answers: List[ChatItemAnswer] = Field(default_factory=list)
     created_at: datetime = Field(alias="createdAt")
 
 
 class ChatItemVisible(VisibleBase):
     id: int
     body: List[ChatItemBody] = Field(default_factory=list)
-    answers: List[ChatItemBody] = Field(default_factory=list)
     created_at: datetime = Field(alias="createdAt")
 
 

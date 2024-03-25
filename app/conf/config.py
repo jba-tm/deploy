@@ -99,7 +99,7 @@ class Settings(BaseSettings):
     LANGUAGE_CODE_LENGTH: Optional[int] = 5
     LANGUAGES: tuple = ('en', )
 
-    OPENAI_API_KEY: str
+    OPENAI_MODEL_URL: AnyHttpUrl
 
     model_config = SettingsConfigDict(
         case_sensitive=True, env_file=".env", env_file_encoding='utf-8',

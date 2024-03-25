@@ -386,6 +386,7 @@ class CRUDBase(Generic[ModelType]):
             return result.scalar_one()
         except NoResultFound:
             self.does_not_exist()
+
     async def first(
             self,
             async_db: "AsyncSession",
