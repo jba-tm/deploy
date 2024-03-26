@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import Session, lazyload, selectinload
+from sqlalchemy.orm import Session, lazyload
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import select
 
@@ -21,7 +21,7 @@ from .repository import (
 )
 from .schema import (
     ChatBase, ChatCreate, ChatVisible,
-    ChatItemVisible, ChatItemBase, ChatItemCreate,
+    ChatItemVisible,  ChatItemCreate,
     ChatFavoriteBase, ChatFavoriteCreate, ChatFavoriteVisible
 )
 from .utils import retrieve_ai_answer
@@ -71,11 +71,12 @@ async def create_chat_item(
 ) -> dict:
     result, is_error = retrieve_ai_answer(obj_in.body)
     if is_error:
+        print(result)
         raise HTTPException(detail="Something went wrong!", status_code=400)
 
     chat = await chat_repo.create(async_db, obj_in={
         "user_id": user.id,
-        "title": "Test chat title",
+        "title": obj_in.body[0:250],
     })
     chat_item = await chat_item_repo.create(
         async_db=async_db,
