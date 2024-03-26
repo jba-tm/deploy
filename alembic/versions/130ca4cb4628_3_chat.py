@@ -1,8 +1,8 @@
 """3_chat
 
-Revision ID: 5f556f30065c
+Revision ID: 130ca4cb4628
 Revises: 1943935a1011
-Create Date: 2024-03-25 16:44:29.798207
+Create Date: 2024-03-25 22:02:43.208788
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '5f556f30065c'
+revision = '130ca4cb4628'
 down_revision = '1943935a1011'
 branch_labels = None
 depends_on = None
@@ -41,11 +41,13 @@ def upgrade() -> None:
     op.create_index(op.f('ix_chat_id'), 'chat', ['id'], unique=False)
     op.create_table('chat_item',
     sa.Column('chat_id', sa.UUID(), nullable=False),
+    sa.Column('user_id', sa.UUID(), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),
     sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('deleted_at', sa.DateTime(timezone=True), nullable=True),
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.ForeignKeyConstraint(['chat_id'], ['chat.id'], name='fx_chat_item_chat_id', ondelete='CASCADE'),
+    sa.ForeignKeyConstraint(['user_id'], ['user.id'], name='fx_chat_item_user_id', ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('id')
     )
     op.create_table('chat_item_body',

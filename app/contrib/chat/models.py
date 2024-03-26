@@ -1,5 +1,5 @@
 from uuid import UUID
-from sqlalchemy import String, Text, ForeignKey,  Integer
+from sqlalchemy import String, Text, ForeignKey, Integer
 from sqlalchemy.dialects.postgresql import UUID as SUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
@@ -7,7 +7,8 @@ from app.db.models import UUIDBase, CreationModificationDateBase
 
 
 class Chat(UUIDBase, CreationModificationDateBase):
-    user_id: Mapped[UUID] = mapped_column(SUUID, ForeignKey("user.id", name="fx_chat_user_id", ondelete="CASCADE"), nullable=False)
+    user_id: Mapped[UUID] = mapped_column(SUUID, ForeignKey("user.id", name="fx_chat_user_id", ondelete="CASCADE"),
+                                          nullable=False)
     title: Mapped[str] = mapped_column(String(255), nullable=False)
 
 
@@ -21,7 +22,13 @@ class ChatItem(CreationModificationDateBase):
         ),
         nullable=False
     )
+    user_id: Mapped[UUID] = mapped_column(
+        SUUID,
+        ForeignKey("user.id", name="fx_chat_item_user_id", ondelete="CASCADE"), nullable=False
+    )
+
     body = relationship("ChatItemBody", lazy="noload")
+    chat = relationship("Chat", lazy="noload")
 
 
 class ChatItemBody(CreationModificationDateBase):
