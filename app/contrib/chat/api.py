@@ -293,7 +293,6 @@ async def delete_chat(
 ) -> dict:
     db_obj = await chat_favorite_repo.get(async_db, obj_id=obj_id)
     try:
-
         await chat_favorite_repo.delete(async_db, db_obj=db_obj)
     except IntegrityError:
         await async_db.rollback()

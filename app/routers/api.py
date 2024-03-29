@@ -8,4 +8,4 @@ api = APIRouter()
 
 api.include_router(account_api, tags=["account"])
 api.include_router(chat_api, tags=["chat"], prefix="/chat")
-api.include_router(protocol_api, tags=["chat"], prefix="/protocol")
+api.include_router(protocol_api, tags=["protocol"], prefix="/protocol")

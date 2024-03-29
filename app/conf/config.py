@@ -100,6 +100,9 @@ class Settings(BaseSettings):
     LANGUAGES: tuple = ('en', )
 
     OPENAI_MODEL_URL: AnyHttpUrl
+    BE_API_URL: AnyHttpUrl
+    PUBMED_API_URL: AnyHttpUrl
+    OG_API_URL: AnyHttpUrl
 
     model_config = SettingsConfigDict(
         case_sensitive=True, env_file=".env", env_file_encoding='utf-8',

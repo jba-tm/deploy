@@ -1,20 +1,49 @@
 from uuid import UUID
-
+from typing import Optional
+from datetime import datetime
 from pydantic import Field
 from app.core.schema import BaseModel, VisibleBase
+from app.contrib.protocol import ProtocolSourceChoices
+
+
+class ProtocolStepBase(BaseModel):
+    question: str = Field(alias="question")
+    content: str = Field(alias="content")
+
+
+class ProtocolStepCreate(BaseModel):
+    medicine: str = Field(max_length=255)
+    step: str = Field(..., alias="step")
+    protocol_id: UUID = Field(..., alias="protocolId")
+
+
+class ProtocolStepVisible(VisibleBase):
+    id: int
+    question: str
+    prompt: str
+    content: str
+    source: ProtocolSourceChoices
+    step: str
+    created_at: datetime = Field(alias="createdAt")
 
 
 class ProtocolBase(BaseModel):
-    content: str = Field(max_length=1000)
-    step: int = Field(gte=0)
+    medicine: str = Field(max_length=255)
 
 
 class ProtocolCreate(ProtocolBase):
-    content: str = Field(..., max_length=1000)
-    step: int = Field(..., gte=0)
+    medicine: str = Field(..., max_length=255)
 
 
 class ProtocolVisible(VisibleBase):
     id: UUID
-    content: str
-    step: int
+    medicine: str
+    current_step: Optional[str] = Field(None, alias="currentStep")
+
+    created_at: datetime = Field(alias="createdAt")
+    current_step_obj: Optional[ProtocolStepVisible] = Field(None, alias="currentStepObj")
+
+
+class ProtocolSource(BaseModel):
+    source_type: ProtocolSourceChoices = Field(alias="sourceType")
+    query: str
