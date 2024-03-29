@@ -1,5 +1,5 @@
 from uuid import UUID
-from sqlalchemy import Text, String, ForeignKey, UniqueConstraint
+from sqlalchemy import Text, String, ForeignKey, UniqueConstraint, Integer
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy.dialects.postgresql import UUID as SUUID
 from sqlalchemy_utils import ChoiceType
@@ -37,7 +37,7 @@ class ProtocolStep(CreationModificationDateBase):
         ChoiceType(choices=ProtocolSourceChoices, impl=String(25)), nullable=False
     )
     step: Mapped[str] = mapped_column(String(50), nullable=False)
-
+    step_order: Mapped[int] = mapped_column(Integer(), nullable=False)
     protocol = relationship("Protocol",  lazy="noload")
 
     __table_args__ = (

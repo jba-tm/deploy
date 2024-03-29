@@ -14,6 +14,8 @@ class ProtocolStepBase(BaseModel):
 class ProtocolStepCreate(BaseModel):
     medicine: str = Field(max_length=255)
     step: str = Field(..., alias="step")
+    step_order: int = Field(..., alias="stepOrder")
+
     protocol_id: UUID = Field(..., alias="protocolId")
 
 
@@ -24,6 +26,7 @@ class ProtocolStepVisible(VisibleBase):
     content: str
     source: ProtocolSourceChoices
     step: str
+    step_order: int = Field(alias="stepOrder")
     created_at: datetime = Field(alias="createdAt")
 
 

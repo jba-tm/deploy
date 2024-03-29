@@ -40,7 +40,7 @@ def upgrade() -> None:
     sa.Column('prompt', sa.Text(), nullable=False),
     sa.Column('content', sa.Text(), nullable=False),
     sa.Column('source', sqlalchemy_utils.types.choice.ChoiceType(
-        choices=ProtocolSourceChoices, impl=sa.String(225)
+        choices=ProtocolSourceChoices, impl=sa.String(25)
     ), nullable=False),
     sa.Column('step', sa.String(length=50), nullable=False),
     sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'), nullable=False),

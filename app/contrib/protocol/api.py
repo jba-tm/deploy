@@ -93,6 +93,7 @@ async def create_protocol(
             content=content,
             source=source,
             step="0",
+            step_order=0,
             user_id=user.id,
         )
         async_db.add(protocol_step)
@@ -111,6 +112,7 @@ async def create_protocol(
                     "prompt": protocol_step.prompt,
                     "content": protocol_step.content,
                     "step": protocol_step.step,
+                    "step_order": protocol_step.step_order,
                     "source": protocol_step.source,
                     "created_at": protocol_step.created_at,
                 },
@@ -142,6 +144,7 @@ async def retrieve_single_protocol(
             ps."prompt" as "ps_prompt",
             ps."content" as "ps_content",
             ps."step" as "ps_step",
+            ps."step_order" as "ps_step_order",
             ps."source" as "ps_source"
         FROM public."protocol" p
         JOIN public."protocol_step" ps ON p."id" = ps."protocol_id" and p."current_step" = ps."step"
@@ -161,6 +164,7 @@ async def retrieve_single_protocol(
             "prompt": db_obj.ps_prompt,
             "content": db_obj.ps_content,
             "step": db_obj.ps_step,
+            "step_order": db_obj.ps_step_order,
             "source": db_obj.ps_source,
             "created_at": db_obj.ps_created_at,
         },
@@ -223,6 +227,7 @@ async def create_protocol_step(
             "prompt": prompt,
             "source": source,
             "step": obj_in.step,
+            "step_order": obj_in.step_order,
             "content": content,
         }
         result = await protocol_step_repo.create(async_db, obj_in=data)
