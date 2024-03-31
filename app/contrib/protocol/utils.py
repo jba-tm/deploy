@@ -1,6 +1,3 @@
-
-
-
 def get_property(drug: str, key: str):
     properties = {
         "0": {
@@ -12,47 +9,47 @@ def get_property(drug: str, key: str):
             "prompt": f"What is the study objective of {drug}?"
                       f" Provide the answer in detail with functionality, manufacturer, and applier.",
             "question": f"Introduction of {drug}",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.1": {
             "prompt": f"What is the indication of the {drug}?",
             "question": "What is the indication of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.2": {
             "prompt": f"What is Dosage forms and strengths of {drug}?",
             "question": "Dosage Forms and Strengths?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.3": {
             "prompt": f"What is the dosage of {drug} in different disease?",
             "question": f"What is the dosage of {drug} in different disease?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.4": {
             "prompt": f"What is the mechanism of the {drug}?",
             "question": "What is the mechanism of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.5.1": {
             "prompt": f"What is the pharmacodynamic properties of the {drug} in different disease?",
             "question": "What is the pharmacodynamic properties of the drug in different disease?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.5.2": {
             "prompt": f"What is the toxicology properties of the {drug} in different disease?",
             "question": "What is the toxicology properties of the drug in different disease?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.6": {
             "prompt": f"What is the drug interaction of {drug}?",
             "question": f"What is the drug interaction of {drug}?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.7": {
             "prompt": f"What is the contraindication of {drug}",
             "question": f"What is the contraindication of {drug}",
-            "source": "pm"
+            "source": "pubmed"
         },
         "1.2.8": {
             "prompt": f"What is the precautions of {drug}",
@@ -105,8 +102,8 @@ def get_property(drug: str, key: str):
             "source": "be"
         },
         "1.5.7": {
-            "prompt": "What is the study procedure of the ${drug} BE study?",
-            "question": "What is the study procedure of the ${drug} BE study?",
+            "prompt": f"What is the study procedure of the {drug} BE study?",
+            "question": f"What is the study procedure of the {drug} BE study?",
             "source": "be"
         },
         "1.5.8": {
@@ -277,32 +274,32 @@ def get_property(drug: str, key: str):
         "2.2.1.1": {
             "prompt": "What is the absorption properties of the drug?",
             "question": "What is the absorption properties of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.2.1.2": {
             "prompt": "What is the distribution properties of the drug?",
             "question": "What is the distribution properties of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.2.1.3": {
             "prompt": "What is the Eliminationn properties of the drug?",
             "question": "What is the Elimination properties of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.2.1.4": {
             "prompt": "What is the Metabolism properties of the drug?",
             "question": "What is the Metabolism properties of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.2.1.5": {
             "prompt": "What is the Excretion properties of the drug?",
             "question": "What is the Excretion properties of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.2.2": {
             "prompt": "What is the special populations pharmacokinetics of the drug?",
             "question": "What is the special populations pharmacokinetics of the drug?",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.3": {
             "prompt": "What is the other previous studies of the drug done before?",
@@ -392,7 +389,7 @@ def get_property(drug: str, key: str):
         "2.4.7": {
             "prompt": "What is the Dose and Method of Administration of the drug",
             "question": "What is the Dose and Method of Administration of the drug",
-            "source": "pm"
+            "source": "pubmed"
         },
         "2.4.8": {
             "prompt": "What is the Safety Monitoring of the drug",

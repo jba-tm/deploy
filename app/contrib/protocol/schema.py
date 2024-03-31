@@ -41,10 +41,13 @@ class ProtocolCreate(ProtocolBase):
 class ProtocolVisible(VisibleBase):
     id: UUID
     medicine: str
-    current_step: Optional[str] = Field(None, alias="currentStep")
+    current_step: str = Field(alias="currentStep")
 
     created_at: datetime = Field(alias="createdAt")
-    current_step_obj: Optional[ProtocolStepVisible] = Field(None, alias="currentStepObj")
+
+
+class ProtocolExtended(ProtocolVisible):
+    current_step_obj: ProtocolStepVisible = Field(alias="currentStepObj")
 
 
 class ProtocolSource(BaseModel):

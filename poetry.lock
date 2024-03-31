@@ -1105,6 +1105,21 @@ files = [
 ]
 
 [[package]]
+name = "htmldocx"
+version = "0.0.6"
+description = "Convert html to docx"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "htmldocx-0.0.6-py3-none-any.whl", hash = "sha256:adf5e95ad8ba8121e606cf138c614de13327a1192a5782acdb4a0abdc23db1b7"},
+    {file = "htmldocx-0.0.6.tar.gz", hash = "sha256:b4bcec895f86d7a50ffc7133ca24d85c24f3614db2b37d33a30d9d04654a5486"},
+]
+
+[package.dependencies]
+beautifulsoup4 = ">=4.7.0"
+python-docx = ">=0.8.10"
+
+[[package]]
 name = "httpcore"
 version = "1.0.4"
 description = "A minimal low-level HTTP client."
@@ -2362,6 +2377,21 @@ files = [
 six = ">=1.5"
 
 [[package]]
+name = "python-docx"
+version = "1.1.0"
+description = "Create, read, and update Microsoft Word .docx files."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "python-docx-1.1.0.tar.gz", hash = "sha256:5829b722141cf1ab79aedf0c34d9fe9924b29764584c0f2164eb2b02dcdf17c9"},
+    {file = "python_docx-1.1.0-py3-none-any.whl", hash = "sha256:bac9773278098a1ddc43a52d84e22f5909c4a3080a624530b3ecb3771b07c6cd"},
+]
+
+[package.dependencies]
+lxml = ">=3.1.0"
+typing-extensions = "*"
+
+[[package]]
 name = "python-dotenv"
 version = "1.0.1"
 description = "Read key-value pairs from a .env file and set them as environment variables"
@@ -3071,4 +3101,4 @@ multidict = ">=4.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "eb16e9c11be26a613bc4e00678c330528039c64b72805ff5044ed21e89b07043"
+content-hash = "c7376891413947692ab0bc7c7d0a977af2684833cc3b60607b6bd3867e320288"

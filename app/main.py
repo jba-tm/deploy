@@ -75,7 +75,7 @@ def get_application(
         )
 
     application.mount("/static", StaticFiles(directory="static", html=True), name="static")
-    application.mount("/media", StaticFiles(directory="media", html=True), name="media")
+    # application.mount("/media", StaticFiles(directory="media", html=True), name="media")
     application.include_router(app_api, prefix=api_prefix)
     application.include_router(app_router)
 

@@ -1,38 +1,45 @@
+import requests
+
 from uuid import UUID
-from fastapi import APIRouter, Depends, HTTPException
+from typing import Optional, Literal
+
+from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
+
 from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_500_INTERNAL_SERVER_ERROR
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session, selectinload, load_only
-from sqlalchemy import select, text
-import requests
-
-from fastapi_pagination import pagination_ctx
-from fastapi_pagination.cursor import CursorPage
-from fastapi_pagination.ext.sqlalchemy import paginate
+from sqlalchemy.orm import selectinload, load_only
+from sqlalchemy import text
+from docx import Document
+from htmldocx import HtmlToDocx
 
 from app.core.exceptions import HTTP404
-from app.conf.config import settings
-from app.routers.dependency import get_async_db, get_active_user, get_db
-from app.core.schema import IResponseBase
+from app.conf.config import settings, structure_settings
+from app.routers.dependency import get_async_db, get_active_user, get_commons
+from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
 from app.contrib.account.models import User
+from app.utils.sanitizer import text_to_html_paragraphs, Sanitizer
+from app.utils.file import upload_to
+from app.contrib.protocol import FileType
 
 from .utils import get_property
-from .repository import protocol_repo, protocol_step_repo
+from .repository import protocol_repo, protocol_step_repo, protocol_file_repo
 from .models import Protocol, ProtocolStep
 from .schema import (
-    ProtocolBase, ProtocolCreate, ProtocolVisible, ProtocolSource,
-    ProtocolStepVisible, ProtocolStepCreate, ProtocolStepBase
+    ProtocolBase, ProtocolCreate, ProtocolVisible,
+    ProtocolSource,
+    ProtocolStepVisible, ProtocolStepCreate, ProtocolStepBase,
+    ProtocolExtended
 )
 
 sources = {
     "be": settings.BE_API_URL,
     "pubmed": settings.PUBMED_API_URL,
-    "ob": settings.OG_API_URL
+    "og": settings.OG_API_URL
 }
 
 api = APIRouter()
-CursorPage = CursorPage.with_custom_options(size=10)
 
 
 def get_protocol_prompt_content(medicine: str, step: str):
@@ -51,31 +58,50 @@ def get_protocol_prompt_content(medicine: str, step: str):
     except Exception as e:
         print(e)
         raise HTTPException(detail="Something went wrong", status_code=HTTP_500_INTERNAL_SERVER_ERROR)
-    return result.get("text", ""), prompt, source, protocol_property.get("question")
+    html_text = text_to_html_paragraphs(result.get("text", ""))
+    return html_text, prompt, source, protocol_property.get("question")
 
 
 @api.get(
     "/", name="protocol-list",
-    response_model=CursorPage[ProtocolVisible],
-    dependencies=[Depends(pagination_ctx(CursorPage[ProtocolVisible]))],
+    response_model=IPaginationDataBase[ProtocolVisible]
 )
 async def retrieve_protocol_list(
-        db: Session = Depends(get_db),
         user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db),
+        commons: CommonsModel = Depends(get_commons),
+        order_by: Optional[Literal[
+            "created_at", "-created_at"
+        ]] = "-created_at",
 ):
-    stmt = select(Protocol).filter(Protocol.user_id == user.id).order_by(Protocol.created_at.desc())
-    return paginate(db, stmt)
+    obj_list = await protocol_repo.get_all(
+        async_db=async_db,
+        limit=commons.limit,
+        offset=commons.offset,
+        order_by=(order_by,),
+    )
+    if commons.with_count:
+        count = await protocol_repo.count(async_db)
+    else:
+        count = None
+    return {
+        'page': commons.page,
+        'limit': commons.limit,
+        "count": count,
+        "rows": obj_list
+    }
 
 
 @api.post(
-    '/create/', name='protocol-create', response_model=IResponseBase[ProtocolVisible],
+    '/create/',
+    name='protocol-create',
+    response_model=IResponseBase[ProtocolExtended],
     status_code=HTTP_201_CREATED
 )
 async def create_protocol(
         obj_in: ProtocolCreate,
         async_db: AsyncSession = Depends(get_async_db),
         user: User = Depends(get_active_user),
-
 ) -> dict:
     content, prompt, source, question = get_protocol_prompt_content(obj_in.medicine, "0")
     try:
@@ -126,7 +152,7 @@ async def create_protocol(
         raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong!")
 
 
-@api.get('/{obj_id}/detail/', name='protocol-detail', response_model=ProtocolVisible)
+@api.get('/{obj_id}/detail/', name='protocol-detail', response_model=ProtocolExtended)
 async def retrieve_single_protocol(
         obj_id: UUID,
         async_db: AsyncSession = Depends(get_async_db),
@@ -175,13 +201,14 @@ async def retrieve_single_protocol(
 
 @api.patch('/{obj_id}/update/', name='protocol-update', response_model=IResponseBase[ProtocolVisible])
 async def update_protocol(
-
         obj_id: UUID,
         obj_in: ProtocolBase,
         async_db: AsyncSession = Depends(get_async_db),
 ) -> dict:
     db_obj = await protocol_repo.get(async_db, obj_id=obj_id)
-    result = await protocol_repo.update(async_db, db_obj=db_obj, obj_in=obj_in.model_dump(exclude_unset=True))
+    result = await protocol_repo.update(
+        async_db, db_obj=db_obj, obj_in=obj_in.model_dump(exclude_unset=True)
+    )
     return {
         'message': "Protocol updated",
         "data": result
@@ -190,12 +217,11 @@ async def update_protocol(
 
 @api.get('/{obj_id}/delete/', name='protocol-delete', response_model=IResponseBase[ProtocolVisible])
 async def delete_protocol(
-
         obj_id: UUID,
         user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db),
 ) -> dict:
-    db_obj = await protocol_repo.get(async_db, obj_id=obj_id)
+    db_obj = await protocol_repo.get_by_params(async_db, params={"id": obj_id, "user_id": user.id})
     try:
         await protocol_repo.delete(async_db, db_obj=db_obj)
     except IntegrityError:
@@ -207,12 +233,106 @@ async def delete_protocol(
     }
 
 
-@api.post('/step/create/', name='protocol-step-create', response_model=IResponseBase[ProtocolStepVisible])
+@api.get('/{obj_id}/generate/docx/', name='protocol-gen-docx', response_model=IResponseBase[str])
+async def protocol_generate_docx(
+        obj_id: UUID,
+        user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db),
+):
+    db_obj = await protocol_repo.get_by_params(async_db, params={"id": obj_id, "user_id": user.id})
+    is_exist = await protocol_file_repo.exists(async_db, params={'protocol_id': obj_id, "file_type": "docx"})
+    if is_exist:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
+                            detail="Protocol docx file already generated. Try to delete it first.")
+    steps = await protocol_step_repo.get_all(
+        async_db,
+        q={'protocol_id': obj_id},
+        limit=500,
+        order_by=("step",),
+        options=(load_only(ProtocolStep.content),),
+    )
+    html_text = ""
+    for step in steps:
+        html_text = html_text + step.content
+    doc = Document()
+    new_parser = HtmlToDocx()
+    new_parser.add_html_to_document(html_text, doc);
+    path = upload_to(obj_id, ".docx", "docx")
+
+    doc.save(f'{structure_settings.MEDIA_DIR}/{path}')
+    result = await protocol_file_repo.create(async_db, obj_in={
+        "protocol_id": db_obj.id,
+        "file_path": path,
+        "file_type": "docx"
+    })
+
+    return {
+        "message": "Procotol docx file created",
+        "data": ""
+    }
+
+
+@api.get('/{obj_id}/generate/delete/', name='protocol-file-delete', response_model=IResponseBase[str])
+async def delete_protocol_docx_file(
+        obj_id: UUID,
+        file_type: FileType = Query(...),
+        user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db),
+):
+    protocol = await protocol_repo.exists(async_db, params={"id": obj_id, "user_id": user.id})
+    if not protocol:
+        raise HTTP404(detail="Protocol does not exist")
+    db_obj = await protocol_file_repo.get_by_params(
+        async_db,
+        params={"protocol_id": obj_id, "file_type": file_type.value}
+    )
+    result = await protocol_file_repo.delete_with_file(async_db, db_obj=db_obj)
+
+    return {
+        "message": "Protocol file deleted",
+        "data": ""
+    }
+
+
+@api.get('/{obj_id}/generate/download/', name="protocol-file-download", response_class=FileResponse)
+async def protocol_download_generated(
+        obj_id: UUID,
+        file_type: FileType = Query(...),
+        # user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db),
+):
+    protocol = await protocol_repo.exists(async_db, params={
+        "id": obj_id,
+        # "user_id": user.id
+    })
+    if not protocol:
+        raise HTTP404(detail="Protocol does not exist")
+
+    db_obj = await protocol_file_repo.get_by_params(
+        async_db,
+        params={"protocol_id": obj_id, "file_type": file_type.value}
+    )
+    return f"{structure_settings.MEDIA_DIR}/{db_obj.file_path}"
+
+
+@api.post(
+    '/step/create/',
+    name='protocol-step-create',
+    response_model=IResponseBase[ProtocolStepVisible],
+    status_code=HTTP_201_CREATED,
+)
 async def create_protocol_step(
         obj_in: ProtocolStepCreate,
         user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db),
 ) -> dict:
+    is_exists = await protocol_step_repo.exists(async_db,
+                                                params={"protocol_id": obj_in.protocol_id, "step": obj_in.step})
+    if is_exists:
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail="Protocol already has this step already"
+        )
     content, prompt, source, question = get_protocol_prompt_content(obj_in.medicine, obj_in.step)
 
     protocol = await protocol_repo.get(async_db, obj_id=obj_in.protocol_id)
@@ -220,26 +340,29 @@ async def create_protocol_step(
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Invalid protocol id")
 
     try:
-        data = {
-            "user_id": user.id,
-            "protocol_id": obj_in.protocol_id,
-            "question": question,
-            "prompt": prompt,
-            "source": source,
-            "step": obj_in.step,
-            "step_order": obj_in.step_order,
-            "content": content,
+        protocol_step = ProtocolStep(
+            user_id=user.id,
+            protocol_id=protocol.id,
+            question=question,
+            prompt=prompt,
+            source=source,
+            step=obj_in.step,
+            step_order=obj_in.step_order,
+            content=content,
+        )
+        async_db.add(protocol_step)
+        protocol.current_step = obj_in.step
+        async_db.add(protocol)
+        await async_db.commit()
+        await async_db.refresh(protocol_step)
+        return {
+            "message": "Protocol step created",
+            "data": protocol_step
         }
-        result = await protocol_step_repo.create(async_db, obj_in=data)
     except Exception as e:
         print(e)
         await async_db.rollback()
         raise HTTPException(status_code=HTTP_500_INTERNAL_SERVER_ERROR, detail="Something went wrong")
-    await protocol_repo.update(async_db, db_obj=protocol, obj_in={"current_step": result.step})
-    return {
-        "message": "Protocol step created",
-        "data": result
-    }
 
 
 @api.get('/step/{obj_id}/detail/', name='protocol-step-detail', response_model=ProtocolStepVisible)
@@ -259,12 +382,15 @@ async def update_protocol_step(
         async_db: AsyncSession = Depends(get_async_db),
 ):
     db_obj = await protocol_step_repo.get_by_params(async_db, params={"user_id": user.id, "id": obj_id})
+
+    sanitizer = Sanitizer()
+    data = {
+        "content": sanitizer.sanitize(obj_in.content)
+    }
     result = await protocol_step_repo.update(
         async_db,
         db_obj=db_obj,
-        obj_in={
-            "content": obj_in.content,
-        }
+        obj_in=data
     )
 
     return {
@@ -281,7 +407,7 @@ async def refresh_prompt_protocol_step(
 ) -> dict:
     db_obj = await protocol_step_repo.get_by_params(
         async_db, params={"user_id": user.id, "id": obj_id},
-        options=(selectinload(ProtocolStep.protocol).options(load_only(Protocol.medicine),),)
+        options=(selectinload(ProtocolStep.protocol).options(load_only(Protocol.medicine), ),)
     )
     content, prompt, source, question = get_protocol_prompt_content(db_obj.protocol.medicine, db_obj.step)
 

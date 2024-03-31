@@ -5,7 +5,7 @@ from sqlalchemy.dialects.postgresql import UUID as SUUID
 from sqlalchemy_utils import ChoiceType
 
 from app.db.models import UUIDBase, CreationModificationDateBase
-from app.contrib.protocol import ProtocolSourceChoices
+from app.contrib.protocol import ProtocolSourceChoices, FileType
 
 
 class Protocol(UUIDBase, CreationModificationDateBase):
@@ -14,7 +14,7 @@ class Protocol(UUIDBase, CreationModificationDateBase):
         ForeignKey("user.id", name='fx_protocol_user_id', ondelete="CASCADE"),
         nullable=False,
     )
-    current_step: Mapped[str] = mapped_column(String(), nullable=True)
+    current_step: Mapped[str] = mapped_column(String(), nullable=False)
     medicine: Mapped[str] = mapped_column(String(), nullable=False)
 
 
@@ -38,8 +38,23 @@ class ProtocolStep(CreationModificationDateBase):
     )
     step: Mapped[str] = mapped_column(String(50), nullable=False)
     step_order: Mapped[int] = mapped_column(Integer(), nullable=False)
-    protocol = relationship("Protocol",  lazy="noload")
+    protocol = relationship("Protocol", lazy="noload")
 
     __table_args__ = (
         UniqueConstraint('protocol_id', 'step', name='ux_protocol_id_step'),
+    )
+
+
+class ProtocolFile(CreationModificationDateBase):
+    protocol_id: UUID = mapped_column(
+        SUUID(as_uuid=True),
+        ForeignKey(
+            "protocol.id", name="fx_p_file_protocol_id", ondelete="CASCADE"
+        )
+    )
+    file_type: Mapped[FileType] = mapped_column(ChoiceType(choices=FileType, impl=String(25)), nullable=False)
+    file_path: Mapped[str] = mapped_column(Text(), nullable=False)
+
+    __table_args__ = (
+        UniqueConstraint('protocol_id', 'file_type', name='ux_protocol_id_file_type'),
     )

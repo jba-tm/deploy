@@ -5,8 +5,19 @@ from collections import deque
 import lxml.html
 import lxml.html.clean
 
+__all__ = ("Sanitizer", "text_to_html_paragraphs")
 
-__all__ = ("Sanitizer",)
+
+def text_to_html_paragraphs(text: str):
+    # First, replace multiple newlines with a single newline,
+    # so you don't get empty paragraphs
+    text = re.sub(r'\n\s*\n', '\n', text)
+
+    # Split the text into lines
+    lines = text.split('\n')
+
+    # Wrap each line in a <p> tag and join them
+    return ''.join(f'<p>{line.strip()}</p>' for line in lines)
 
 
 def sanitize_href(href):
@@ -45,7 +56,7 @@ typographic_whitespace = "".join(
 
 
 def normalize_overall_whitespace(
-    html, *, keep_typographic_whitespace=False, whitespace_re=None
+        html, *, keep_typographic_whitespace=False, whitespace_re=None
 ):
     if keep_typographic_whitespace:
         return html
@@ -92,9 +103,9 @@ def tag_replacer(from_, to_):
 
 def target_blank_noopener(element):
     if (
-        element.tag == "a"
-        and element.attrib.get("target") == "_blank"
-        and "noopener" not in element.attrib.get("rel", "")
+            element.tag == "a"
+            and element.attrib.get("target") == "_blank"
+            and "noopener" not in element.attrib.get("rel", "")
     ):
         element.attrib["rel"] = " ".join(
             part for part in (element.attrib.get("rel", ""), "noopener") if part
@@ -104,16 +115,16 @@ def target_blank_noopener(element):
 
 def anchor_id_to_name(element):
     if (
-        element.tag == "a"
-        and element.attrib.get("id")
-        and not element.attrib.get("name")
+            element.tag == "a"
+            and element.attrib.get("id")
+            and not element.attrib.get("name")
     ):
         element.attrib["name"] = element.attrib["id"]
     return element
 
 
 def normalize_whitespace_in_text_or_tail(
-    element, *, whitespace_re=None, keep_typographic_whitespace=False
+        element, *, whitespace_re=None, keep_typographic_whitespace=False
 ):
     if whitespace_re is None:
         whitespace_re = re.compile(r"\s+")
@@ -297,19 +308,19 @@ class Sanitizer:
 
             # remove empty tags if they are not explicitly allowed
             if (
-                (not element.text or self.only_whitespace_re.match(element.text))
-                and element.tag not in self.empty
-                and not len(element)
+                    (not element.text or self.only_whitespace_re.match(element.text))
+                    and element.tag not in self.empty
+                    and not len(element)
             ):
                 element.drop_tag()
                 continue
 
             # remove tags which only contain whitespace and/or <br>s
             if (
-                element.tag not in self.empty
-                and self.only_whitespace_re.match(element.text or "")
-                and {e.tag for e in element} <= self.whitespace
-                and all(self.only_whitespace_re.match(e.tail or "") for e in element)
+                    element.tag not in self.empty
+                    and self.only_whitespace_re.match(element.text or "")
+                    and {e.tag for e in element} <= self.whitespace
+                    and all(self.only_whitespace_re.match(e.tail or "") for e in element)
             ):
                 element.drop_tree()
                 continue
@@ -330,11 +341,11 @@ class Sanitizer:
                 # 1. it is a <br> too and 2. there is no content in-between
                 nx = element.getnext()
                 if (
-                    nx is not None
-                    and nx.tag == element.tag
-                    and (
+                        nx is not None
+                        and nx.tag == element.tag
+                        and (
                         not element.tail or self.only_whitespace_re.match(element.tail)
-                    )
+                )
                 ):
                     nx.drop_tag()
                     continue
@@ -353,10 +364,10 @@ class Sanitizer:
                 # tag type
                 nx = element.getnext()
                 if (
-                    self.only_whitespace_re.match(element.tail or "")
-                    and nx is not None
-                    and nx.tag == element.tag
-                    and self.is_mergeable(element, nx)
+                        self.only_whitespace_re.match(element.tail or "")
+                        and nx is not None
+                        and nx.tag == element.tag
+                        and self.is_mergeable(element, nx)
                 ):
                     # Yes, we should. Tail is empty, that is, no text between
                     # tags of a mergeable type.

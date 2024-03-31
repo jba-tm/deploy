@@ -23,8 +23,10 @@ from app.utils.jose import jwt
 
 from .import_utils import perform_import
 
-__all__ = ('jwt_payload', 'jwt_encode', 'jwt_decode', 'verify_password', 'get_password_hash',
-           'generate_rsa_certificate', 'lazy_jwt_settings', 'OAuth2PasswordBearerWithCookie')
+__all__ = (
+    'jwt_payload', 'jwt_encode', 'jwt_decode', 'verify_password', 'get_password_hash',
+    'generate_rsa_certificate', 'lazy_jwt_settings', 'OAuth2PasswordBearerWithCookie'
+)
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
@@ -124,7 +126,6 @@ def generate_rsa_certificate():
 
 
 class JWTSettings:
-
     def __init__(self, defaults, import_strings):
         self.defaults = defaults
         self.import_strings = import_strings

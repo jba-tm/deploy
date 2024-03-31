@@ -1,6 +1,6 @@
 from typing import (
     Generic, Optional, Type, TypeVar, Union, Any, TYPE_CHECKING, Iterable,
-    Dict
+    Dict, List
 )
 from uuid import UUID, uuid4
 from sqlalchemy import func, select, text, delete
@@ -450,7 +450,7 @@ class CRUDBase(Generic[ModelType]):
             order_by: Optional[Iterable[str]] = None,
             options: Optional[Iterable] = None,
             expressions: Optional[Iterable] = None,
-    ):
+    )->List[ModelType]:
         """
 
         :param async_db:

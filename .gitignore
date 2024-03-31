@@ -15,3 +15,5 @@ certs/
 .hosts
 
 *.db
+media/docx
+media/pdf

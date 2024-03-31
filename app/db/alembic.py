@@ -7,4 +7,4 @@ from app.contrib.chat.models import (
     ChatFavorite, ChatItemAnswer
 )
 
-from app.contrib.protocol.models import Protocol, ProtocolStep
+from app.contrib.protocol.models import Protocol, ProtocolStep, ProtocolFile
