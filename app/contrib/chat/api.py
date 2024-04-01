@@ -21,7 +21,7 @@ from .repository import (
 )
 from .schema import (
     ChatBase, ChatCreate, ChatVisible,
-    ChatItemVisible,  ChatItemCreate,
+    ChatItemVisible, ChatItemCreate,
     ChatFavoriteBase, ChatFavoriteCreate, ChatFavoriteVisible
 )
 from .utils import retrieve_ai_answer
@@ -63,7 +63,10 @@ async def create_chat(
     }
 
 
-@api.post('/create/item/', name='chat-create-item', response_model=IResponseBase[ChatVisible])
+@api.post(
+    '/create/item/', name='chat-create-item', response_model=IResponseBase[ChatVisible],
+    status_code=HTTP_201_CREATED,
+)
 async def create_chat_item(
         obj_in: ChatItemCreate,
         user: User = Depends(get_active_user),

@@ -50,6 +50,7 @@ langchain-openai = "^0.1.0"
 fastapi-pagination = "^0.12.21"
 sqlakeyset = "^2.0.1708907391"
 htmldocx = "^0.0.6"
+weasyprint = "^61.2"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"

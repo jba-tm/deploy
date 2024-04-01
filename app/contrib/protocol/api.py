@@ -1,7 +1,7 @@
 import requests
 
 from uuid import UUID
-from typing import Optional, Literal
+from typing import Optional, Literal, ByteString
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
@@ -14,6 +14,7 @@ from sqlalchemy import text
 from docx import Document
 from htmldocx import HtmlToDocx
 
+from app.utils.datetime.timezone import today
 from app.core.exceptions import HTTP404
 from app.conf.config import settings, structure_settings
 from app.routers.dependency import get_async_db, get_active_user, get_commons
@@ -257,7 +258,7 @@ async def protocol_generate_docx(
     doc = Document()
     new_parser = HtmlToDocx()
     new_parser.add_html_to_document(html_text, doc);
-    path = upload_to(obj_id, ".docx", "docx")
+    path = upload_to(str(obj_id), ".docx", "docx")
 
     doc.save(f'{structure_settings.MEDIA_DIR}/{path}')
     result = await protocol_file_repo.create(async_db, obj_in={
@@ -267,7 +268,7 @@ async def protocol_generate_docx(
     })
 
     return {
-        "message": "Procotol docx file created",
+        "message": "Protocol docx file created",
         "data": ""
     }
 
@@ -294,17 +295,41 @@ async def delete_protocol_docx_file(
     }
 
 
-@api.get('/{obj_id}/generate/download/', name="protocol-file-download", response_class=FileResponse)
+@api.get(
+    '/{obj_id}/generate/download/', name="protocol-file-download", response_model=bytes,
+    response_class=FileResponse,
+    responses={
+        200: {
+            "content": {
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document": {
+
+                    "schema": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+                "application/pdf": {
+                    "schema": {
+                        "type": "string",
+                        "format": "binary"
+                    }
+                },
+            },
+            "description": "Return the a docx or a pdf.",
+        }
+    },
+)
 async def protocol_download_generated(
         obj_id: UUID,
         file_type: FileType = Query(...),
         # user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db),
 ):
-    protocol = await protocol_repo.exists(async_db, params={
-        "id": obj_id,
-        # "user_id": user.id
-    })
+    protocol = await protocol_repo.get_by_params(
+        async_db, params={
+            "id": obj_id,
+            # "user_id": user.id
+        }, options=(load_only(Protocol.medicine),))
     if not protocol:
         raise HTTP404(detail="Protocol does not exist")
 
@@ -312,7 +337,17 @@ async def protocol_download_generated(
         async_db,
         params={"protocol_id": obj_id, "file_type": file_type.value}
     )
-    return f"{structure_settings.MEDIA_DIR}/{db_obj.file_path}"
+    # return f"{structure_settings.MEDIA_DIR}/{db_obj.file_path}"
+    today_str = today().strftime("%d-%m-%y")
+    if file_type == FileType.DOCX:
+        media_type = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+    else:
+        media_type = "application/pdf"
+    return FileResponse(
+        f"{structure_settings.MEDIA_DIR}/{db_obj.file_path}",
+        filename=f"{protocol.medicine}-{today_str}.{file_type.value}",
+        media_type=media_type
+    )
 
 
 @api.post(
@@ -331,7 +366,7 @@ async def create_protocol_step(
     if is_exists:
         raise HTTPException(
             status_code=HTTP_400_BAD_REQUEST,
-            detail="Protocol already has this step already"
+            detail="Protocol already has this step"
         )
     content, prompt, source, question = get_protocol_prompt_content(obj_in.medicine, obj_in.step)
 
