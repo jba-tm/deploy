@@ -1,7 +1,7 @@
 import requests
 
 from uuid import UUID
-from typing import Optional, Literal, ByteString
+from typing import Optional, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
@@ -55,10 +55,14 @@ def get_protocol_prompt_content(medicine: str, step: str):
         response = requests.post(
             sources[source], json={"question": prompt}
         )
-        result = response.json()
+        print(response.text)
+        if response.status_code == 200:
+            result = response.json()
+        else:
+            raise HTTPException(detail="Something went wrong!", status_code=HTTP_500_INTERNAL_SERVER_ERROR)
     except Exception as e:
         print(e)
-        raise HTTPException(detail="Something went wrong", status_code=HTTP_500_INTERNAL_SERVER_ERROR)
+        raise HTTPException(detail="Something went wrong!", status_code=HTTP_500_INTERNAL_SERVER_ERROR)
     html_text = text_to_html_paragraphs(result.get("text", ""))
     return html_text, prompt, source, protocol_property.get("question")
 
@@ -322,7 +326,7 @@ async def delete_protocol_docx_file(
 async def protocol_download_generated(
         obj_id: UUID,
         file_type: FileType = Query(...),
-        # user: User = Depends(get_active_user),
+        user: User = Depends(get_active_user),
         async_db: AsyncSession = Depends(get_async_db),
 ):
     protocol = await protocol_repo.get_by_params(

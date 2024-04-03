@@ -51,6 +51,9 @@ fastapi-pagination = "^0.12.21"
 sqlakeyset = "^2.0.1708907391"
 htmldocx = "^0.0.6"
 weasyprint = "^61.2"
+transformers = "^4.39.3"
+pandas = "^2.2.1"
+networkx = "^3.2.1"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"

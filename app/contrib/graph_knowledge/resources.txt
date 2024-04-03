@@ -1,0 +1,16 @@
+Codes:-
+
+https://towardsdatascience.com/nlp-with-python-knowledge-graph-12b93146a458
+https://www.kaggle.com/code/nageshsingh/build-knowledge-graph-using-python/notebook
+
+
+Articles:-
+
+https://memgraph.com/blog/best-python-packages-tools-for-knowledge-graphs
+https://towardsdatascience.com/derive-insights-from-health-data-using-knowledge-graph-technologies-b6cf2b742cd6
+https://towardsdatascience.com/construct-a-biomedical-knowledge-graph-with-nlp-1f25eddc54a0
+
+Video:-
+
+https://www.youtube.com/watch?v=_tKwF26xmW4
+https://www.youtube.com/watch?v=dIUTsFT2MeQ
