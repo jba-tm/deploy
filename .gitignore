@@ -17,3 +17,6 @@ certs/
 *.db
 media/docx
 media/pdf
+
+app/contrib/graph_knowledge/data
+graph_analysis_logs/

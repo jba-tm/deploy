@@ -2,10 +2,9 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 import re
-import pathlib
 
 drugs_file = "../data/Structured data/drugs.csv"
-protein_file = "../data/Structured data/protien_id.csv"
+protein_file = "../data/Structured data/protein_id.csv"
 drugs_side_effects_file = "../data/Structured data/drugs-side-effects.xlsx"
 
 # Read the CSV file into a DataFrame

@@ -1,13 +1,11 @@
-import pandas as pd
 import numpy as np
 import csv
 from lxml import etree
 from tqdm import tqdm
-import sys
-import os
-import pathlib
 
-xml_file = "../data/Semi-structured data/full database.xml"
+data_path = "app/contrib/graph_knowledge/data"
+
+xml_file = f"{data_path}/Semi-structured data/full database.xml"
 
 # Load and parse the XML file
 tree = etree.parse(xml_file)  # Replace with the path to your XML file
@@ -163,81 +161,85 @@ def extract_product_info(product_element):
     return product_data
 
 
-# Find all 'drug' elements
-all_drug_elements = tree.findall('.//db:drug', namespaces)
+if __name__ == "__main__":
+    # Find all 'drug' elements
+    all_drug_elements = tree.findall('.//db:drug', namespaces)
 
-drugs_data = []
-classification_columns = set()
-all_classification_tags = [
-    'info about compound', 'direct-parent', 'kingdom', 'superclass', 'class',
-    'subclass', 'alternative-parent', 'substituent'
-]
+    drugs_data = []
+    classification_columns = set()
+    all_classification_tags = [
+        'info about compound', 'direct-parent', 'kingdom', 'superclass', 'class',
+        'subclass', 'alternative-parent', 'substituent'
+    ]
 
-print("Find all 'drug' elements")
+    # Iterate over each drug element and extract information
+    for drug in tqdm(all_drug_elements):
+        if drug.getparent().tag.split('}')[-1] == 'drugbank':
+            drug_data = {
+                'ID': extract_primary_drug_id(drug),
+                'name': extract_values(drug.findall('db:name', namespaces)),
+                'description': extract_values(drug.findall('db:description', namespaces)),
+                'state': extract_tag_content(drug, 'state'),
+                'synonym': extract_synonyms(drug),
+                'synthesis-reference': extract_tag_content(drug, 'synthesis-reference'),
+                'indication': extract_tag_content(drug, 'indication'),
+                'pharmacodynamics': extract_tag_content(drug, 'pharmacodynamics'),
+                'mechanism-of-action': extract_tag_content(drug, 'mechanism-of-action'),
+                'toxicity': extract_tag_content(drug, 'toxicity'),
+                'metabolism': extract_tag_content(drug, 'metabolism'),
+                'absorption': extract_tag_content(drug, 'absorption'),
+                'half-life': extract_tag_content(drug, 'half-life'),
+                'protein-binding': extract_tag_content(drug, 'protein-binding'),
+                'route-of-elimination': extract_tag_content(drug, 'route-of-elimination'),
+                'volume-of-distribution': extract_tag_content(drug, 'volume-of-distribution'),
+                'clearance': extract_tag_content(drug, 'clearance'),
+                'average-mass': extract_tag_content(drug, 'average-mass'),
+                'monoisotopic-mass': extract_tag_content(drug, 'monoisotopic-mass'),
+            }
+            products_element = drug.find('db:products', namespaces)
+            products_info = extract_product_info(products_element) if products_element is not None else {
+                'medicine name': 'null', 'manufacturer': 'null', 'dosage form': 'null',
+                'dosage strength': 'null', 'route': 'null', 'Country of manufacture': 'null', 'medicine source': 'null'
+            }
 
-# Iterate over each drug element and extract information
-for drug in tqdm(all_drug_elements):
-    if drug.getparent().tag.split('}')[-1] == 'drugbank':
-        drug_data = {
-            'ID': extract_primary_drug_id(drug),
-            'name': extract_values(drug.findall('db:name', namespaces)),
-            'description': extract_values(drug.findall('db:description', namespaces)),
-            'state': extract_tag_content(drug, 'state'),
-            'synonym': extract_synonyms(drug),
-            'synthesis-reference': extract_tag_content(drug, 'synthesis-reference'),
-            'indication': extract_tag_content(drug, 'indication'),
-            'pharmacodynamics': extract_tag_content(drug, 'pharmacodynamics'),
-            'mechanism-of-action': extract_tag_content(drug, 'mechanism-of-action'),
-            'toxicity': extract_tag_content(drug, 'toxicity'),
-            'metabolism': extract_tag_content(drug, 'metabolism'),
-            'absorption': extract_tag_content(drug, 'absorption'),
-            'half-life': extract_tag_content(drug, 'half-life'),
-            'protein-binding': extract_tag_content(drug, 'protein-binding'),
-            'route-of-elimination': extract_tag_content(drug, 'route-of-elimination'),
-            'volume-of-distribution': extract_tag_content(drug, 'volume-of-distribution'),
-            'clearance': extract_tag_content(drug, 'clearance'),
-            'average-mass': extract_tag_content(drug, 'average-mass'),
-            'monoisotopic-mass': extract_tag_content(drug, 'monoisotopic-mass'),
-        }
-        products_element = drug.find('db:products', namespaces)
-        products_info = extract_product_info(products_element) if products_element is not None else {
-            'medicine name': 'null', 'manufacturer': 'null', 'dosage form': 'null',
-            'dosage strength': 'null', 'route': 'null', 'Country of manufacture': 'null', 'medicine source': 'null'
-        }
+            # Add classification data with all possible tags
+            classification_data = {tag: 'null' for tag in all_classification_tags}  # Initialize with 'null'
+            classification_data.update(extract_classification(drug))
+            general_references_data = extract_general_references(drug)
+            drug_data.update(products_info)
 
-        # Add classification data with all possible tags
-        classification_data = {tag: 'null' for tag in all_classification_tags}  # Initialize with 'null'
-        classification_data.update(extract_classification(drug))
-        general_references_data = extract_general_references(drug)
-        drug_data.update(products_info)
+            drugs_data.append(drug_data)
+            drug_data.update(classification_data)
+            drug_data.update(general_references_data)
+            classification_columns.update(classification_data.keys())
 
-        drugs_data.append(drug_data)
-        drug_data.update(classification_data)
-        drug_data.update(general_references_data)
-        classification_columns.update(classification_data.keys())
+    print("Find all 'drug' elements")
 
-print("Iterate over each drug element and extract information")
+    print("Iterate over each drug element and extract information")
+    # Define CSV columns
+    columns = [
+                  'ID', 'name', 'description', 'state',
+                  'synonym', 'pubmed-id', 'citation', 'article name',
+                  'article link'
+              ] + sorted(list(classification_columns)) + [
+                  'synthesis-reference', 'indication',
+                  'pharmacodynamics', 'mechanism-of-action',
+                  'toxicity', 'metabolism',
+                  'absorption', 'half-life',
+                  'protein-binding',
+                  'route-of-elimination',
+                  'volume-of-distribution', 'clearance',
+                  'average-mass', 'monoisotopic-mass',
+                  'medicine name', 'manufacturer', 'dosage form',
+                  'dosage strength', 'route',
+                  'Country of manufacture', 'medicine source'
+              ]
 
-# Define CSV columns
-columns = [
-              'ID', 'name', 'description', 'state', 'synonym', 'pubmed-id', 'citation', 'article name',
-              'article link'
-          ] + sorted(list(classification_columns)) + [
-              'synthesis-reference', 'indication',
-              'pharmacodynamics', 'mechanism-of-action',
-              'toxicity', 'metabolism',
-              'absorption', 'half-life', 'protein-binding',
-              'route-of-elimination',
-              'volume-of-distribution', 'clearance',
-              'average-mass', 'monoisotopic-mass',
-              'medicine name', 'manufacturer', 'dosage form',
-              'dosage strength', 'route',
-              'Country of manufacture', 'medicine source'
-          ]
-
-# Write to CSV
-
-with open("../data/Structured data/drugs.csv", 'w', newline='', encoding='utf-8') as file:
-    writer = csv.DictWriter(file, fieldnames=columns)
-    writer.writeheader()
-    writer.writerows(drugs_data)
+    # Write to CSV
+    with open(
+            f"{data_path}/Structured data/drugs.csv", 'w',
+            newline='', encoding='utf-8'
+    ) as file:
+        writer = csv.DictWriter(file, fieldnames=columns)
+        writer.writeheader()
+        writer.writerows(drugs_data)

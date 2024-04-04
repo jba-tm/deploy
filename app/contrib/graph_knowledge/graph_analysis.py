@@ -1,7 +1,10 @@
+from typing import List
+from uuid import UUID
 import networkx as nx
+from app.contrib.graph_knowledge import DatasetChoices
 
 
-def graph_analysis(graph, graph_id, search_term, filters, graph_type):
+def graph_analysis(graph, graph_id: UUID, search_term: str, filters: List[str], graph_type: DatasetChoices):
     # Basic Properties
     num_nodes = graph.number_of_nodes()
     num_edges = graph.number_of_edges()
@@ -20,7 +23,7 @@ def graph_analysis(graph, graph_id, search_term, filters, graph_type):
     with open(output_file, 'w') as file:
 
         file.write(f"Graph ID: {graph_id}\n\n")
-        file.write(f"Graph Type: {graph_type}\n")
+        file.write(f"Graph Type: {graph_type.label}\n")
         file.write(f"Graph main node is: {search_term}\n")
         file.write(f"Implemented filters: {filters}\n")
         file.write(f"Number of Nodes: {num_nodes}\n")

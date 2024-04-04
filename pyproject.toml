@@ -54,6 +54,11 @@ weasyprint = "^61.2"
 transformers = "^4.39.3"
 pandas = "^2.2.1"
 networkx = "^3.2.1"
+plotly = "^5.20.0"
+fastparquet = "^2024.2.0"
+nltk = "^3.8.1"
+pdfplumber = "^0.11.0"
+torch = "^2.2.2"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"

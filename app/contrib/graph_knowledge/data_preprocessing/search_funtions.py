@@ -1,9 +1,5 @@
-from difflib import SequenceMatcher
-import os
-import sys
-import pathlib
-
 import pandas as pd
+from difflib import SequenceMatcher
 
 
 def similar(a, b):
@@ -44,7 +40,7 @@ def search_clinical_data(query, final_cl_kg_searched_final, expanded_df_final, e
     return search_results
 
 
-def search_drug_kg(query, drugs_df, kg_df):
+def search_drug_gk(query, drugs_df, kg_df):
     search_columns = ['name', 'pubmed-id', 'Gene Name', 'GenBank Protein ID', 'GenBank Gene ID', 'UniProt ID']
     matched_drugs = []
     query = query.strip()
