@@ -342,8 +342,9 @@ async def generate_graph_knowledge(
     )
     graph_analysis(graph, uuid4(), obj_in.search, filters, graph_type=DatasetChoices.DRUG)
     # Convert the Plotly graph to JSON
-    graph_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return graph_json
+    graph_json_string = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    result = json.loads(graph_json_string)
+    return result
 
 
 @api.post('/generate/clinical-trials/', name="gk-generate-clinical-trials", response_model=dict)
@@ -504,5 +505,6 @@ async def generate_clinical_trials(
         graph, uuid4(), obj_in.search, obj_in.filters,
         graph_type=DatasetChoices.CLINICAL_TRIALS
     )
-    graph_json = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    return graph_json
+    graph_json_string = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    result = json.loads(graph_json_string)
+    return result

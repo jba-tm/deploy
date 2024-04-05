@@ -42,7 +42,6 @@ async def get_token_payload(
         payload = lazy_jwt_settings.JWT_DECODE_HANDLER(token)
         token_data = TokenPayload(**payload)
     except (jwt.JWTError, ValidationError) as e:
-
         raise HTTPUnAuthorized
     return token_data
 

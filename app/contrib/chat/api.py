@@ -10,6 +10,7 @@ from sqlalchemy import select
 from fastapi_pagination import pagination_ctx
 from fastapi_pagination.cursor import CursorPage
 from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 
 from app.routers.dependency import get_async_db, get_commons, get_active_user, get_db
 from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
@@ -26,14 +27,16 @@ from .schema import (
 )
 from .utils import retrieve_ai_answer
 
-CursorPage = CursorPage.with_custom_options(size=10)
-
+CustomizedCursorPage = CustomizedPage[
+    CursorPage,
+    UseParamsFields(size=10),
+]
 api = APIRouter()
 
 
 @api.get(
-    '/', name='chat-list', response_model=CursorPage[ChatVisible],
-    dependencies=[Depends(pagination_ctx(CursorPage[ChatVisible]))],
+    '/', name='chat-list', response_model=CustomizedCursorPage[ChatVisible],
+    dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatVisible]))],
 )
 async def retrieve_chat_list(
         user: User = Depends(get_active_user),
@@ -177,8 +180,8 @@ async def delete_chat(
 
 @api.get(
     "/{obj_id}/items/", name='chat-item-list',
-    response_model=CursorPage[ChatItemVisible],
-    dependencies=[Depends(pagination_ctx(CursorPage[ChatItemVisible]))],
+    response_model=CustomizedCursorPage[ChatItemVisible],
+    dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatItemVisible]))],
 )
 async def chat_item_list(
         obj_id: UUID,

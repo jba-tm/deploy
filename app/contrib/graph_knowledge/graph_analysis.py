@@ -17,7 +17,7 @@ def graph_analysis(graph, graph_id: UUID, search_term: str, filters: List[str], 
     closeness_centrality = nx.closeness_centrality(graph)
 
     # Define the file name based on the graph ID
-    output_file = "graph_analysis_logs/graph_{graph_id}_analysis.txt"
+    output_file = f"graph_analysis_logs/graph_{graph_id}_analysis.txt"
 
     # Save the information to the output file
     with open(output_file, 'w') as file:
