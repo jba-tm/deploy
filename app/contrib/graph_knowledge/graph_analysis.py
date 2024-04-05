@@ -18,6 +18,7 @@ def graph_analysis(graph, graph_id: UUID, search_term: str, filters: List[str], 
 
     # Define the file name based on the graph ID
     output_file = f"graph_analysis_logs/graph_{graph_id}_analysis.txt"
+    os.makedirs(f'graph_analysis_logs', mode=0o777, exist_ok=True)
 
     # Save the information to the output file
     with open(output_file, 'w') as file:
