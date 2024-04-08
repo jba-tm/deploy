@@ -41,7 +41,9 @@ class Settings(BaseSettings):
     DATABASE_USER: str
     DATABASE_PASSWORD: str
     DATABASE_NAME: str
+    GK_DATABASE_NAME: str
     DATABASE_URL: Optional[PostgresDsn] = None
+    GK_DATABASE_URL: Optional[PostgresDsn] = None
     TEST_DATABASE_URL: Optional[PostgresDsn] = None
 
     @field_validator("DATABASE_URL")
@@ -56,6 +58,20 @@ class Settings(BaseSettings):
             port=values.get("DATABASE_PORT"),
             password=values.get("DATABASE_PASSWORD"),
             path=f"{values.get('DATABASE_NAME') or ''}",
+        )
+
+    @field_validator("GK_DATABASE_URL")
+    def assemble_gk_db_connection(cls, v: Optional[str], info):
+        if isinstance(v, str):
+            return v
+        values = info.data
+        return PostgresDsn.build(
+            scheme='postgresql',
+            host=values.get("DATABASE_HOST"),
+            username=values.get("DATABASE_USER"),
+            port=values.get("DATABASE_PORT"),
+            password=values.get("DATABASE_PASSWORD"),
+            path=f"{values.get('GK_DATABASE_NAME') or ''}",
         )
 
     @field_validator("TEST_DATABASE_URL")
@@ -97,7 +113,7 @@ class Settings(BaseSettings):
 
     LANGUAGE_CODE: Optional[str] = 'en'
     LANGUAGE_CODE_LENGTH: Optional[int] = 5
-    LANGUAGES: tuple = ('en', )
+    LANGUAGES: tuple = ('en',)
 
     OPENAI_MODEL_URL: AnyHttpUrl
     BE_API_URL: AnyHttpUrl

@@ -68,8 +68,7 @@ async def async_db():
     if database_exists(database_url):
         drop_database(database_url)
 
-
-@pytest.fixture
+@pytest.fixture(scope="session")
 def test_db():
     """
     Creates a fresh sqlalchemy session for each test that operates in a

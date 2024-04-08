@@ -5,6 +5,7 @@ from app.conf.config import settings
 from app.contrib.account.repository import user_repo_sync, user_repo
 
 if TYPE_CHECKING:
+    from sqlalchemy.ext.asyncio import AsyncSession
     from sqlalchemy.orm import Session
 
 
@@ -20,7 +21,7 @@ def init_db_sync(db: "Session"):
             'email': settings.FIRST_SUPERUSER,
             'password': settings.FIRST_SUPERUSER_PASSWORD,
             'is_active': True,
-            "name":"Admin"
+            "name": "Admin"
         }
         user = user_repo_sync.create(db, obj_in=user_in)  # noqa: F841
         logger.info("User successfully created")

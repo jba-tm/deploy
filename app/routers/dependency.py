@@ -13,11 +13,13 @@ from app.contrib.account.repository import user_repo
 from app.core.exceptions import HTTPUnAuthorized, HTTPInvalidToken, HTTPPermissionDenied
 from app.core.schema import CommonsModel
 from app.utils.jose import jwt
-from app.db.session import AsyncSessionLocal, SessionLocal
+from app.db.session import AsyncSessionLocal, SessionLocal, gk_engine
 
 # from app.utils.translation import gettext as _
 reusable_oauth2 = OAuth2PasswordBearerWithCookie(tokenUrl=f'{settings.API_V1_STR}/auth/get-token/', auto_error=True)
 
+def get_gk_engine():
+    return gk_engine
 
 def get_db()->Generator:
     try:

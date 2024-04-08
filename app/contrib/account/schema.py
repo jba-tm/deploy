@@ -144,7 +144,6 @@ class SignUpIn(BaseModel):
 
 class ProfileUpdate(BaseModel):
     name: str = Field(max_length=255, alias='name', min_length=2)
-    email: EmailStr
     gender: Optional[GenderChoices] = None
     birthday: Optional[datetime] = None
     signature: str = Field(max_length=255)

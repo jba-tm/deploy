@@ -55,7 +55,6 @@ def get_protocol_prompt_content(medicine: str, step: str):
         response = requests.post(
             sources[source], json={"question": prompt}
         )
-        print(response.text)
         if response.status_code == 200:
             result = response.json()
         else:

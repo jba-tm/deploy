@@ -5,9 +5,11 @@ from sqlalchemy import create_engine
 from app.conf.config import settings
 
 async_engine = create_async_engine(str(settings.DATABASE_URL), pool_pre_ping=True, echo=False)
-
+# print(str(settings.GK_DATABASE_URL))
 db_uri = str(settings.DATABASE_URL).replace('+asyncpg', '')
 engine = create_engine(db_uri, pool_pre_ping=True, echo=False)
+gk_engine = create_engine(str(settings.GK_DATABASE_URL), pool_pre_ping=True, echo=False)
+
 
 SessionLocal = sessionmaker(
     expire_on_commit=True,

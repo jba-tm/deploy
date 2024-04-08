@@ -23,6 +23,7 @@ class User(UUIDBase, CreationModificationDateBase):
     signature: Mapped[str] = mapped_column(String(255), nullable=False, default="")
     description: Mapped[str] = mapped_column(Text(), nullable=False, default="")
     is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
+    email_verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
 
 class FileInfo(CreationModificationDateBase):

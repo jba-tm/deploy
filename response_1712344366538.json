@@ -1,0 +1,2536 @@
+{
+  "data": [
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.07344466194558615
+      ],
+      "y": [
+        0.2579338246937846
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "in phase",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        0.01015238419184361
+      ],
+      "y": [
+        0.07247707769811557
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.2758109663696267
+      ],
+      "y": [
+        0.17279679030870748
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.25162274335555146
+      ],
+      "y": [
+        0.30446567791527396
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "in phase",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        0.07370052692393377
+      ],
+      "y": [
+        -0.029066887999910265
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.1880746006234613
+      ],
+      "y": [
+        0.2029217122172481
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.21226282363753654
+      ],
+      "y": [
+        0.07125282461068164
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.07344466194558615
+      ],
+      "y": [
+        0.2579338246937846
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested drug",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.11971147914434128
+      ],
+      "y": [
+        0.06337753323508388
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested drug",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.2978895605543066
+      ],
+      "y": [
+        0.10990938645657322
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested other",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.32207778356838185
+      ],
+      "y": [
+        -0.021759501149993254
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested dietary supplement",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.18325962187643144
+      ],
+      "y": [
+        0.1649214989331097
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "allocation",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        0.5786487865306817
+      ],
+      "y": [
+        -0.3609011062631601
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.21226282363753654
+      ],
+      "y": [
+        0.07125282461068164
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.2758109663696267
+      ],
+      "y": [
+        0.17279679030870748
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.39044090504750184
+      ],
+      "y": [
+        0.11778467783217098
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "in phase",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.12866577750010677
+      ],
+      "y": [
+        -0.1142039223849874
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.25162274335555146
+      ],
+      "y": [
+        0.30446567791527396
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "in phase",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.10447755448603153
+      ],
+      "y": [
+        0.017464965221579073
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.1880746006234613
+      ],
+      "y": [
+        0.2029217122172481
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "none",
+      "mode": "text",
+      "opacity": 0.8,
+      "showlegend": false,
+      "text": "tested with",
+      "textfont": {
+        "color": "black",
+        "size": 10
+      },
+      "textposition": "bottom center",
+      "x": [
+        -0.39044090504750184
+      ],
+      "y": [
+        0.11778467783217098
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Placebo Tablet",
+          "target": "Wintergreen Throat Spray and Aspirin Tablet",
+          "edge": "tested with_0"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.35947779039181044,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.010394663741705161,
+        -0.022262269612376685,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.15638985899575877,
+        0.17038099376135285,
+        0.16295402056237046,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Placebo Tablet",
+          "target": "Phase 1",
+          "edge": "in phase_1"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        0.15729757306136352
+      ],
+      "y": [
+        0.35947779039181044,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        0.15729757306136352,
+        0.15799508720378996,
+        0.1455370318244238,
+        0.15729757306136352
+      ],
+      "y": [
+        -0.2145236349955793,
+        -0.2005410217197601,
+        -0.20692826339082948,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Placebo Tablet",
+          "target": "Placebo Throat Spray and Placebo Tablet",
+          "edge": "tested with_2"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.4146291280615771
+      ],
+      "y": [
+        0.35947779039181044,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.40177717688533693,
+        -0.41301153195334983,
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.013884209774395497,
+        -0.008331971400231532,
+        0.000022025619507769906,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Placebo Tablet",
+          "target": "Aspirin Throat Spray and Placebo Tablet",
+          "edge": "tested with_3"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.35947779039181044,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.35229325581361254,
+        -0.3583505727449845,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.24945356543873745,
+        0.24838847407478407,
+        0.2610102374853743,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Aspirin Tablet",
+          "target": "Phase 1",
+          "edge": "in phase_4"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        0.15729757306136352
+      ],
+      "y": [
+        0.15638985899575877,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        0.15729757306136352,
+        0.15869678002004756,
+        0.14593352597733636,
+        0.15729757306136352
+      ],
+      "y": [
+        -0.2145236349955793,
+        -0.20059373119523774,
+        -0.2063469343240362,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Aspirin Tablet",
+          "target": "Aspirin Throat Spray and Placebo Tablet",
+          "edge": "tested with_5"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.15638985899575877,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.35629051500275766,
+        -0.35275300585029834,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.24945356543873745,
+        0.23961714189900246,
+        0.25316284339417305,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Aspirin Tablet",
+          "target": "Placebo Throat Spray and Placebo Tablet",
+          "edge": "tested with_6"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.4146291280615771
+      ],
+      "y": [
+        0.15638985899575877,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.4007390065637672,
+        -0.40616802193668256,
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.013884209774395497,
+        -0.01563478818625804,
+        -0.002730300901571033,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Wintergreen Throat Spray and Aspirin Tablet",
+          "target": "Wintergreen Throat Spray and Placebo Tablet",
+          "edge": "tested with_7"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.15638985899575877,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.13649466014946712,
+        -0.12462705427879561,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.35947779039181044,
+        0.34548665562621633,
+        0.3529136288251987,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "NCT06106880",
+          "target": "Wintergreen Throat Spray and Aspirin Tablet",
+          "edge": "tested drug_8"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.22952643907518658,
+        -0.009896519213495993
+      ],
+      "y": [
+        -0.029634792525591012,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.023672466263923032,
+        -0.014624061728963333,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.15638985899575877,
+        0.15389520814567362,
+        0.14321221346385707,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "NCT06106880",
+          "target": "Aspirin Throat Spray and Placebo Tablet",
+          "edge": "tested drug_9"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.22952643907518658,
+        -0.3662526820334266
+      ],
+      "y": [
+        -0.029634792525591012,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.3672048045981459,
+        -0.3546324588876524,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.24945356543873745,
+        0.2354859792971827,
+        0.24164521003939674,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "NCT06106880",
+          "target": "Placebo Throat Spray and Placebo Tablet",
+          "edge": "tested other_10"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.22952643907518658,
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.029634792525591012,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.40314192126313864,
+        -0.4019549359444038,
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.013884209774395497,
+        -0.021886964298302225,
+        -0.007937374130375858,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "NCT06106880",
+          "target": "Wintergreen Throat Spray and Placebo Tablet",
+          "edge": "tested dietary supplement_11"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.22952643907518658,
+        -0.1369928046776763
+      ],
+      "y": [
+        -0.029634792525591012,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.14660792074719356,
+        -0.13298774918254025,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.35947779039181044,
+        0.34930186080431275,
+        0.34606289082152364,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Phase 1",
+          "target": "Randomized",
+          "edge": "allocation_12"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        0.15729757306136352,
+        1
+      ],
+      "y": [
+        -0.2145236349955793,
+        -0.5072785775307408
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        1,
+        0.9908442037547411,
+        0.9862499403907592,
+        1
+      ],
+      "y": [
+        -0.5072785775307408,
+        -0.49668747772404914,
+        -0.5099121797676633,
+        -0.5072785775307408
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Placebo Throat Spray and Placebo Tablet",
+          "target": "Wintergreen Throat Spray and Aspirin Tablet",
+          "edge": "tested with_13"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.009896519213495993
+      ],
+      "y": [
+        -0.013884209774395497,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.0237866407113059,
+        -0.018357625338390526,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.15638985899575877,
+        0.15814043740762132,
+        0.1452359501229343,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Placebo Throat Spray and Placebo Tablet",
+          "target": "Wintergreen Throat Spray and Placebo Tablet",
+          "edge": "tested with_14"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.1369928046776763
+      ],
+      "y": [
+        -0.013884209774395497,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.14984475585391646,
+        -0.1386104007859036,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.35947779039181044,
+        0.35392555201764647,
+        0.34557155499790715,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Placebo Throat Spray and Placebo Tablet",
+          "target": "Aspirin Throat Spray and Placebo Tablet",
+          "edge": "tested with_15"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.3662526820334266
+      ],
+      "y": [
+        -0.013884209774395497,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.3753281198476063,
+        -0.36155853648306696,
+        -0.3662526820334266
+      ],
+      "y": [
+        0.24945356543873745,
+        0.2387935265794763,
+        0.23626398631156137,
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Placebo Throat Spray and Placebo Tablet",
+          "target": "Phase 1",
+          "edge": "in phase_16"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        0.15729757306136352
+      ],
+      "y": [
+        -0.013884209774395497,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        0.15729757306136352,
+        0.14817404002148193,
+        0.1435395649910587,
+        0.15729757306136352
+      ],
+      "y": [
+        -0.2145236349955793,
+        -0.20390472992630831,
+        -0.21711539384574793,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Aspirin Throat Spray and Placebo Tablet",
+          "target": "Wintergreen Throat Spray and Placebo Tablet",
+          "edge": "tested with_17"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.24945356543873745,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.1369928046776763,
+        -0.15095223089749035,
+        -0.1448949139661184,
+        -0.1369928046776763
+      ],
+      "y": [
+        0.35947779039181044,
+        0.3605428817557638,
+        0.3479211183451736,
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Aspirin Throat Spray and Placebo Tablet",
+          "target": "Phase 1",
+          "edge": "in phase_18"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        0.15729757306136352
+      ],
+      "y": [
+        0.24945356543873745,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        0.15729757306136352,
+        0.15286638304857708,
+        0.14358095999990508,
+        0.15729757306136352
+      ],
+      "y": [
+        -0.2145236349955793,
+        -0.20124340325548598,
+        -0.2117210422456016,
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Aspirin Throat Spray and Placebo Tablet",
+          "target": "Wintergreen Throat Spray and Aspirin Tablet",
+          "edge": "tested with_19"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.24945356543873745,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.009896519213495993,
+        -0.019858686244164946,
+        -0.02339619539662422,
+        -0.009896519213495993
+      ],
+      "y": [
+        0.15638985899575877,
+        0.16622628253549376,
+        0.15268058104032317,
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "customdata": [
+        {
+          "source": "Aspirin Throat Spray and Placebo Tablet",
+          "target": "Placebo Throat Spray and Placebo Tablet",
+          "edge": "tested with_20"
+        }
+      ],
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "opacity": 0.8,
+      "showlegend": false,
+      "x": [
+        -0.3662526820334266,
+        -0.4146291280615771
+      ],
+      "y": [
+        0.24945356543873745,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "fill": "toself",
+      "hoverinfo": "none",
+      "line": {
+        "color": "#888",
+        "width": 0.7
+      },
+      "mode": "lines",
+      "showlegend": false,
+      "x": [
+        -0.4146291280615771,
+        -0.4055536902473974,
+        -0.4193232736119367,
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.013884209774395497,
+        -0.0032241709151343487,
+        -0.0006946306472194064,
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#0076FF",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Wintergreen Throat Spray and Placebo Tablet"
+      ],
+      "x": [
+        -0.1369928046776763
+      ],
+      "y": [
+        0.35947779039181044
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#0076FF",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Wintergreen Throat Spray and Aspirin Tablet"
+      ],
+      "x": [
+        -0.009896519213495993
+      ],
+      "y": [
+        0.15638985899575877
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        "Alleviation of Common Cold Symptoms"
+      ],
+      "marker": {
+        "color": "#FF5733",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "NCT06106880"
+      ],
+      "x": [
+        -0.22952643907518658
+      ],
+      "y": [
+        -0.029634792525591012
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#9D9E7A",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Phase 1"
+      ],
+      "x": [
+        0.15729757306136352
+      ],
+      "y": [
+        -0.2145236349955793
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#0076FF",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Placebo Throat Spray and Placebo Tablet"
+      ],
+      "x": [
+        -0.4146291280615771
+      ],
+      "y": [
+        -0.013884209774395497
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#0076FF",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Aspirin Throat Spray and Placebo Tablet"
+      ],
+      "x": [
+        -0.3662526820334266
+      ],
+      "y": [
+        0.24945356543873745
+      ],
+      "type": "scatter"
+    },
+    {
+      "hoverinfo": "text",
+      "hovertext": [
+        ""
+      ],
+      "marker": {
+        "color": "#07F410",
+        "line": {
+          "color": "black",
+          "width": 0.7
+        },
+        "opacity": 0.8,
+        "size": 20
+      },
+      "mode": "markers+text",
+      "showlegend": false,
+      "text": [
+        "Randomized"
+      ],
+      "x": [
+        1
+      ],
+      "y": [
+        -0.5072785775307408
+      ],
+      "type": "scatter"
+    },
+    {
+      "marker": {
+        "color": "#FF5733",
+        "size": 10
+      },
+      "mode": "markers",
+      "name": "NCT number",
+      "showlegend": true,
+      "x": [
+        null
+      ],
+      "y": [
+        null
+      ],
+      "type": "scatter"
+    },
+    {
+      "marker": {
+        "color": "#07F410",
+        "size": 10
+      },
+      "mode": "markers",
+      "name": "Allocation Type",
+      "showlegend": true,
+      "x": [
+        null
+      ],
+      "y": [
+        null
+      ],
+      "type": "scatter"
+    },
+    {
+      "marker": {
+        "color": "#9D9E7A",
+        "size": 10
+      },
+      "mode": "markers",
+      "name": "Phase number",
+      "showlegend": true,
+      "x": [
+        null
+      ],
+      "y": [
+        null
+      ],
+      "type": "scatter"
+    },
+    {
+      "marker": {
+        "color": "#0076FF",
+        "size": 10
+      },
+      "mode": "markers",
+      "name": "Tested sample",
+      "showlegend": true,
+      "x": [
+        null
+      ],
+      "y": [
+        null
+      ],
+      "type": "scatter"
+    }
+  ],
+  "layout": {
+    "template": {
+      "data": {
+        "histogram2dcontour": [
+          {
+            "type": "histogram2dcontour",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "choropleth": [
+          {
+            "type": "choropleth",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            }
+          }
+        ],
+        "histogram2d": [
+          {
+            "type": "histogram2d",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "heatmap": [
+          {
+            "type": "heatmap",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "heatmapgl": [
+          {
+            "type": "heatmapgl",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "contourcarpet": [
+          {
+            "type": "contourcarpet",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            }
+          }
+        ],
+        "contour": [
+          {
+            "type": "contour",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "surface": [
+          {
+            "type": "surface",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            },
+            "colorscale": [
+              [
+                0,
+                "#0d0887"
+              ],
+              [
+                0.1111111111111111,
+                "#46039f"
+              ],
+              [
+                0.2222222222222222,
+                "#7201a8"
+              ],
+              [
+                0.3333333333333333,
+                "#9c179e"
+              ],
+              [
+                0.4444444444444444,
+                "#bd3786"
+              ],
+              [
+                0.5555555555555556,
+                "#d8576b"
+              ],
+              [
+                0.6666666666666666,
+                "#ed7953"
+              ],
+              [
+                0.7777777777777778,
+                "#fb9f3a"
+              ],
+              [
+                0.8888888888888888,
+                "#fdca26"
+              ],
+              [
+                1,
+                "#f0f921"
+              ]
+            ]
+          }
+        ],
+        "mesh3d": [
+          {
+            "type": "mesh3d",
+            "colorbar": {
+              "outlinewidth": 0,
+              "ticks": ""
+            }
+          }
+        ],
+        "scatter": [
+          {
+            "fillpattern": {
+              "fillmode": "overlay",
+              "size": 10,
+              "solidity": 0.2
+            },
+            "type": "scatter"
+          }
+        ],
+        "parcoords": [
+          {
+            "type": "parcoords",
+            "line": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scatterpolargl": [
+          {
+            "type": "scatterpolargl",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "bar": [
+          {
+            "error_x": {
+              "color": "#2a3f5f"
+            },
+            "error_y": {
+              "color": "#2a3f5f"
+            },
+            "marker": {
+              "line": {
+                "color": "#E5ECF6",
+                "width": 0.5
+              },
+              "pattern": {
+                "fillmode": "overlay",
+                "size": 10,
+                "solidity": 0.2
+              }
+            },
+            "type": "bar"
+          }
+        ],
+        "scattergeo": [
+          {
+            "type": "scattergeo",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scatterpolar": [
+          {
+            "type": "scatterpolar",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "histogram": [
+          {
+            "marker": {
+              "pattern": {
+                "fillmode": "overlay",
+                "size": 10,
+                "solidity": 0.2
+              }
+            },
+            "type": "histogram"
+          }
+        ],
+        "scattergl": [
+          {
+            "type": "scattergl",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scatter3d": [
+          {
+            "type": "scatter3d",
+            "line": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            },
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scattermapbox": [
+          {
+            "type": "scattermapbox",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scatterternary": [
+          {
+            "type": "scatterternary",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "scattercarpet": [
+          {
+            "type": "scattercarpet",
+            "marker": {
+              "colorbar": {
+                "outlinewidth": 0,
+                "ticks": ""
+              }
+            }
+          }
+        ],
+        "carpet": [
+          {
+            "aaxis": {
+              "endlinecolor": "#2a3f5f",
+              "gridcolor": "white",
+              "linecolor": "white",
+              "minorgridcolor": "white",
+              "startlinecolor": "#2a3f5f"
+            },
+            "baxis": {
+              "endlinecolor": "#2a3f5f",
+              "gridcolor": "white",
+              "linecolor": "white",
+              "minorgridcolor": "white",
+              "startlinecolor": "#2a3f5f"
+            },
+            "type": "carpet"
+          }
+        ],
+        "table": [
+          {
+            "cells": {
+              "fill": {
+                "color": "#EBF0F8"
+              },
+              "line": {
+                "color": "white"
+              }
+            },
+            "header": {
+              "fill": {
+                "color": "#C8D4E3"
+              },
+              "line": {
+                "color": "white"
+              }
+            },
+            "type": "table"
+          }
+        ],
+        "barpolar": [
+          {
+            "marker": {
+              "line": {
+                "color": "#E5ECF6",
+                "width": 0.5
+              },
+              "pattern": {
+                "fillmode": "overlay",
+                "size": 10,
+                "solidity": 0.2
+              }
+            },
+            "type": "barpolar"
+          }
+        ],
+        "pie": [
+          {
+            "automargin": true,
+            "type": "pie"
+          }
+        ]
+      },
+      "layout": {
+        "autotypenumbers": "strict",
+        "colorway": [
+          "#636efa",
+          "#EF553B",
+          "#00cc96",
+          "#ab63fa",
+          "#FFA15A",
+          "#19d3f3",
+          "#FF6692",
+          "#B6E880",
+          "#FF97FF",
+          "#FECB52"
+        ],
+        "font": {
+          "color": "#2a3f5f"
+        },
+        "hovermode": "closest",
+        "hoverlabel": {
+          "align": "left"
+        },
+        "paper_bgcolor": "white",
+        "plot_bgcolor": "#E5ECF6",
+        "polar": {
+          "bgcolor": "#E5ECF6",
+          "angularaxis": {
+            "gridcolor": "white",
+            "linecolor": "white",
+            "ticks": ""
+          },
+          "radialaxis": {
+            "gridcolor": "white",
+            "linecolor": "white",
+            "ticks": ""
+          }
+        },
+        "ternary": {
+          "bgcolor": "#E5ECF6",
+          "aaxis": {
+            "gridcolor": "white",
+            "linecolor": "white",
+            "ticks": ""
+          },
+          "baxis": {
+            "gridcolor": "white",
+            "linecolor": "white",
+            "ticks": ""
+          },
+          "caxis": {
+            "gridcolor": "white",
+            "linecolor": "white",
+            "ticks": ""
+          }
+        },
+        "coloraxis": {
+          "colorbar": {
+            "outlinewidth": 0,
+            "ticks": ""
+          }
+        },
+        "colorscale": {
+          "sequential": [
+            [
+              0,
+              "#0d0887"
+            ],
+            [
+              0.1111111111111111,
+              "#46039f"
+            ],
+            [
+              0.2222222222222222,
+              "#7201a8"
+            ],
+            [
+              0.3333333333333333,
+              "#9c179e"
+            ],
+            [
+              0.4444444444444444,
+              "#bd3786"
+            ],
+            [
+              0.5555555555555556,
+              "#d8576b"
+            ],
+            [
+              0.6666666666666666,
+              "#ed7953"
+            ],
+            [
+              0.7777777777777778,
+              "#fb9f3a"
+            ],
+            [
+              0.8888888888888888,
+              "#fdca26"
+            ],
+            [
+              1,
+              "#f0f921"
+            ]
+          ],
+          "sequentialminus": [
+            [
+              0,
+              "#0d0887"
+            ],
+            [
+              0.1111111111111111,
+              "#46039f"
+            ],
+            [
+              0.2222222222222222,
+              "#7201a8"
+            ],
+            [
+              0.3333333333333333,
+              "#9c179e"
+            ],
+            [
+              0.4444444444444444,
+              "#bd3786"
+            ],
+            [
+              0.5555555555555556,
+              "#d8576b"
+            ],
+            [
+              0.6666666666666666,
+              "#ed7953"
+            ],
+            [
+              0.7777777777777778,
+              "#fb9f3a"
+            ],
+            [
+              0.8888888888888888,
+              "#fdca26"
+            ],
+            [
+              1,
+              "#f0f921"
+            ]
+          ],
+          "diverging": [
+            [
+              0,
+              "#8e0152"
+            ],
+            [
+              0.1,
+              "#c51b7d"
+            ],
+            [
+              0.2,
+              "#de77ae"
+            ],
+            [
+              0.3,
+              "#f1b6da"
+            ],
+            [
+              0.4,
+              "#fde0ef"
+            ],
+            [
+              0.5,
+              "#f7f7f7"
+            ],
+            [
+              0.6,
+              "#e6f5d0"
+            ],
+            [
+              0.7,
+              "#b8e186"
+            ],
+            [
+              0.8,
+              "#7fbc41"
+            ],
+            [
+              0.9,
+              "#4d9221"
+            ],
+            [
+              1,
+              "#276419"
+            ]
+          ]
+        },
+        "xaxis": {
+          "gridcolor": "white",
+          "linecolor": "white",
+          "ticks": "",
+          "title": {
+            "standoff": 15
+          },
+          "zerolinecolor": "white",
+          "automargin": true,
+          "zerolinewidth": 2
+        },
+        "yaxis": {
+          "gridcolor": "white",
+          "linecolor": "white",
+          "ticks": "",
+          "title": {
+            "standoff": 15
+          },
+          "zerolinecolor": "white",
+          "automargin": true,
+          "zerolinewidth": 2
+        },
+        "scene": {
+          "xaxis": {
+            "backgroundcolor": "#E5ECF6",
+            "gridcolor": "white",
+            "linecolor": "white",
+            "showbackground": true,
+            "ticks": "",
+            "zerolinecolor": "white",
+            "gridwidth": 2
+          },
+          "yaxis": {
+            "backgroundcolor": "#E5ECF6",
+            "gridcolor": "white",
+            "linecolor": "white",
+            "showbackground": true,
+            "ticks": "",
+            "zerolinecolor": "white",
+            "gridwidth": 2
+          },
+          "zaxis": {
+            "backgroundcolor": "#E5ECF6",
+            "gridcolor": "white",
+            "linecolor": "white",
+            "showbackground": true,
+            "ticks": "",
+            "zerolinecolor": "white",
+            "gridwidth": 2
+          }
+        },
+        "shapedefaults": {
+          "line": {
+            "color": "#2a3f5f"
+          }
+        },
+        "annotationdefaults": {
+          "arrowcolor": "#2a3f5f",
+          "arrowhead": 0,
+          "arrowwidth": 1
+        },
+        "geo": {
+          "bgcolor": "white",
+          "landcolor": "#E5ECF6",
+          "subunitcolor": "white",
+          "showland": true,
+          "showlakes": true,
+          "lakecolor": "white"
+        },
+        "title": {
+          "x": 0.05
+        },
+        "mapbox": {
+          "style": "light"
+        }
+      }
+    },
+    "font": {
+      "size": 16,
+      "family": "Courier New"
+    },
+    "margin": {
+      "b": 20,
+      "l": 5,
+      "r": 5,
+      "t": 40
+    },
+    "xaxis": {
+      "showgrid": false,
+      "zeroline": false,
+      "showticklabels": false
+    },
+    "yaxis": {
+      "showgrid": false,
+      "zeroline": false,
+      "showticklabels": false
+    },
+    "title": {
+      "text": "<br>Interactive Knowledge Graph For Clinical trials Dataset"
+    },
+    "showlegend": true,
+    "hovermode": "closest",
+    "width": 3000,
+    "height": 900,
+    "legend": {
+      "yanchor": "top",
+      "y": 0.99,
+      "xanchor": "left",
+      "x": 0.01
+    }
+  }
+}
