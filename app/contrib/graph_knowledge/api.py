@@ -1,21 +1,24 @@
 import math
 import json
 import re
-
+from pprint import pprint
 from uuid import uuid4
 from typing import List
 import pandas as pd
 import networkx as nx
 import plotly
 import plotly.graph_objs as go
-
+from sqlalchemy import text
 from fastapi import APIRouter, Depends
 
 from app.routers.dependency import get_active_user, get_gk_engine
 from app.contrib.account.models import User
-
+from .data_preprocessing.search_funtions import search_clinical_data
 from .schema import GraphKnowledgeMedicineBase, GraphKnowledgeClinicalTrialsBase
-
+from .utils import (
+    add_directed_edges, add_edge_labels, add_line_breaks_to_long_text,
+relationship_colors, relationship_display_names, is_nct_number
+)
 api = APIRouter()
 
 
@@ -170,16 +173,11 @@ async def generate_graph_knowledge(
 async def generate_clinical_trials(
         obj_in: GraphKnowledgeClinicalTrialsBase,
         user: User = Depends(get_active_user),
+        gk_engine = Depends(get_gk_engine),
 ):
-    # clinical_trials_kg_df = pd.read_parquet(
-    #     f"{data_path}/Structured data/clinical_trials_kg_df.parquet",
-    #     engine="fastparquet"
-    # )
-    #
-    # searched_clinical_trials_kg_df = pd.read_parquet(
-    #     f"{data_path}/Structured data/clinical_trials_searched_kg_df.parquet",
-    #     engine="fastparquet"
-    # )
+    # clinical_trials_kg_df = pd.read_sql_table('clinical_trials', gk_engine)
+    # searched_clinical_trials_kg_df = pd.read_sql_table('clinical_trials_searched', gk_engine)
+
     filters = [i.label for i in obj_in.filters]
     all_filters = filters + [
         'in phase', 'tested behavioral', 'tested biological', 'tested combination product',
@@ -187,148 +185,147 @@ async def generate_clinical_trials(
         'tested genetic', 'tested other', 'tested procedure', 'tested radiation',
         'tested unknown', 'tested with'
     ]
-    #
     # clinical_trials_kg_df = search_clinical_data(
     #     obj_in.search, searched_clinical_trials_kg_df, clinical_trials_kg_df,
     #     all_filters
     # )
-    #
-    # if len(clinical_trials_kg_df) < 100:
-    #     single_entry_edges = []
-    #     multiple_entry_edges = []
-    #     filtered_dfs = {}
-    #     for edge in all_filters:
-    #         if len(clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge]) <= 5:
-    #             single_entry_edges.append(edge)
-    #         else:
-    #             multiple_entry_edges.append(edge)
-    #             filtered_dfs[edge] = clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge]
-    #     if filtered_dfs:
-    #         min_count = min(len(df) for df in filtered_dfs.values())
-    #         if min_count > 150:
-    #             min_count = 150
-    #
-    #         # Sample rows from each multiple-entry edge group
-    #         samples = [edge_df.sample(min(min_count, len(edge_df)), random_state=1) for edge_df in
-    #                    filtered_dfs.values()]
-    #
-    #     else:
-    #         min_count = 0
-    #         samples = []
-    #
-    #     for edge in single_entry_edges:
-    #         samples.append(clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge])
-    #
-    #         # Combine the samples into a single DataFrame
-    #     final_sample = pd.concat(samples)
-    #     clinical_trials_kg_df = final_sample.sample(frac=1).reset_index(drop=True)
-    #
-    # # print(set(clinical_trials_kg_df.edge.values))
-    # graph = nx.from_pandas_edgelist(
-    #     clinical_trials_kg_df, 'source', 'target', edge_attr=True,
-    #     create_using=nx.DiGraph()
-    # )
-    # layout = nx.spring_layout(graph, k=0.50, iterations=100, seed=42)
-    #
-    # fig = go.Figure()
-    #
-    # add_edge_labels(graph, layout, fig)
-    #
-    # # Add edges with arrowheads
-    # add_directed_edges(graph, layout, fig)
-    #
-    # node_hover_titles = {}
-    #
-    # # Populate hover text for source nodes
-    #
-    # for source, title in zip(clinical_trials_kg_df['source'], clinical_trials_kg_df['title']):
-    #     if is_nct_number(source) and pd.notna(title):
-    #         node_hover_titles[source] = add_line_breaks_to_long_text(title)
-    #     else:
-    #         node_hover_titles[source] = ''
-    #
-    # node_relationships = {}
-    # for edge in graph.edges(data=True):
-    #     source, target, data = edge
-    #     relationship = data['edge']
-    #     node_relationships[target] = relationship
-    #
-    # # Iterate over the nodes to create node traces
-    # for node in graph.nodes():
-    #     x, y = layout[node]
-    #     relationship = node_relationships.get(node, None)
-    #     node_color = relationship_colors.get(relationship, '#FF5733')  # Default color if not found
-    #
-    #     node_trace = go.Scatter(
-    #         x=[x], y=[y],
-    #         mode='markers+text',
-    #         text=[str(node)],
-    #         hoverinfo='text',
-    #         hovertext=[node_hover_titles.get(node, '')],
-    #         marker=dict(color=node_color, size=20, opacity=0.8, line=dict(width=0.7, color="black")),
-    #         showlegend=False  # Hide these traces from the legend
-    #     )
-    #     fig.add_trace(node_trace)
-    #
-    # # Update layout and show figure
-    # fig.update_layout(
-    #     title='<br>Interactive Knowledge Graph For Clinical trials Dataset',
-    #     font_size=16,
-    #     font_family="Courier New",
-    #     showlegend=False,
-    #     hovermode='closest',
-    #     margin=dict(b=20, l=5, r=5, t=40),
-    #     xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-    #     yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
-    #     width=3000,  # Adjust the width here
-    #     height=900  # Adjust the height here
-    # )
-    #
-    # # Define your default node color and its display name
-    # default_node_color = '#FF5733'  # Replace with your default color
-    # default_node_display_name = 'NCT number'  # Replace with your preferred display name
-    #
-    # # Add a trace for the default color in the legend
-    # fig.add_trace(go.Scatter(
-    #     x=[None], y=[None],
-    #     mode='markers',
-    #     marker=dict(size=10, color=default_node_color),
-    #     name=default_node_display_name,  # Use the display name for default color
-    #     showlegend=True
-    # ))
-    #
-    # # Add a trace for each relationship color in the legend
-    # added_colors = set()
-    #
-    # # Add a trace for each relationship color in the legend
-    # filtered_relationships = set(clinical_trials_kg_df['edge'])
-    # for relationship, color in relationship_colors.items():
-    #     display_name = relationship_display_names.get(relationship, relationship)  # Get display name
-    #     if relationship in filtered_relationships and color not in added_colors:
-    #         fig.add_trace(go.Scatter(
-    #             x=[None], y=[None],
-    #             mode='markers',
-    #             marker=dict(size=10, color=color),
-    #             name=display_name,  # Use the display name in the legend
-    #             showlegend=True
-    #         ))
-    #         added_colors.add(color)  # Mark this color as added
-    #
-    # # Update layout for the legend
-    # fig.update_layout(
-    #     showlegend=True,
-    #     legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
-    # )
-    #
+
+    if len(clinical_trials_kg_df) < 100:
+        single_entry_edges = []
+        multiple_entry_edges = []
+        filtered_dfs = {}
+        for edge in all_filters:
+            if len(clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge]) <= 5:
+                single_entry_edges.append(edge)
+            else:
+                multiple_entry_edges.append(edge)
+                filtered_dfs[edge] = clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge]
+        if filtered_dfs:
+            min_count = min(len(df) for df in filtered_dfs.values())
+            if min_count > 150:
+                min_count = 150
+
+            # Sample rows from each multiple-entry edge group
+            samples = [edge_df.sample(min(min_count, len(edge_df)), random_state=1) for edge_df in
+                       filtered_dfs.values()]
+
+        else:
+            min_count = 0
+            samples = []
+
+        for edge in single_entry_edges:
+            samples.append(clinical_trials_kg_df[clinical_trials_kg_df['edge'] == edge])
+
+            # Combine the samples into a single DataFrame
+        final_sample = pd.concat(samples)
+        clinical_trials_kg_df = final_sample.sample(frac=1).reset_index(drop=True)
+
+    # print(set(clinical_trials_kg_df.edge.values))
+    graph = nx.from_pandas_edgelist(
+        clinical_trials_kg_df, 'source', 'target', edge_attr=True,
+        create_using=nx.DiGraph()
+    )
+    layout = nx.spring_layout(graph, k=0.50, iterations=100, seed=42)
+
+    fig = go.Figure()
+
+    add_edge_labels(graph, layout, fig)
+
+    # Add edges with arrowheads
+    add_directed_edges(graph, layout, fig)
+
+    node_hover_titles = {}
+
+    # Populate hover text for source nodes
+
+    for source, title in zip(clinical_trials_kg_df['source'], clinical_trials_kg_df['title']):
+        if is_nct_number(source) and pd.notna(title):
+            node_hover_titles[source] = add_line_breaks_to_long_text(title)
+        else:
+            node_hover_titles[source] = ''
+
+    node_relationships = {}
+    for edge in graph.edges(data=True):
+        source, target, data = edge
+        relationship = data['edge']
+        node_relationships[target] = relationship
+
+    # Iterate over the nodes to create node traces
+    for node in graph.nodes():
+        x, y = layout[node]
+        relationship = node_relationships.get(node, None)
+        node_color = relationship_colors.get(relationship, '#FF5733')  # Default color if not found
+
+        node_trace = go.Scatter(
+            x=[x], y=[y],
+            mode='markers+text',
+            text=[str(node)],
+            hoverinfo='text',
+            hovertext=[node_hover_titles.get(node, '')],
+            marker=dict(color=node_color, size=20, opacity=0.8, line=dict(width=0.7, color="black")),
+            showlegend=False  # Hide these traces from the legend
+        )
+        fig.add_trace(node_trace)
+
+    # Update layout and show figure
+    fig.update_layout(
+        title='<br>Interactive Knowledge Graph For Clinical trials Dataset',
+        font_size=16,
+        font_family="Courier New",
+        showlegend=False,
+        hovermode='closest',
+        margin=dict(b=20, l=5, r=5, t=40),
+        xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+        width=3000,  # Adjust the width here
+        height=900  # Adjust the height here
+    )
+
+    # Define your default node color and its display name
+    default_node_color = '#FF5733'  # Replace with your default color
+    default_node_display_name = 'NCT number'  # Replace with your preferred display name
+
+    # Add a trace for the default color in the legend
+    fig.add_trace(go.Scatter(
+        x=[None], y=[None],
+        mode='markers',
+        marker=dict(size=10, color=default_node_color),
+        name=default_node_display_name,  # Use the display name for default color
+        showlegend=True
+    ))
+
+    # Add a trace for each relationship color in the legend
+    added_colors = set()
+
+    # Add a trace for each relationship color in the legend
+    filtered_relationships = set(clinical_trials_kg_df['edge'])
+    for relationship, color in relationship_colors.items():
+        display_name = relationship_display_names.get(relationship, relationship)  # Get display name
+        if relationship in filtered_relationships and color not in added_colors:
+            fig.add_trace(go.Scatter(
+                x=[None], y=[None],
+                mode='markers',
+                marker=dict(size=10, color=color),
+                name=display_name,  # Use the display name in the legend
+                showlegend=True
+            ))
+            added_colors.add(color)  # Mark this color as added
+
+    # Update layout for the legend
+    fig.update_layout(
+        showlegend=True,
+        legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
+    )
+
     # graph_analysis(
     #     graph, uuid4(), obj_in.search, obj_in.filters,
     #     graph_type=DatasetChoices.CLINICAL_TRIALS
     # )
-    # graph_json_string = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
-    # result = json.loads(graph_json_string)
-    # return result
-    result = {}
-    with open("response_1712344366538.json", "r") as f:
-        data = f.read()
-        result = json.loads(data)
+    graph_json_string = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
+    result = json.loads(graph_json_string)
     return result
+    # result = {}
+    # with open("response_1712344366538.json", "r") as f:
+    #     data = f.read()
+    #     result = json.loads(data)
+    # return result

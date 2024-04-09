@@ -210,8 +210,8 @@ def get_knowledge_graph(search: str):
     return {}
 
 
-def parquet_to_sql(engine, table_name: str, parquet_file: str):
+def parquet_to_sql(engine, table_name: str, parquet_file: str, index: bool=False):
     df = pd.read_parquet(parquet_file, engine="fastparquet")
 
-    result = df.to_sql(table_name, con=engine, index=False, if_exists='replace')
+    result = df.to_sql(table_name, con=engine, index=index, if_exists='replace', chunksize=1000)
     return result

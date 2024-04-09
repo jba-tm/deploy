@@ -1,3 +1,4 @@
+from typing import List, Optional
 import pandas as pd
 from difflib import SequenceMatcher
 

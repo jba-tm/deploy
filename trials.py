@@ -8,10 +8,10 @@ def trials_to_sql():
 
     parquet_file = f"{data_path}/Structured data/clinical_trials_kg_df.parquet"
 
-    parquet_to_sql(gk_engine, "clinical_trials", parquet_file)
+    parquet_to_sql(gk_engine, "clinical_trials", parquet_file, index=True)
 
     clinical_trials_searched = f"{data_path}/Structured data/clinical_trials_searched_kg_df.parquet"
-    parquet_to_sql(gk_engine, "clinical_trials_searched", clinical_trials_searched)
+    parquet_to_sql(gk_engine, "clinical_trials_searched", clinical_trials_searched, index=True)
 
 
 if __name__ == "__main__":
