@@ -160,7 +160,7 @@ async def generate_graph_knowledge(
         showlegend=True,
         legend=dict(yanchor="top", y=0.99, xanchor="left", x=0.01)
     )
-    graph_analysis(graph, uuid4(), obj_in.search, filters, graph_type=DatasetChoices.DRUG)
+    # graph_analysis(graph, uuid4(), obj_in.search, filters, graph_type=DatasetChoices.DRUG)
     # Convert the Plotly graph to JSON
     graph_json_string = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
     result = json.loads(graph_json_string)
@@ -173,8 +173,8 @@ async def generate_clinical_trials(
         user: User = Depends(get_active_user),
         gk_engine=Depends(get_gk_engine),
 ):
-    clinical_trials_kg_df = pd.read_sql_table('clinical_trials', gk_engine)
-    searched_clinical_trials_kg_df = pd.read_sql_table('clinical_trials_searched', gk_engine)
+    # clinical_trials_kg_df = pd.read_sql_table('clinical_trials', gk_engine)
+    # searched_clinical_trials_kg_df = pd.read_sql_table('clinical_trials_searched', gk_engine)
 
     filters = [i.label for i in obj_in.filters]
     all_filters = filters + [
@@ -183,10 +183,62 @@ async def generate_clinical_trials(
         'tested genetic', 'tested other', 'tested procedure', 'tested radiation',
         'tested unknown', 'tested with'
     ]
-    clinical_trials_kg_df = search_clinical_data(
-        obj_in.search, searched_clinical_trials_kg_df, clinical_trials_kg_df,
-        all_filters
-    )
+    # clinical_trials_kg_df = search_clinical_data(
+    #     obj_in.search, searched_clinical_trials_kg_df, clinical_trials_kg_df,
+    #     all_filters
+    # )
+    query = obj_in.search
+    if query.startswith("NCT"):
+        sql_query = text("""
+            with matched_indices as (
+                    SELECT index
+                    FROM clinical_trials_searched
+                    WHERE source LIKE CONCAT('%', :query, '%')
+            ),
+            search_results AS (
+                SELECT *
+                FROM clinical_trials
+                WHERE index IN (SELECT index FROM matched_indices)
+            )
+            SELECT *
+            FROM search_results
+            WHERE edge IN :edge_filters;
+            """)
+    else:
+        sql_query = text("""
+            WITH similar_drugs AS (
+                SELECT DISTINCT target
+                FROM clinical_trials_searched
+                WHERE target IS NOT NULL
+                  AND SIMILARITY(LOWER(target), LOWER(:query)) >= 0.9
+            ),
+            matched_nct_numbers AS (
+                SELECT DISTINCT source
+                FROM clinical_trials_searched
+                WHERE target IN (SELECT target FROM similar_drugs)
+            ),
+            matched_indices_1 AS (
+                SELECT index
+                FROM clinical_trials_searched
+                WHERE source LIKE CONCAT('%', :query, '%')
+            ),
+            matched_indices AS (
+                SELECT index FROM matched_indices_1
+                UNION
+                SELECT index
+                FROM clinical_trials_searched
+                WHERE source IN (SELECT source FROM matched_nct_numbers)
+            ),
+            search_results AS (
+                SELECT *
+                FROM clinical_trials
+                WHERE index IN (SELECT index FROM matched_indices)
+            )
+            SELECT *
+            FROM search_results
+            WHERE edge IN :edge_filters;
+        """)
+    clinical_trials_kg_df = pd.read_sql_query(sql_query, gk_engine, params={'query': query, "edge_filters": tuple(all_filters)})
 
     if len(clinical_trials_kg_df) < 100:
         single_entry_edges = []

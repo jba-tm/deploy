@@ -59,6 +59,7 @@ torch = "^2.2.2"
 transformers = "^4.39.3"
 uvicorn = "^0.28.0"
 weasyprint = "^61.2"
+scipy = "^1.13.0"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"
