@@ -22,6 +22,50 @@ from .utils import (
 
 api = APIRouter()
 
+medicine_sql_text = text("""
+        WITH search_columns AS (
+    SELECT 'name' AS column_name
+    UNION ALL
+    SELECT 'pubmed-id' AS column_name
+    UNION ALL
+    SELECT 'Gene Name' AS column_name
+    UNION ALL
+    SELECT 'GenBank Protein ID' AS column_name
+    UNION ALL
+    SELECT 'GenBank Gene ID' AS column_name
+    UNION ALL
+    SELECT 'UniProt ID' AS column_name
+),
+filtered_drugs AS (
+    SELECT
+        name,
+        "pubmed-id",
+        "Gene Name",
+        "GenBank Protein ID",
+        "GenBank Gene ID",
+        "UniProt ID"
+    FROM
+        final_merged_drugs
+    JOIN
+        search_columns sc
+    ON
+        sc.column_name IN ('name', 'pubmed-id', 'Gene Name', 'GenBank Protein ID', 'GenBank Gene ID', 'UniProt ID')
+    WHERE
+        (sc.column_name = 'pubmed-id' AND :query ~ '^[0-9]+$' AND "pubmed-id" = :query)
+        OR
+        (sc.column_name != 'pubmed-id' AND (name LIKE CONCAT('%', :query, '%') OR "Gene Name" LIKE CONCAT('%', :query, '%')))
+)
+SELECT DISTINCT
+    kg.*
+FROM
+    knowledge_graph kg
+JOIN
+    filtered_drugs fd
+ON
+    kg.source = fd.name OR kg.target = fd.name;
+
+    """)
+
 
 @api.post('/generate/medicine/', name="gk-generate-medicine", response_model=dict)
 async def generate_graph_knowledge(
@@ -29,12 +73,16 @@ async def generate_graph_knowledge(
         user: User = Depends(get_active_user),
         gk_engine=Depends(get_gk_engine)
 ):
-    knowledge_graph = pd.read_sql_table('knowledge_graph', gk_engine)
-    all_drugs_df = pd.read_sql_table("final_merged_drugs", gk_engine)
-    knowledge_graph = search_drug_kg(search_term, all_drugs_df, knowledge_graph)
-
-    if filters:
-        knowledge_graph = knowledge_graph[knowledge_graph['edge'].isin(filters)]
+    # knowledge_graph = pd.read_sql_table('knowledge_graph', gk_engine)
+    # all_drugs_df = pd.read_sql_table("final_merged_drugs", gk_engine)
+    # knowledge_graph = search_drug_kg(search_term, all_drugs_df, knowledge_graph)
+    if obj_in.filters:
+        filters = [filter.label in filter in obj_in.filters]
+    else:
+        filters = tuple()
+    knowledge_graph = pd.read_sql_query(medicine_sql_text, gk_engine, params={
+        "query": obj_in.search, "edge_filters": tuple(filters)
+    })
 
     if len(knowledge_graph) < 100:
         single_entry_edges = [
@@ -238,7 +286,8 @@ async def generate_clinical_trials(
             FROM search_results
             WHERE edge IN :edge_filters;
         """)
-    clinical_trials_kg_df = pd.read_sql_query(sql_query, gk_engine, params={'query': query, "edge_filters": tuple(all_filters)})
+    clinical_trials_kg_df = pd.read_sql_query(sql_query, gk_engine,
+                                              params={'query': query, "edge_filters": tuple(all_filters)})
 
     if len(clinical_trials_kg_df) < 100:
         single_entry_edges = []

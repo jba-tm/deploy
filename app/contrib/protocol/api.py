@@ -23,6 +23,8 @@ from app.contrib.account.models import User
 from app.utils.sanitizer import text_to_html_paragraphs, Sanitizer
 from app.utils.file import upload_to
 from app.contrib.protocol import FileType
+from app.contrib.history import EntityChoices, SubjectChoices
+from app.contrib.history.repository import ai_history_repo
 
 from .utils import get_property
 from .repository import protocol_repo, protocol_step_repo, protocol_file_repo
@@ -130,7 +132,11 @@ async def create_protocol(
         await async_db.commit()
         await async_db.refresh(protocol)
         await async_db.refresh(protocol_step)
-        # result = await protocol_repo.create(async_db, obj_in=data)
+        await ai_history_repo.create(async_db, obj_in={
+            "user_id": user.id,
+            "entity": EntityChoices.PROTOCOL,
+            "subject_type": SubjectChoices.PROTOCOL_CREATED,
+        })
         return {
             "message": "Protocol created",
             "data": {
@@ -246,8 +252,10 @@ async def protocol_generate_docx(
     db_obj = await protocol_repo.get_by_params(async_db, params={"id": obj_id, "user_id": user.id})
     is_exist = await protocol_file_repo.exists(async_db, params={'protocol_id': obj_id, "file_type": "docx"})
     if is_exist:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST,
-                            detail="Protocol docx file already generated. Try to delete it first.")
+        raise HTTPException(
+            status_code=HTTP_400_BAD_REQUEST,
+            detail="Protocol docx file already generated. Try to delete it first."
+        )
     steps = await protocol_step_repo.get_all(
         async_db,
         q={'protocol_id': obj_id},
@@ -268,6 +276,11 @@ async def protocol_generate_docx(
         "protocol_id": db_obj.id,
         "file_path": path,
         "file_type": "docx"
+    })
+    await ai_history_repo.create(async_db, obj_in={
+        "user_id": user.id,
+        "entity": EntityChoices.PROTOCOL,
+        "subject_type": SubjectChoices.PROTOCOL_FILE_GENERATED
     })
 
     return {

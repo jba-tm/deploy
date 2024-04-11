@@ -15,8 +15,10 @@ from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 from app.routers.dependency import get_async_db, get_commons, get_active_user, get_db
 from app.core.schema import IResponseBase, IPaginationDataBase, CommonsModel
 from app.contrib.account.models import User
+from app.contrib.history.repository import ai_history_repo
+from app.contrib.history import SubjectChoices, EntityChoices
 
-from .models import ChatItem, ChatItemBody, Chat
+from .models import ChatItem, ChatItemBody, Chat, ChatItemAnswer
 from .repository import (
     chat_favorite_repo, chat_repo, chat_item_repo, chat_item_body_repo, chat_item_answer_repo
 )
@@ -46,24 +48,24 @@ async def retrieve_chat_list(
     return paginate(db, stmt)
 
 
-@api.post(
-    "/create/", name='chat-create', response_model=IResponseBase[ChatVisible],
-    status_code=HTTP_201_CREATED
-)
-async def create_chat(
-        obj_in: ChatCreate,
-        user: User = Depends(get_active_user),
-        async_db: AsyncSession = Depends(get_async_db)
-):
-    data = {
-        "user_id": user.id,
-        "title": obj_in.title,
-    }
-    result = await chat_repo.create(async_db, obj_in=data)
-    return {
-        'message': "Created successfully",
-        'data': result
-    }
+# @api.post(
+#     "/create/", name='chat-create', response_model=IResponseBase[ChatVisible],
+#     status_code=HTTP_201_CREATED
+# )
+# async def create_chat(
+#         obj_in: ChatCreate,
+#         user: User = Depends(get_active_user),
+#         async_db: AsyncSession = Depends(get_async_db)
+# ):
+#     data = {
+#         "user_id": user.id,
+#         "title": obj_in.title,
+#     }
+#     result = await chat_repo.create(async_db, obj_in=data)
+#     return {
+#         'message': "Created successfully",
+#         'data': result
+#     }
 
 
 @api.post(
@@ -79,53 +81,58 @@ async def create_chat_item(
     if is_error:
         print(result)
         raise HTTPException(detail="Something went wrong!", status_code=400)
-
-    chat = await chat_repo.create(async_db, obj_in={
-        "user_id": user.id,
-        "title": obj_in.body[0:250],
-    })
-    chat_item = await chat_item_repo.create(
-        async_db=async_db,
-        obj_in={
+    try:
+        chat = Chat(user_id=user.id, title=obj_in.body[0:250])
+        async_db.add(chat)
+        await async_db.flush()
+        chat_item = ChatItem(
+            user_id=user.id,
+            chat_id=chat.id
+        )
+        async_db.add(chat_item)
+        await async_db.flush()
+        chat_item_body = ChatItemBody(
+            item_id=chat_item.id,
+            body=obj_in.body
+        )
+        async_db.add(chat_item_body)
+        await async_db.flush()
+        answer = ChatItemAnswer(
+            body_id=chat_item_body.id,
+            answer=result
+        )
+        await ai_history_repo.create(async_db, obj_in={
             "user_id": user.id,
-            "chat_id": chat.id,
+            "entity": EntityChoices.CHAT_Q_A,
+            "subject_type": SubjectChoices.CHAT_Q_A_ROOM_CREATED,
         })
-    chat_item_body = await chat_item_body_repo.create(
-        async_db,
-        obj_in={
-            "item_id": chat_item.id,
-            "body": obj_in.body,
+        return {
+            "message": "Chat item created",
+            "data": {
+                "id": chat.id,
+                "title": chat.title,
+                "created_at": chat.created_at,
+                "items": [
+                    {
+                        "id": chat_item.id,
+                        "body": [
+                            {
+                                "id": chat_item_body.id,
+                                "body": chat_item_body.body,
+                                "created_at": chat_item_body.created_at,
+                                "answers": [
+                                    {"id": answer.id, "answer": answer.answer, "created_at": answer.created_at}
+                                ]
+                            }
+                        ],
+                        "created_at": chat_item.created_at,
+                    }
+                ]
+            }
         }
-    )
-    answer = await chat_item_answer_repo.create(
-        async_db,
-        obj_in={
-            "body_id": chat_item_body.id,
-            "answer": result
-        }
-    )
-    return {
-        "message": "Chat item created",
-        "data": {
-            "id": chat.id,
-            "title": chat.title,
-            "created_at": chat.created_at,
-            "items": [
-                {
-                    "id": chat_item.id,
-                    "body": [
-                        {
-                            "id": chat_item_body.id,
-                            "body": chat_item_body.body,
-                            "created_at": chat_item_body.created_at,
-                            "answers": [
-                                {"id": answer.id, "answer": answer.answer, "created_at": answer.created_at}
-                            ]
-                        }
-                    ],
-                    "created_at": chat_item.created_at,
-                }
-            ]}}
+    except Exception:
+        await async_db.rollback()
+        raise HTTPException(status_code=500, detail="Something went wrong!")
 
 
 @api.get('/{obj_id}/detail/', name="chat-detail", response_model=ChatVisible)
@@ -211,6 +218,13 @@ async def chat_item_add(
     chat_item = await chat_item_repo.create(async_db, obj_in={"user_id": user.id, 'chat_id': chat.id})
     question = await chat_item_body_repo.create(async_db, obj_in={'item_id': chat_item.id, "body": obj_in.body})
     answer = await chat_item_answer_repo.create(async_db, obj_in={'body_id': question.id, "answer": ai_result})
+    await ai_history_repo.create(
+        async_db, obj_in={
+            "user_id": user.id,
+            "entity": EntityChoices.CHAT_Q_A,
+            "subject_type": SubjectChoices.CHAT_Q_A_QUERY
+        }
+    )
     return {
         "message": "Chat item created",
         "data": {

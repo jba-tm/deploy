@@ -8,3 +8,4 @@ from app.contrib.chat.models import (
 )
 
 from app.contrib.protocol.models import Protocol, ProtocolStep, ProtocolFile
+from app.contrib.history.models import AIHistory
