@@ -18,7 +18,11 @@ from app.contrib.account.models import User
 from app.contrib.history.repository import ai_history_repo
 from app.contrib.history import SubjectChoices, EntityChoices
 
-from .models import ChatItem, ChatItemBody, Chat, ChatItemAnswer
+from .models import (
+    ChatItem, ChatItemBody, Chat, ChatItemAnswer,
+    ChatFavorite,
+
+)
 from .repository import (
     chat_favorite_repo, chat_repo, chat_item_repo, chat_item_body_repo, chat_item_answer_repo
 )
@@ -47,25 +51,6 @@ async def retrieve_chat_list(
     stmt = select(Chat).filter(Chat.user_id == user.id).order_by(Chat.created_at.desc())
     return paginate(db, stmt)
 
-
-# @api.post(
-#     "/create/", name='chat-create', response_model=IResponseBase[ChatVisible],
-#     status_code=HTTP_201_CREATED
-# )
-# async def create_chat(
-#         obj_in: ChatCreate,
-#         user: User = Depends(get_active_user),
-#         async_db: AsyncSession = Depends(get_async_db)
-# ):
-#     data = {
-#         "user_id": user.id,
-#         "title": obj_in.title,
-#     }
-#     result = await chat_repo.create(async_db, obj_in=data)
-#     return {
-#         'message': "Created successfully",
-#         'data': result
-#     }
 
 
 @api.post(
@@ -245,30 +230,16 @@ async def chat_item_add(
     }
 
 
-@api.get('/favorite/', name='chat-favorite-list', response_model=IPaginationDataBase[ChatFavoriteVisible])
+@api.get('/favorite/', name='chat-favorite-list',  response_model=CustomizedCursorPage[ChatFavoriteVisible],
+    dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatFavoriteVisible]))],)
 async def retrieve_chat_favorite_list(
-        async_db: AsyncSession = Depends(get_async_db),
-        commons: CommonsModel = Depends(get_commons),
-        order_by: Optional[Literal[
-            "id", "-id"
-        ]] = "-id"
+        db = Depends(get_db),
+
 ) -> dict:
-    obj_list = await chat_favorite_repo.get_all(
-        async_db=async_db,
-        limit=commons.limit,
-        offset=commons.offset,
-        order_by=(order_by,),
-    )
-    if commons.with_count:
-        count = await chat_favorite_repo.count(async_db)
-    else:
-        count = None
-    return {
-        'page': commons.page,
-        'limit': commons.limit,
-        "count": count,
-        "rows": obj_list
-    }
+
+    stmt = select(ChatFavorite).order_by(ChatFavorite.created_at.desc())
+    return paginate(db, stmt)
+
 
 
 @api.post('/favorite/create/', name='chat-favorite-create', response_model=IResponseBase[ChatFavoriteVisible])
