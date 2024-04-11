@@ -1,8 +1,9 @@
 from app.core.enums import TextChoices
 
+
 class EntityChoices(TextChoices):
     CHAT_Q_A = "chat_q_a", "Q&A"
-    CHAT_FAVORITE = "CHAT_FAVORITE", "Chat favorite"
+    CHAT_FAVORITE = "chat_favorite", "Chat favorite"
     GRAPH_KNOWLEDGE = "graph_knowledge", "Graph Knowledge"
     PROTOCOL = "protocol", "Protocol"
 
@@ -15,4 +16,3 @@ class SubjectChoices(TextChoices):
 
     PROTOCOL_CREATED = "protocol_created", "Protocol created"
     PROTOCOL_FILE_GENERATED = "protocol_file_generated", "Protocol file generated"
-
