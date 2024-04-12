@@ -16,3 +16,9 @@ class SubjectChoices(TextChoices):
 
     PROTOCOL_CREATED = "protocol_created", "Protocol created"
     PROTOCOL_FILE_GENERATED = "protocol_file_generated", "Protocol file generated"
+
+
+class StatisticsTypeChoices(TextChoices):
+    LAST_WEEK = "last_week"
+    LAST_MONTH = "last_month"
+    LAST_YEAR = "last_year"

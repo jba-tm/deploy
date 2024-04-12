@@ -52,7 +52,6 @@ async def retrieve_chat_list(
     return paginate(db, stmt)
 
 
-
 @api.post(
     '/create/item/', name='chat-create-item', response_model=IResponseBase[ChatVisible],
     status_code=HTTP_201_CREATED,
@@ -86,6 +85,8 @@ async def create_chat_item(
             body_id=chat_item_body.id,
             answer=result
         )
+        async_db.add(answer)
+        await async_db.commit()
         await ai_history_repo.create(async_db, obj_in={
             "user_id": user.id,
             "entity": EntityChoices.CHAT_Q_A,
@@ -106,7 +107,11 @@ async def create_chat_item(
                                 "body": chat_item_body.body,
                                 "created_at": chat_item_body.created_at,
                                 "answers": [
-                                    {"id": answer.id, "answer": answer.answer, "created_at": answer.created_at}
+                                    {
+                                        "id": answer.id,
+                                        "answer": answer.answer,
+                                        "created_at": answer.created_at
+                                    }
                                 ]
                             }
                         ],
@@ -230,16 +235,14 @@ async def chat_item_add(
     }
 
 
-@api.get('/favorite/', name='chat-favorite-list',  response_model=CustomizedCursorPage[ChatFavoriteVisible],
-    dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatFavoriteVisible]))],)
+@api.get('/favorite/', name='chat-favorite-list', response_model=CustomizedCursorPage[ChatFavoriteVisible],
+         dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatFavoriteVisible]))], )
 async def retrieve_chat_favorite_list(
-        db = Depends(get_db),
+        db=Depends(get_db),
 
 ) -> dict:
-
     stmt = select(ChatFavorite).order_by(ChatFavorite.created_at.desc())
     return paginate(db, stmt)
-
 
 
 @api.post('/favorite/create/', name='chat-favorite-create', response_model=IResponseBase[ChatFavoriteVisible])

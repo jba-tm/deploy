@@ -10,3 +10,8 @@ class AIHistoryVisible(VisibleBase):
     entity: EntityChoices
     subject_type: SubjectChoices = Field(alias="subjectType")
     created_at: datetime = Field(alias='createdAt')
+
+
+class StatisticsResult(VisibleBase):
+    count: int
+    statistics_date: datetime = Field(alias='statisticsDate')

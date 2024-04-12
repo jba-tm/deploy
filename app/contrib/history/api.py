@@ -1,15 +1,15 @@
-from typing import Optional, Literal
+from typing import Optional, Literal, List
 from datetime import timedelta
 from fastapi import APIRouter, Depends, Query
+from sqlalchemy import text
 
 from app.routers.dependency import get_active_user, get_async_db, get_commons
 from app.core.schema import IPaginationDataBase, CommonsModel
-from app.contrib.history import EntityChoices
-from app.utils.datetime.timezone import today
+from app.contrib.history import EntityChoices, StatisticsTypeChoices
 
-from .models import AIHistory
+
 from .repository import ai_history_repo
-from .schema import AIHistoryVisible
+from .schema import AIHistoryVisible, StatisticsResult
 
 api = APIRouter()
 
@@ -26,7 +26,7 @@ async def retrieve_protocol_list(
             "created_at", "-created_at"
         ]] = "-created_at",
 ):
-    obj_list = await ai_history_repo.ai_history_repo(
+    obj_list = await ai_history_repo.get_all(
         async_db=async_db,
         limit=commons.limit,
         offset=commons.offset,
@@ -44,17 +44,38 @@ async def retrieve_protocol_list(
     }
 
 
-@api.get('/query-count/', name='history-query-count', response_model=int)
+@api.get('/query-count/', name='history-query-count', response_model=List[StatisticsResult])
 async def history_query_count(
         user=Depends(get_active_user),
         async_db=Depends(get_async_db),
+        by: StatisticsTypeChoices = Query(...),
         last_days: Optional[int] = Query(None),
-        entity: Optional[EntityChoices] = Query(None)
+        entity: Optional[EntityChoices] = Query(None),
 ):
-    expressions = []
-    if last_days:
-        from_datetime = today() - timedelta(days=last_days)
-        expressions.append(AIHistory.created_at > from_datetime)
-    if entity:
-        expressions.append(AIHistory.entity == entity)
-    return await ai_history_repo.count(async_db, expressions=expressions)
+    by_truncate = "day"
+    if by == StatisticsTypeChoices.LAST_YEAR:
+        by_truncate = "month"
+        by_last = "11 months"
+    elif by == StatisticsTypeChoices.LAST_MONTH:
+        by_last = "30 days"
+    else:
+        by_last = "6 days"
+
+    stmt = text(f"""
+        SELECT
+            COUNT(chat.created_at) AS count,
+            DATE_TRUNC(:by_truncate, generate_series) AS statistics_date
+        FROM
+            generate_series(NOW() - INTERVAL '{by_last}' , NOW(), INTERVAL '1 day') AS generate_series
+        LEFT JOIN
+            public.chat ON DATE_TRUNC('day', chat.created_at) = generate_series::date
+        GROUP BY
+            statistics_date
+        ORDER BY
+            statistics_date DESC;
+    """)
+
+    fetch = await async_db.execute(stmt, params={'by_truncate': by_truncate})
+
+    obj_list = fetch.fetchall()
+    return obj_list
