@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, date
 from pydantic import Field
 
 from app.core.schema import VisibleBase
@@ -14,4 +14,4 @@ class AIHistoryVisible(VisibleBase):
 
 class StatisticsResult(VisibleBase):
     count: int
-    statistics_date: datetime = Field(alias='statisticsDate')
+    statistics_date: date = Field(alias='statisticsDate')

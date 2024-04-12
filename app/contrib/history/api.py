@@ -63,16 +63,16 @@ async def history_query_count(
 
     stmt = text(f"""
         SELECT
-            COUNT(chat.created_at) AS count,
+            COUNT(h."created_at") AS count,
             DATE_TRUNC(:by_truncate, generate_series) AS statistics_date
         FROM
             generate_series(NOW() - INTERVAL '{by_last}' , NOW(), INTERVAL '1 day') AS generate_series
         LEFT JOIN
-            public.chat ON DATE_TRUNC('day', chat.created_at) = generate_series::date
+            public."a_i_history" h ON DATE_TRUNC('day', h."created_at") = generate_series::date
         GROUP BY
             statistics_date
         ORDER BY
-            statistics_date DESC;
+            statistics_date;
     """)
 
     fetch = await async_db.execute(stmt, params={'by_truncate': by_truncate})
