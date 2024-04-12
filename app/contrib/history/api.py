@@ -64,7 +64,7 @@ async def history_query_count(
     stmt = text(f"""
         SELECT
             COUNT(h."created_at") AS count,
-            DATE_TRUNC(:by_truncate, generate_series) AS statistics_date
+            generate_series::date AS statistics_date
         FROM
             generate_series(NOW() - INTERVAL '{by_last}' , NOW(), INTERVAL '1 day') AS generate_series
         LEFT JOIN
@@ -78,4 +78,6 @@ async def history_query_count(
     fetch = await async_db.execute(stmt, params={'by_truncate': by_truncate})
 
     obj_list = fetch.fetchall()
+    from pprint import pprint
+    pprint(obj_list)
     return obj_list
