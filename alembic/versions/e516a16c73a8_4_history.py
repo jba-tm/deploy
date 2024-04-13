@@ -1,8 +1,8 @@
-"""8_history
+"""4_history
 
-Revision ID: 0f9ed2a14284
-Revises: 473c2b722d39
-Create Date: 2024-04-11 04:37:30.069197
+Revision ID: e516a16c73a8
+Revises: 2fc8d85db0b6
+Create Date: 2024-04-13 18:11:07.968790
 
 """
 from alembic import op
@@ -11,8 +11,8 @@ import sqlalchemy_utils
 from app.contrib.history import EntityChoices, SubjectChoices
 
 # revision identifiers, used by Alembic.
-revision = '0f9ed2a14284'
-down_revision = '473c2b722d39'
+revision = 'e516a16c73a8'
+down_revision = '2fc8d85db0b6'
 branch_labels = None
 depends_on = None
 
@@ -22,7 +22,8 @@ def upgrade() -> None:
     op.create_table('a_i_history',
     sa.Column('user_id', sa.UUID(), nullable=False),
     sa.Column('entity', sqlalchemy_utils.types.choice.ChoiceType(
-        choices=EntityChoices, impl=sa.String(50),
+
+        choices=EntityChoices, impl=sa.String(50)
     ), nullable=False),
     sa.Column('subject_type', sqlalchemy_utils.types.choice.ChoiceType(
         choices=SubjectChoices, impl=sa.String(50)

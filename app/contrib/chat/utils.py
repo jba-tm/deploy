@@ -14,4 +14,5 @@ def retrieve_ai_answer(question: str) -> Tuple[str, bool]:
         result = response.json()
         return result.get('text', ""), False
     except Exception as error:
+        print(error)
         return str(error), True

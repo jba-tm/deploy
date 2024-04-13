@@ -37,28 +37,9 @@ class ChatBase(BaseModel):
     title: str = Field(max_length=255)
 
 
-class ChatCreate(ChatBase):
-    title: str = Field(..., max_length=255)
-
-
 class ChatVisible(VisibleBase):
     id: UUID
     title: str
     created_at: datetime = Field(alias="createdAt")
     items: Sequence[ChatItemVisible] = Field(default_factory=list)
-
-
-class ChatFavoriteBase(BaseModel):
-    question: str = Field(max_length=255)
-    answer: str = Field(max_length=500)
-
-
-class ChatFavoriteCreate(ChatFavoriteBase):
-    question: str = Field(..., max_length=255)
-    answer: str = Field(..., max_length=500)
-
-
-class ChatFavoriteVisible(VisibleBase):
-    id: UUID
-    question: str
-    answer: str
+    is_favorite: bool = Field(alias="isFavorite")

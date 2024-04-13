@@ -20,16 +20,13 @@ from app.contrib.history import SubjectChoices, EntityChoices
 
 from .models import (
     ChatItem, ChatItemBody, Chat, ChatItemAnswer,
-    ChatFavorite,
-
 )
 from .repository import (
-    chat_favorite_repo, chat_repo, chat_item_repo, chat_item_body_repo, chat_item_answer_repo
+    chat_repo, chat_item_repo, chat_item_body_repo, chat_item_answer_repo
 )
 from .schema import (
-    ChatBase, ChatCreate, ChatVisible,
+    ChatBase, ChatVisible,
     ChatItemVisible, ChatItemCreate,
-    ChatFavoriteBase, ChatFavoriteCreate, ChatFavoriteVisible
 )
 from .utils import retrieve_ai_answer
 
@@ -98,6 +95,7 @@ async def create_chat_item(
                 "id": chat.id,
                 "title": chat.title,
                 "created_at": chat.created_at,
+                "is_favorite": chat.is_favorite,
                 "items": [
                     {
                         "id": chat_item.id,
@@ -123,6 +121,38 @@ async def create_chat_item(
     except Exception:
         await async_db.rollback()
         raise HTTPException(status_code=500, detail="Something went wrong!")
+
+
+@api.get('/{obj_id}/favorite/', name="chat-favorite", response_model=IResponseBase[ChatVisible])
+async def add_chat_to_favorite(
+
+        obj_id: UUID,
+        user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db)
+):
+    db_obj = await chat_repo.get_by_params(async_db, params={
+        "id": obj_id, "user_id": user.id
+    })
+    if db_obj.is_favorite:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat also on favorite")
+    result = await chat_repo.update(async_db, db_obj, obj_in={"is_favorite": True})
+    return result
+
+
+@api.get('/{obj_id}/un-favorite/', name="chat-un-favorite", response_model=IResponseBase[ChatVisible])
+async def add_chat_to_favorite(
+
+        obj_id: UUID,
+        user: User = Depends(get_active_user),
+        async_db: AsyncSession = Depends(get_async_db)
+):
+    db_obj = await chat_repo.get_by_params(async_db, params={
+        "id": obj_id, "user_id": user.id
+    })
+    if not db_obj.is_favorite:
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat also on non favorite")
+    result = await chat_repo.update(async_db, db_obj, obj_in={"is_favorite": False})
+    return result
 
 
 @api.get('/{obj_id}/detail/', name="chat-detail", response_model=ChatVisible)
@@ -235,63 +265,32 @@ async def chat_item_add(
     }
 
 
-@api.get('/favorite/', name='chat-favorite-list', response_model=CustomizedCursorPage[ChatFavoriteVisible],
-         dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatFavoriteVisible]))], )
+@api.get(
+    "/favorite/", name="chat-favorite-list",
+    response_model=IPaginationDataBase[ChatVisible]
+)
 async def retrieve_chat_favorite_list(
-        db=Depends(get_db),
-
-) -> dict:
-    stmt = select(ChatFavorite).order_by(ChatFavorite.created_at.desc())
-    return paginate(db, stmt)
-
-
-@api.post('/favorite/create/', name='chat-favorite-create', response_model=IResponseBase[ChatFavoriteVisible])
-async def create_chat_favorite(
-        obj_in: ChatFavoriteCreate,
-        async_db: AsyncSession = Depends(get_async_db),
-) -> dict:
-    result = await chat_favorite_repo.create(async_db, obj_in=obj_in)
-    return {
-        "message": "Chat favorite created",
-        "data": result
-    }
-
-
-@api.get('/favorite/{obj_id}/detail/', name='chat-favorite-detail', response_model=ChatFavoriteVisible)
-async def retrieve_single_chat_favorite(
-        obj_id: UUID,
-        async_db: AsyncSession = Depends(get_async_db),
-
+        user=Depends(get_active_user),
+        async_db=Depends(get_async_db),
+        commons: CommonsModel = Depends(get_commons),
+        order_by: Optional[Literal[
+            "created_at", "-created_at"
+        ]] = "-created_at",
 ):
-    return await chat_favorite_repo.get(async_db, obj_id=obj_id)
-
-
-@api.patch('/favorite/{obj_id}/update/', name='chat-favorite-update', response_model=IResponseBase[ChatFavoriteVisible])
-async def update_chat_favorite(
-        obj_id: UUID,
-        obj_in: ChatFavoriteBase,
-        async_db: AsyncSession = Depends(get_async_db),
-) -> dict:
-    db_obj = await chat_favorite_repo.get(async_db, obj_id=obj_id)
-    result = await chat_favorite_repo.update(async_db, db_obj=db_obj, obj_in=obj_in.model_dump(exclude_unset=True))
+    obj_list = await chat_repo.get_all(
+        async_db=async_db,
+        limit=commons.limit,
+        offset=commons.offset,
+        order_by=(order_by,),
+        q={'user_id': user.id, "is_favorite": True}
+    )
+    if commons.with_count:
+        count = await chat_repo.count(async_db)
+    else:
+        count = None
     return {
-        "message": "Chat favorite updated",
-        "data": result
-    }
-
-
-@api.get('/favorite/{obj_id}/delete/', name='chat-favorite-delete', response_model=IResponseBase[ChatFavoriteVisible])
-async def delete_chat(
-        obj_id: UUID,
-        async_db: AsyncSession = Depends(get_async_db)
-) -> dict:
-    db_obj = await chat_favorite_repo.get(async_db, obj_id=obj_id)
-    try:
-        await chat_favorite_repo.delete(async_db, db_obj=db_obj)
-    except IntegrityError:
-        await async_db.rollback()
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat favorite can't be deleted")
-    return {
-        "message": "Chat favorite deleted successfully",
-        "data": db_obj
+        'page': commons.page,
+        'limit': commons.limit,
+        "count": count,
+        "rows": obj_list
     }
