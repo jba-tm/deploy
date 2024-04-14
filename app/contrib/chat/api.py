@@ -118,7 +118,8 @@ async def create_chat_item(
                 ]
             }
         }
-    except Exception:
+    except Exception as e:
+        print(e)
         await async_db.rollback()
         raise HTTPException(status_code=500, detail="Something went wrong!")
 

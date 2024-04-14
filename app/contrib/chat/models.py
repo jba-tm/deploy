@@ -7,7 +7,7 @@ from app.db.models import UUIDBase, CreationModificationDateBase
 
 
 class Chat(UUIDBase, CreationModificationDateBase):
-    is_favorite: Mapped[bool] = mapped_column(Boolean)
+    is_favorite: Mapped[bool] = mapped_column(Boolean(), default=False)
     user_id: Mapped[UUID] = mapped_column(
         SUUID(as_uuid=True),
         ForeignKey("user.id", name="fx_chat_user_id", ondelete="CASCADE"), nullable=False
