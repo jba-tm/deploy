@@ -1,9 +1,5 @@
-import math
+
 import json
-import re
-from pprint import pprint
-from uuid import uuid4
-from typing import List
 import pandas as pd
 import networkx as nx
 import plotly
@@ -13,7 +9,6 @@ from fastapi import APIRouter, Depends
 
 from app.routers.dependency import get_active_user, get_gk_engine
 from app.contrib.account.models import User
-from .data_preprocessing.search_funtions import search_clinical_data
 from .schema import GraphKnowledgeMedicineBase, GraphKnowledgeClinicalTrialsBase
 from .utils import (
     add_directed_edges, add_edge_labels, add_line_breaks_to_long_text,
@@ -24,17 +19,17 @@ api = APIRouter()
 
 medicine_sql_text = text("""
         WITH search_columns AS (
-    SELECT 'name' AS column_name
-    UNION ALL
-    SELECT 'pubmed-id' AS column_name
-    UNION ALL
-    SELECT 'Gene Name' AS column_name
-    UNION ALL
-    SELECT 'GenBank Protein ID' AS column_name
-    UNION ALL
-    SELECT 'GenBank Gene ID' AS column_name
-    UNION ALL
-    SELECT 'UniProt ID' AS column_name
+        SELECT 'name' AS column_name
+        UNION ALL
+        SELECT 'pubmed-id' AS column_name
+        UNION ALL
+        SELECT 'Gene Name' AS column_name
+        UNION ALL
+        SELECT 'GenBank Protein ID' AS column_name
+        UNION ALL
+        SELECT 'GenBank Gene ID' AS column_name
+        UNION ALL
+        SELECT 'UniProt ID' AS column_name
 ),
 filtered_drugs AS (
     SELECT

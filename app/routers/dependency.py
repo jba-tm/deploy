@@ -66,7 +66,7 @@ async def get_current_user(
 
 async def get_active_user(user: User = Depends(get_current_user)) -> User:
     if not user.is_active:
-        raise HTTPPermissionDenied(detail=_("Your account is disabled"))
+        raise HTTPPermissionDenied(detail="Your account is disabled")
     return user
 
 

@@ -5,7 +5,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, lazyload
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select
+from sqlalchemy import select, desc, distinct, func
 
 from fastapi_pagination import pagination_ctx
 from fastapi_pagination.cursor import CursorPage
@@ -45,7 +45,21 @@ async def retrieve_chat_list(
         user: User = Depends(get_active_user),
         db: Session = Depends(get_db),
 ):
-    stmt = select(Chat).filter(Chat.user_id == user.id).order_by(Chat.created_at.desc())
+    subq = (
+        select(ChatItem.chat_id, func.max(ChatItem.created_at).label("max_created_at"))
+        .join(Chat, Chat.id == ChatItem.chat_id)
+        .filter(ChatItem.user_id == user.id)
+        .group_by(ChatItem.chat_id)
+        .alias()
+    )
+
+    # Query to select chats joining with the latest chat items
+    stmt = (
+        select(Chat)
+        .join(subq, subq.c.chat_id == Chat.id)
+        .join(ChatItem, (ChatItem.chat_id == subq.c.chat_id) & (ChatItem.created_at == subq.c.max_created_at))
+        .order_by(desc(subq.c.max_created_at))
+    )
     return paginate(db, stmt)
 
 
@@ -136,8 +150,11 @@ async def add_chat_to_favorite(
     })
     if db_obj.is_favorite:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat also on favorite")
-    result = await chat_repo.update(async_db, db_obj, obj_in={"is_favorite": True})
-    return result
+    result = await chat_repo.update(async_db, db_obj=db_obj, obj_in={"is_favorite": True})
+    return {
+        "data": result,
+        "message": "Chat add to favorite"
+    }
 
 
 @api.get('/{obj_id}/un-favorite/', name="chat-un-favorite", response_model=IResponseBase[ChatVisible])
@@ -152,8 +169,11 @@ async def add_chat_to_favorite(
     })
     if not db_obj.is_favorite:
         raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Chat also on non favorite")
-    result = await chat_repo.update(async_db, db_obj, obj_in={"is_favorite": False})
-    return result
+    result = await chat_repo.update(async_db, db_obj=db_obj, obj_in={"is_favorite": False})
+    return {
+        "data": result,
+        "message": "Chat removed from favorites"
+    }
 
 
 @api.get('/{obj_id}/detail/', name="chat-detail", response_model=ChatVisible)

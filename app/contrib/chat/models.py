@@ -23,7 +23,7 @@ class ChatItem(CreationModificationDateBase):
             name="fx_chat_item_chat_id",
             ondelete="CASCADE",
         ),
-        nullable=False
+        nullable=False,
     )
     user_id: Mapped[UUID] = mapped_column(
         SUUID(as_uuid=True),
