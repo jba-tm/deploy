@@ -153,7 +153,7 @@ async def add_chat_to_favorite(
     result = await chat_repo.update(async_db, db_obj=db_obj, obj_in={"is_favorite": True})
     return {
         "data": result,
-        "message": "Chat add to favorite"
+        "message": "Chat added to favorite"
     }
 
 
