@@ -5,7 +5,7 @@ from sqlalchemy import select
 from app.db.repository import CRUDBase, CRUDBaseSync
 from app.utils.security import lazy_jwt_settings
 
-from .models import User, FileInfo, PineconeApiInfo
+from .models import User
 from .schema import UserBase, UserCreate
 
 if TYPE_CHECKING:
@@ -84,15 +84,6 @@ class CRUDUser(CRUDBase[User]):
         return db_obj
 
 
-class CRUDFileInfo(CRUDBase[FileInfo]):
-    pass
-
-
-class CRUDPineconeApiInfo(CRUDBase[PineconeApiInfo]):
-    pass
-
 
 user_repo_sync = CRUDUserSync(User)
 user_repo = CRUDUser(User)
-file_info_repo = CRUDFileInfo(FileInfo)
-pinecone_api_info_repo = CRUDPineconeApiInfo(PineconeApiInfo)

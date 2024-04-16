@@ -59,3 +59,4 @@ class ChatItemAnswer(CreationModificationDateBase):
         unique=False,
     )
     answer: Mapped[str] = mapped_column(Text(), nullable=False)
+

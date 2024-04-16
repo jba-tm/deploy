@@ -25,18 +25,3 @@ class User(UUIDBase, CreationModificationDateBase):
     is_active: Mapped[bool] = mapped_column(Boolean(), default=True)
     email_verified_at: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True))
 
-
-class FileInfo(CreationModificationDateBase):
-    user_id: Mapped[UUID] = mapped_column(
-        SUUID(as_uuid=True),
-        ForeignKey('user.id', ondelete="CASCADE", name="fx_file_info_user_id"),
-        nullable=False
-    )
-    file_name: Mapped[str] = mapped_column(String(255), nullable=False)
-    file: Mapped[str] = mapped_column(Text(), nullable=False)
-
-
-class PineconeApiInfo(Base):
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    env: Mapped[str] = mapped_column(String(255), nullable=False)
-    key: Mapped[str] = mapped_column(String(255), nullable=False)
