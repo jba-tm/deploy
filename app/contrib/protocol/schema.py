@@ -2,7 +2,7 @@ from uuid import UUID
 from typing import Optional
 from datetime import datetime
 from pydantic import Field
-from app.core.schema import BaseModel, VisibleBase
+from app.core.schema import BaseModel, VisibleBase, ChoiceBase
 from app.contrib.protocol import ProtocolSourceChoices
 
 
@@ -24,7 +24,7 @@ class ProtocolStepVisible(VisibleBase):
     question: str
     prompt: str
     content: str
-    source: ProtocolSourceChoices
+    source: ChoiceBase
     step: str
     step_order: int = Field(alias="stepOrder")
     created_at: datetime = Field(alias="createdAt")

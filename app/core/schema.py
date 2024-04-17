@@ -61,16 +61,6 @@ class ChoiceBase(PydanticBaseModel):
     label: str
 
 
-def ser_choice(v, nxt) -> dict:
-    return {
-        "value": v.value,
-        "label": str(v.label)
-    }
-
-
-FancyChoice = Annotated[ChoiceBase, WrapSerializer(ser_choice, when_used='json')]
-
-
 class PhoneNumberExtendedModel(PydanticBaseModel):
     phone: str
     country_code: int = Field(alias='countryCode')

@@ -1,14 +1,13 @@
 from datetime import datetime, date
 from pydantic import Field
 
-from app.core.schema import VisibleBase
-from app.contrib.history import EntityChoices, SubjectChoices
+from app.core.schema import VisibleBase, ChoiceBase
 
 
 class AIHistoryVisible(VisibleBase):
     id: int
-    entity: EntityChoices
-    subject_type: SubjectChoices = Field(alias="subjectType")
+    entity: ChoiceBase
+    subject_type: ChoiceBase = Field(alias="subjectType")
     created_at: datetime = Field(alias='createdAt')
 
 

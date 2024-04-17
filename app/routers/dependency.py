@@ -44,7 +44,6 @@ async def get_token_payload(
         payload = lazy_jwt_settings.JWT_DECODE_HANDLER(token)
         token_data = TokenPayload(**payload)
     except (jwt.JWTError, ValidationError) as e:
-        print(e)
         raise HTTPUnAuthorized
     return token_data
 
@@ -60,9 +59,8 @@ async def get_current_user(
     :return:
     """
     user = await user_repo.first(async_db=async_db, params={'id': token_payload.user_id})
-    print(user)
+
     if not user:
-        print("Invalid token")
         raise HTTPInvalidToken(detail="Invalid token")
     return user
 

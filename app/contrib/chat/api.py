@@ -5,7 +5,7 @@ from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Session, lazyload
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import select, desc, distinct, func
+from sqlalchemy import select, desc, func
 
 from fastapi_pagination import pagination_ctx
 from fastapi_pagination.cursor import CursorPage
@@ -38,12 +38,14 @@ api = APIRouter()
 
 
 @api.get(
-    '/', name='chat-list', response_model=CustomizedCursorPage[ChatVisible],
+    '/',
+    name='chat-list',
+    response_model=CustomizedCursorPage[ChatVisible],
     dependencies=[Depends(pagination_ctx(CustomizedCursorPage[ChatVisible]))],
 )
 async def retrieve_chat_list(
-        user: User = Depends(get_active_user),
-        db: Session = Depends(get_db),
+        user=Depends(get_active_user),
+        db=Depends(get_db),
 ):
     subq = (
         select(ChatItem.chat_id, func.max(ChatItem.created_at).label("max_created_at"))
