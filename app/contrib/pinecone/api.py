@@ -48,7 +48,13 @@ async def create_pinecone_api_info(
         user=Depends(get_active_user),
         async_db=Depends(get_async_db),
 ):
-    result = await pinecone_api_info_repo.create(async_db, obj_in=obj_in)
+    data = {
+        'user_id': user.id,
+        "key": obj_in.key,
+        "name": obj_in.name,
+        "env": obj_in.env
+    }
+    result = await pinecone_api_info_repo.create(async_db, obj_in=data)
     return {
         "message": "Pinecone api info created",
         "data": result

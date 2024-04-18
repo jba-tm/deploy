@@ -17,6 +17,11 @@ class FileInfo(CreationModificationDateBase):
 
 
 class PineconeApiInfo(CreationModificationDateBase):
+    user_id: Mapped[UUID] = mapped_column(
+        SUUID(as_uuid=True),
+        ForeignKey('user.id', ondelete="CASCADE", name="fx_pai_user_id"),
+        nullable=False
+    )
     name: Mapped[str] = mapped_column(String(255), nullable=False)
     env: Mapped[str] = mapped_column(String(255), nullable=False)
     key: Mapped[str] = mapped_column(String(255), nullable=False)
