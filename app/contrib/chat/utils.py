@@ -12,6 +12,10 @@ def retrieve_ai_answer(question: str) -> Tuple[str, bool]:
             json=data
         )
         result = response.json()
+        from pprint import pprint
+        status_code = result.get("statusCode", None)
+        if status_code == 500:
+            return str("Something went wrong!"), True
         return result.get('text', ""), False
     except Exception as error:
         print(error)

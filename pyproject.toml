@@ -60,6 +60,8 @@ transformers = "^4.39.3"
 uvicorn = "^0.28.0"
 weasyprint = "^61.2"
 scipy = "^1.13.0"
+pinecone-client = "^2.2.4"
+xlrd = "^2.0.1"
 
 [tool.poetry.group.dev.dependencies]
 faker = "^24.2.0"

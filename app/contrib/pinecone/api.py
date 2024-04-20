@@ -1,19 +1,21 @@
-from typing import Optional
-from fastapi import APIRouter, Depends, Query
+from typing import Optional, Literal
+from fastapi import APIRouter, Depends, Query, UploadFile
 from fastapi_pagination.customization import CustomizedPage, UseParamsFields
 from fastapi_pagination import pagination_ctx
 from fastapi_pagination.cursor import CursorPage
 from fastapi_pagination.ext.sqlalchemy import paginate
 from sqlalchemy import select, desc
+from sqlalchemy.orm import selectinload
 
-from app.core.schema import IResponseBase
-from app.routers.dependency import get_active_user, get_async_db, get_db
-
-from .models import PineconeApiInfo
+from app.core.schema import IResponseBase, CommonsModel, IPaginationDataBase
+from app.routers.dependency import get_active_user, get_async_db, get_db, get_commons
+from app.utils.datetime.timezone import now
+from .models import PineconeApiInfo, FileInfo
 from .schema import (
-    PineconeApiInfoVisible, PineconeApiInfoCreate, PineconeApiInfoBase
+    PineconeApiInfoVisible, PineconeApiInfoCreate,
+    FileInfoVisible,
 )
-from .repository import pinecone_api_info_repo
+from .repository import pinecone_api_info_repo, file_info_repo
 
 CustomizedCursorPage = CustomizedPage[
     CursorPage,
@@ -69,3 +71,74 @@ async def delete_pinecone(
         async_db=Depends(get_async_db),
 ):
     await async_db.remove(async_db, expressions=(PineconeApiInfo.id == obj_id,))
+
+
+@api.get('/file/', name='pinecone-file-list', response_model=IPaginationDataBase[FileInfoVisible])
+async def retrieve_pinecone_files(
+        user=Depends(get_active_user),
+        async_db=Depends(get_async_db),
+        pinecone_id: Optional[int] = Query(None, alias="pineconeId"),
+        commons: CommonsModel = Depends(get_commons),
+        order_by: Optional[Literal[
+            "created_at", "-created_at"
+        ]] = "-created_at",
+):
+    q = {"user_id": user.id}
+    if pinecone_id:
+        q["pinecone_id"] = pinecone_id
+    obj_list = await file_info_repo.get_all(
+        async_db=async_db,
+        limit=commons.limit,
+        offset=commons.offset,
+        order_by=(order_by,),
+        q=q,
+        options=[
+            selectinload(FileInfo.pinecone).load_only(
+                PineconeApiInfo.id, PineconeApiInfo.key,
+                PineconeApiInfo.name, PineconeApiInfo.env,
+                PineconeApiInfo.created_at,
+            )
+        ]
+    )
+    if commons.with_count:
+        count = await file_info_repo.count(async_db, params=q)
+    else:
+        count = None
+    return {
+        'page': commons.page,
+        'limit': commons.limit,
+        "count": count,
+        "rows": obj_list
+    }
+
+
+@api.post('/file/upload/', name='pinecone-file-upload', response_model=IResponseBase[FileInfoVisible])
+async def upload_pinecone_file(
+        upload_file: UploadFile,
+        pinecone_id: int = Query(..., alias="pineconeId"),
+        user=Depends(get_active_user),
+        async_db=Depends(get_async_db),
+):
+    db_obj = await pinecone_api_info_repo.get(async_db,obj_id=pinecone_id)
+
+    result = await file_info_repo.create_with_file(
+        async_db=async_db,
+        obj_in={
+            "user_id": user.id,
+            "pinecone_id": pinecone_id,
+            "file_name": upload_file.filename if upload_file.filename else now().strftime("%Y-%m-%d_%H-%M-%S")
+        },
+        upload_file=upload_file,
+    )
+    return {
+        "message": "File uploaded",
+        "data": {
+            "id": result.id,
+            "file_name": result.file_name,
+            "file": result.file,
+            "created_at": result.created_at,
+            "pinecone": db_obj
+        }
+    }
+
+@api.get('/file/{obj_id}/extract/')

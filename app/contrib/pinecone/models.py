@@ -1,9 +1,10 @@
 from uuid import UUID
-from sqlalchemy import String, Text, ForeignKey
+from sqlalchemy import String, Text, ForeignKey, Integer, Boolean
 from sqlalchemy.dialects.postgresql import UUID as SUUID
-from sqlalchemy.orm import Mapped, mapped_column
-
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy_utils import ChoiceType
 from app.db.models import CreationModificationDateBase
+from app.contrib.pinecone import FileInfoStatus
 
 
 class FileInfo(CreationModificationDateBase):
@@ -14,6 +15,15 @@ class FileInfo(CreationModificationDateBase):
     )
     file_name: Mapped[str] = mapped_column(String(255), nullable=False)
     file: Mapped[str] = mapped_column(Text(), nullable=False)
+
+    pinecone_id: Mapped[int] = mapped_column(
+        Integer, ForeignKey("pinecone_api_info.id", name='fx_file_info_pai_id', ondelete="RESTRICT"),
+        nullable=False
+    )
+    status: Mapped[bool] = mapped_column(ChoiceType(
+        choices=FileInfoStatus, impl=String(25)
+    ), nullable=False, default=FileInfoStatus.PENDING)
+    pinecone = relationship("PineconeApiInfo", lazy="noload")
 
 
 class PineconeApiInfo(CreationModificationDateBase):

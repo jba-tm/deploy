@@ -3,6 +3,7 @@ from fastapi.encoders import jsonable_encoder
 
 from app.db.repository import CRUDBase
 from app.utils.file import save_file, delete_file
+from app.core.enums import Choices
 from .models import Protocol, ProtocolStep, ProtocolFile
 
 if TYPE_CHECKING:
@@ -28,7 +29,7 @@ class CRUDProtocolFile(CRUDBase[ProtocolFile]):
             file_type: "FileType",
     ) -> ProtocolFile:
         data = jsonable_encoder(obj_in, custom_encoder={Choices: lambda x: x.value})
-        original_file = save_file(upload_file, file_dir=file_type.value)
+        original_file = save_file(upload_file, file_dir=file_type.value, is_protected=True)
         try:
             data = data | {
                 'file_type': file_type.value,
@@ -37,7 +38,7 @@ class CRUDProtocolFile(CRUDBase[ProtocolFile]):
             db_obj = await self.create(async_db, obj_in=data)
 
         except Exception as e:
-            delete_file(original_file)
+            delete_file(original_file, is_protected=True)
             raise e
         return db_obj
 
@@ -49,22 +50,22 @@ class CRUDProtocolFile(CRUDBase[ProtocolFile]):
             upload_file: "UploadFile",
             file_type: "FileType",
     ):
-        new_file_path = save_file(upload_file, file_dir=file_type.value)
+        new_file_path = save_file(upload_file, file_dir=file_type.value, is_protected=True)
         old_file_path = db_obj.file_path
         obj_in['file_path'] = new_file_path
         try:
             db_obj = await self.update(async_db, db_obj=db_obj, obj_in=obj_in)
         except Exception as e:
-            delete_file(new_file_path)
+            delete_file(new_file_path, is_protected=True)
             raise e
         else:
-            delete_file(old_file_path)
+            delete_file(old_file_path, is_protected=True)
         return db_obj
 
     async def delete_with_file(self, async_db: "AsyncSession", db_obj: ProtocolFile) -> ProtocolFile:
         file_path = db_obj.file_path
         await self.delete(async_db, db_obj=db_obj)
-        delete_file(file_path)
+        delete_file(file_path, is_protected=True)
         return db_obj
 
 

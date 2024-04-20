@@ -115,6 +115,7 @@ class Settings(BaseSettings):
     LANGUAGE_CODE_LENGTH: Optional[int] = 5
     LANGUAGES: tuple = ('en',)
 
+    OPENAI_API_KEY: Optional[str] = None
     OPENAI_MODEL_URL: AnyHttpUrl
     BE_API_URL: AnyHttpUrl
     PUBMED_API_URL: AnyHttpUrl
@@ -163,6 +164,7 @@ class StructureSettings(BaseSettings):
     BASE_DIR: Optional[str] = Path(__file__).resolve().parent.parent.parent.as_posix()
     PROJECT_DIR: Optional[str] = Path(__file__).resolve().parent.parent.as_posix()
     MEDIA_DIR: Optional[str] = 'media'  # Without end slash
+    PROTECTED_DIR: Optional[str] = 'protected'  # Without end slash
     MEDIA_URL: Optional[str] = '/media/'
 
     STATIC_DIR: Optional[str] = 'static'

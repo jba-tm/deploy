@@ -268,11 +268,11 @@ async def protocol_generate_docx(
         html_text = html_text + step.content
     doc = Document()
     new_parser = HtmlToDocx()
-    new_parser.add_html_to_document(html_text, doc);
-    path = upload_to(str(obj_id), ".docx", "docx")
+    new_parser.add_html_to_document(html_text, doc)
+    path = upload_to(str(obj_id), ".docx", file_dir="docx", is_protected=True)
 
     doc.save(f'{structure_settings.MEDIA_DIR}/{path}')
-    result = await protocol_file_repo.create(async_db, obj_in={
+    await protocol_file_repo.create(async_db, obj_in={
         "protocol_id": db_obj.id,
         "file_path": path,
         "file_type": "docx"
@@ -303,7 +303,7 @@ async def delete_protocol_docx_file(
         async_db,
         params={"protocol_id": obj_id, "file_type": file_type.value}
     )
-    result = await protocol_file_repo.delete_with_file(async_db, db_obj=db_obj)
+    await protocol_file_repo.delete_with_file(async_db, db_obj=db_obj)
 
     return {
         "message": "Protocol file deleted",
@@ -360,7 +360,7 @@ async def protocol_download_generated(
     else:
         media_type = "application/pdf"
     return FileResponse(
-        f"{structure_settings.MEDIA_DIR}/{db_obj.file_path}",
+        f"{structure_settings.PROTECTED_DIR}/{db_obj.file_path}",
         filename=f"{protocol.medicine}-{today_str}.{file_type.value}",
         media_type=media_type
     )

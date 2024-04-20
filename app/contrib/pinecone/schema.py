@@ -19,8 +19,6 @@ class PineconeApiInfoCreate(PineconeApiInfoBase):
     @field_validator("key")
     @classmethod
     def validate_key(cls, v: str):
-        print(v)
-        # print('len:', len(key))
         if len(v) != 36:
             raise ValueError('Error length of the API Key.')
         if not re.match(r'^[0-9a-fA-F-]+$', v):
@@ -34,3 +32,11 @@ class PineconeApiInfoVisible(VisibleBase):
     env: str
     key: str
     created_at: datetime = Field(alias="createdAt")
+
+
+class FileInfoVisible(VisibleBase):
+    id: int
+    file: str
+    file_name: str = Field(alias="fileName")
+    created_at: datetime = Field(alias="createdAt")
+    pinecone: PineconeApiInfoVisible

@@ -35,11 +35,17 @@ async def chunked_copy(src: UploadFile, dst: str) -> None:
             buffer.write(contents)
 
 
-def upload_to(filename: str, extension: str, file_dir: str = 'image/original') -> str:
+def upload_to(
+        filename: str,
+        extension: str,
+        is_protected: bool,
+        file_dir: str,
+) -> str:
     """
     Return path seperated by date, starts with slash
     :param filename:
     :param extension:
+    :param is_protected:
     :param file_dir:
     :return:
     """
@@ -47,7 +53,10 @@ def upload_to(filename: str, extension: str, file_dir: str = 'image/original') -
     extension: str = extension.lower()
     parent_dir: str = f'{file_dir}/{now:%Y/%m/%d}'
 
-    base_dir = structure_settings.MEDIA_DIR
+    if is_protected:
+        base_dir = structure_settings.PROTECTED_DIR
+    else:
+        base_dir = structure_settings.MEDIA_DIR
 
     os.makedirs(f'{base_dir}/{parent_dir}', mode=0o777, exist_ok=True)
 
@@ -131,14 +140,17 @@ def save_file(
         file: UploadFile,
         file_dir: str,
         filename: Optional[str] = None,
+        is_protected: Optional[bool] = False,
 ) -> str:
     if filename is None:
         filename = uuid.uuid4().hex
 
     base, extension = os.path.splitext(file.filename)
-    path = upload_to(filename, extension, file_dir)
-
-    base_dir = structure_settings.MEDIA_DIR
+    path = upload_to(filename, extension, is_protected, file_dir)
+    if is_protected:
+        base_dir = structure_settings.PROTECTED_DIR
+    else:
+        base_dir = structure_settings.MEDIA_DIR
 
     with open(f'{base_dir}/{path}', 'wb+') as fs:
         # content = file.file.read()
@@ -148,8 +160,11 @@ def save_file(
     return path
 
 
-def delete_file(path: str) -> bool:
-    base_dir = structure_settings.MEDIA_DIR
+def delete_file(path: str, is_protected: bool, ) -> bool:
+    if is_protected:
+        base_dir = structure_settings.PROTECTED_DIR
+    else:
+        base_dir = structure_settings.MEDIA_DIR
     path = f'{base_dir}/{path}'
     if os.path.exists(path):
         os.remove(path)
