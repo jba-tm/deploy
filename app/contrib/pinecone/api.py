@@ -141,4 +141,14 @@ async def upload_pinecone_file(
         }
     }
 
-@api.get('/file/{obj_id}/extract/')
+
+@api.get('/file/{obj_id}/extract/', name='pinecone-file-extract', response_model=IResponseBase[str])
+async def pinecone_file_raw_text_extract(
+        obj_id: int,
+        user=Depends(get_active_user),
+        async_db=Depends(get_async_db),
+):
+    return {
+        "message": "Pinecone file raw text extracted",
+        "data":""
+    }
