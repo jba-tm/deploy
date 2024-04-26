@@ -140,7 +140,7 @@ async def user_profile_update(
         async_db: AsyncSession = Depends(get_async_db),
 ) -> dict:
     result = await user_repo.update(
-        asynb_db=async_db,
+        async_db=async_db,
         db_obj=user,
         obj_in=obj_in.dict(exclude_unset=True)
     )

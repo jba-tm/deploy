@@ -3,7 +3,7 @@ from typing import Optional
 from uuid import UUID
 from pydantic import BaseModel as PydanticBaseModel, Field, EmailStr, field_validator
 
-from app.core.schema import BaseModel, VisibleBase
+from app.core.schema import BaseModel, VisibleBase, ChoiceBase
 from app.contrib.account import GenderChoices
 
 
@@ -49,7 +49,7 @@ class UserVisible(VisibleBase):
     id: UUID
     email: str
     name: str
-    gender: Optional[GenderChoices] = None
+    gender: Optional[ChoiceBase[GenderChoices]] = None
     signature: str
     description: str
     birthday: Optional[datetime] = None

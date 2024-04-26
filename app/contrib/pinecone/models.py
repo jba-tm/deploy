@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID as SUUID
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 from sqlalchemy_utils import ChoiceType
 from app.db.models import CreationModificationDateBase
-from app.contrib.pinecone import FileInfoStatus
+from app.contrib.pinecone import FileInfoStatusChoices
 
 
 class FileInfo(CreationModificationDateBase):
@@ -21,8 +21,8 @@ class FileInfo(CreationModificationDateBase):
         nullable=False
     )
     status: Mapped[bool] = mapped_column(ChoiceType(
-        choices=FileInfoStatus, impl=String(25)
-    ), nullable=False, default=FileInfoStatus.PENDING)
+        choices=FileInfoStatusChoices, impl=String(25)
+    ), nullable=False, default=FileInfoStatusChoices.PENDING)
     pinecone = relationship("PineconeApiInfo", lazy="noload")
 
 

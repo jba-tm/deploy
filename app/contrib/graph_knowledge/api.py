@@ -58,11 +58,14 @@ JOIN
     filtered_drugs fd
 ON
     kg.source = fd.name OR kg.target = fd.name;
+""")
 
-    """)
 
-
-@api.post('/generate/medicine/', name="gk-generate-medicine", response_model=dict)
+@api.post(
+    '/generate/medicine/',
+    name="gk-generate-medicine",
+    response_model=dict
+)
 async def generate_graph_knowledge(
         obj_in: GraphKnowledgeMedicineBase,
         user: User = Depends(get_active_user),
@@ -72,7 +75,7 @@ async def generate_graph_knowledge(
     # all_drugs_df = pd.read_sql_table("final_merged_drugs", gk_engine)
     # knowledge_graph = search_drug_kg(search_term, all_drugs_df, knowledge_graph)
     if obj_in.filters:
-        filters = [filter.label in filter in obj_in.filters]
+        filters = [i.label in i in obj_in.filters]
     else:
         filters = tuple()
     knowledge_graph = pd.read_sql_query(medicine_sql_text, gk_engine, params={

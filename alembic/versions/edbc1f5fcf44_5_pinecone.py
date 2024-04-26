@@ -8,7 +8,7 @@ Create Date: 2024-04-21 02:13:42.016079
 from alembic import op
 import sqlalchemy as sa
 import sqlalchemy_utils
-from app.contrib.pinecone import FileInfoStatus
+from app.contrib.pinecone import FileInfoStatusChoices
 
 # revision identifiers, used by Alembic.
 revision = 'edbc1f5fcf44'
@@ -39,8 +39,8 @@ def upgrade() -> None:
         sa.Column('file', sa.Text(), nullable=False),
         sa.Column('pinecone_id', sa.Integer(), nullable=False),
         sa.Column('status', sqlalchemy_utils.types.choice.ChoiceType(
-            choices=FileInfoStatus, impl=sa.String(25)
-        ), nullable=False, default=FileInfoStatus.PENDING ),
+            choices=FileInfoStatusChoices, impl=sa.String(25)
+        ), nullable=False, default=FileInfoStatusChoices.PENDING ),
         sa.Column('created_at', sa.DateTime(timezone=True), server_default=sa.text('now()'),
                   nullable=False),
         sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),

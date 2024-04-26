@@ -56,8 +56,8 @@ class VisibleBase(PydanticBaseModel):
     )
 
 
-class ChoiceBase(PydanticBaseModel):
-    value: Union[str, int]
+class ChoiceBase(PydanticBaseModel, Generic[DataType]):
+    value: DataType
     label: str
 
 

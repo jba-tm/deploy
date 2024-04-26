@@ -2,7 +2,8 @@ import re
 from datetime import datetime
 from pydantic import Field, field_validator
 
-from app.core.schema import VisibleBase, BaseModel
+from app.core.schema import VisibleBase, BaseModel, ChoiceBase
+from app.contrib.pinecone import StatisticsTypeChoices
 
 
 class PineconeApiInfoBase(BaseModel):
@@ -40,3 +41,4 @@ class FileInfoVisible(VisibleBase):
     file_name: str = Field(alias="fileName")
     created_at: datetime = Field(alias="createdAt")
     pinecone: PineconeApiInfoVisible
+    status: ChoiceBase[StatisticsTypeChoices]
