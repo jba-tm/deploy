@@ -57,6 +57,7 @@ def get_protocol_prompt_content(medicine: str, step: str):
         response = requests.post(
             sources[source], json={"question": prompt}
         )
+        print(response.json())
         if response.status_code == 200:
             result = response.json()
         else:
@@ -64,7 +65,9 @@ def get_protocol_prompt_content(medicine: str, step: str):
     except Exception as e:
         print(e)
         raise HTTPException(detail="Something went wrong!", status_code=HTTP_500_INTERNAL_SERVER_ERROR)
+
     html_text = text_to_html_paragraphs(result.get("text", ""))
+    print(html_text, )
     return html_text, prompt, source, protocol_property.get("question")
 
 

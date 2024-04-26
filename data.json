@@ -1,0 +1,851 @@
+[
+  {
+    "key": "1",
+    "label": "Introduction",
+    "source": null,
+    "children": [
+      {
+        "key": "1.1",
+        "label": "Study Rationale",
+        "source": "pubmed",
+        "children": []
+      },
+      {
+        "key": "1.2",
+        "label": "Drug Information and Indication",
+        "source": null,
+        "children": [
+          {
+            "key": "1.2.1",
+            "label": "Indication of the drug",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.2",
+            "label": "Dosage Forms and Strengths",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.3",
+            "label": "Dosage of Drug in different disease",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.4",
+            "label": "Mechanism of Action",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.5",
+            "label": "Pharmacodynamics and Toxicology",
+            "source": null,
+            "children": [
+              {
+                "key": "1.2.5.1",
+                "label": "Pharmacodynamic properties",
+                "source": "pubmed",
+                "children": []
+              },
+              {
+                "key": "1.2.5.2",
+                "label": "Toxicology properties",
+                "source": "pubmed",
+                "children": []
+              }
+            ]
+          },
+          {
+            "key": "1.2.6",
+            "label": "Drug interaction",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.7",
+            "label": "Condition of Drug",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "1.2.8",
+            "label": "Precautions of Drug",
+            "source": "og",
+            "children": []
+          },
+          {
+            "key": "1.2.9",
+            "label": "Adverse reactions of Drug",
+            "source": "be",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "1.3",
+        "label": "Reference Drug",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "1.4",
+        "label": "Proposed Strengths",
+        "source": null,
+        "children": []
+      },
+      {
+        "key": "1.5",
+        "label": "Study Contents",
+        "source": null,
+        "children": [
+          {
+            "key": "1.5.1",
+            "label": "Objective",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.2",
+            "label": "Design",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.3",
+            "label": "Randomize Method",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.4",
+            "label": "Subject Inclusion Criteria",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.5",
+            "label": "Screening Indicators",
+            "source": null,
+            "children": [
+              {
+                "key": "1.5.5.1",
+                "label": "General Conditions, Medical History, and Drug Allergy History",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "1.5.5.2",
+                "label": "Laboratory Test",
+                "source": "be",
+                "children": []
+              }
+            ]
+          },
+          {
+            "key": "1.5.6",
+            "label": "Contents and Requirements of Pre.study Education for Subjects",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.7",
+            "label": "Study Procedures",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.8",
+            "label": "Washout Period",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "1.5.9",
+            "label": "Safety Evaluation Indicators",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "2",
+    "label": "Rationale For Study Design",
+    "source": null,
+    "children": [
+      {
+        "key": "2.1",
+        "label": "Overall Design of the Study",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "2.2",
+        "label": "Pharmacokinetics Properties",
+        "source": null,
+        "children": [
+          {
+            "key": "2.2.1",
+            "label": "Different types of the Properties",
+            "source": null,
+            "children": [
+              {
+                "key": "2.2.1.1",
+                "label": "Absorption Properties",
+                "source": "pubmed",
+                "children": []
+              },
+              {
+                "key": "2.2.1.2",
+                "label": "Distribution Properties",
+                "source": "pubmed",
+                "children": []
+              },
+              {
+                "key": "2.2.1.3",
+                "label": "Elimination Properties",
+                "source": "pubmed",
+                "children": []
+              },
+              {
+                "key": "2.2.1.4",
+                "label": "Metabolism Properties",
+                "source": "pubmed",
+                "children": []
+              },
+              {
+                "key": "2.2.1.5",
+                "label": "Excretion Properties",
+                "source": "pubmed",
+                "children": []
+              }
+            ]
+          },
+          {
+            "key": "2.2.2",
+            "label": "Special Populations Pharmacokinetics",
+            "source": "pubmed",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "2.3",
+        "label": "Previous Studies",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "2.4",
+        "label": "Detailed Protocol Design",
+        "source": null,
+        "children": [
+          {
+            "key": "2.4.1",
+            "label": "Overall Design",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.2",
+            "label": "Rationale Design",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.3",
+            "label": "Study retrictions Design",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.4",
+            "label": "Method of Subject Randomization and Number",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.5",
+            "label": "Study Duration",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.6",
+            "label": "Hospitalization, Administration, Sample Collection and Observation",
+            "source": "be",
+            "children": [
+              {
+                "key": "2.4.6.1",
+                "label": "Detail of Randomization, Administration, and Meals",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.2",
+                "label": "Detail of blood sample collection and test substances",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.3",
+                "label": "Detail of vital signs",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.4",
+                "label": "Detail of ECG",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.5",
+                "label": "Detail of health monitoring",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.6",
+                "label": "Detail of physical activity and restrictions",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.7",
+                "label": "Detail of adverse event assessment",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.8",
+                "label": "Detail of concomitant medications assessment",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "2.4.6.9",
+                "label": "Detail of priprity of study activities",
+                "source": "be",
+                "children": []
+              }
+            ]
+          },
+          {
+            "key": "2.4.7",
+            "label": "Dose and Method of Administration",
+            "source": "pubmed",
+            "children": []
+          },
+          {
+            "key": "2.4.8",
+            "label": "Safety Monitoring",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.9",
+            "label": "follow-up plan",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "2.4.10",
+            "label": "Sample size",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "3",
+    "label": "Subject Selection",
+    "source": null,
+    "children": [
+      {
+        "key": "3.1",
+        "label": "Inclusion Criteria",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "3.2",
+        "label": "Exclusion Criteria",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "3.3",
+        "label": "Withdrawal Criteria",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "3.4",
+        "label": "Removal Criteria",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "3.5",
+        "label": "Dropout Criteria",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "3.6",
+        "label": "Termination Criteria",
+        "source": "be",
+        "children": []
+      }
+    ]
+  },
+  {
+    "key": "4",
+    "label": "Clinical Procedures",
+    "source": null,
+    "children": [
+      {
+        "key": "4.1",
+        "label": "Drug Information",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.2",
+        "label": "Receipt, Dispensing and Storage of Study Drug",
+        "source": null,
+        "children": [
+          {
+            "key": "4.2.1",
+            "label": "Receipt of Study Drug",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "4.2.2",
+            "label": "Drug Inventory",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "4.2.3",
+            "label": "Drawing of Study Drug",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "4.2.4",
+            "label": "Dispensing Method",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "4.2.5",
+            "label": "Labeling of Study Drug",
+            "source": "be",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "4.3",
+        "label": "Dosage of the Drug",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.4",
+        "label": "Drug Administration",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.5",
+        "label": "Blinding method",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.6",
+        "label": "Concomitant Medications",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.7",
+        "label": "Medication Compliance",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.8",
+        "label": "Retention Plan",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "4.9",
+        "label": "Policy of drug Reconciliation and Return",
+        "source": "be",
+        "children": []
+      }
+    ]
+  },
+  {
+    "key": "5",
+    "label": "Sample Collection, Shipment and Storage",
+    "source": null,
+    "children": [
+      {
+        "key": "5.1",
+        "label": "Detail Description of Sample Processing",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "5.2",
+        "label": "Policy Sample Number",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "5.3",
+        "label": "Detail of Sample Shipment and Storage",
+        "source": "be",
+        "children": []
+      }
+    ]
+  },
+  {
+    "key": "6",
+    "label": "Overall of bioanalytical analysis",
+    "source": "be",
+    "children": [
+      {
+        "key": "6.1",
+        "label": "Blood sample time point",
+        "source": null,
+        "children": [
+          {
+            "key": "6.1.1",
+            "label": "Overall About",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "6.1.2",
+            "label": "Overall Information",
+            "source": "be",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "6.2",
+        "label": "Detail of analysis method validation",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "6.3",
+        "label": "Analytes to Measure",
+        "source": "be",
+        "children": []
+      }
+    ]
+  },
+  {
+    "key": "7",
+    "label": "Pharmacokinetics and Safety Evaluation Indicators",
+    "source": null,
+    "children": [
+      {
+        "key": "7.1",
+        "label": "Pharmacokinetics Analysis",
+        "source": "be",
+        "children": [
+          {
+            "key": "7.1.1",
+            "label": "Parameters for Evaluation",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "7.1.2",
+            "label": "Other Parameters",
+            "source": "be",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "7.2",
+        "label": "Safet Evaluation Indicators",
+        "source": "be",
+        "children": [
+          {
+            "key": "7.2.1",
+            "label": "Laboratory Tests and Safe Varibles Analysis",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "7.2.2",
+            "label": "Detail of Vital Signs",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "7.2.3",
+            "label": "Detail of Physical Examinations",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "7.2.4",
+            "label": "Detail of ECG",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "8",
+    "label": "Data management and Statistical Analysis",
+    "source": null,
+    "children": [
+      {
+        "key": "8.1",
+        "label": "Data management",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "8.2",
+        "label": "Statistical Analysis",
+        "source": null,
+        "children": [
+          {
+            "key": "8.2.1",
+            "label": "Analysis Sets",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "8.2.2",
+            "label": "Missing, Unused, Spurious Data",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "8.2.3",
+            "label": "Revison Procedures for Deviations",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "8.2.4",
+            "label": "Statistical Contents",
+            "source": null,
+            "children": [
+              {
+                "key": "8.2.4.1",
+                "label": "Detail for Pharmacokinetic Analysis",
+                "source": "be",
+                "children": []
+              },
+              {
+                "key": "8.2.4.2",
+                "label": "Detail for Safety Analysis",
+                "source": "be",
+                "children": []
+              }
+            ]
+          },
+          {
+            "key": "8.2.5",
+            "label": "Analysis Software & General Requirements",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "9",
+    "label": "Quality Assurance",
+    "source": null,
+    "children": [
+      {
+        "key": "9.1",
+        "label": "Quality Control",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "9.2",
+        "label": "Quality Assurance of Sample Test",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "9.3",
+        "label": "Quality Assurance of the Data Transfer, Calculation, and Reporting Process",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "9.4",
+        "label": "Monitoring, Audits, Inspection",
+        "source": null,
+        "children": [
+          {
+            "key": "9.4.1",
+            "label": "Study Monitoring",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "9.4.2",
+            "label": "Audits and Inspection",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "10",
+    "label": "Handling of Abnormalities During the Study",
+    "source": null,
+    "children": [
+      {
+        "key": "10.1",
+        "label": "Protocol Deviation",
+        "source": "be",
+        "children": []
+      },
+      {
+        "key": "10.2",
+        "label": "Adverse Events",
+        "source": null,
+        "children": [
+          {
+            "key": "10.2.1",
+            "label": "Definition of Adverse Events",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.2",
+            "label": "Adverse Event Severity Grades",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.3",
+            "label": "Assessing Relationship to Study Drug",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.4",
+            "label": "Handling of Adverse Events",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.5",
+            "label": "Procedures for Collection Reporting and Recording Adverse Events",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.6",
+            "label": "Adverse Event Description",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.7",
+            "label": "Adverse Events follow-up",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.2.8",
+            "label": "Outcome of Adverse Event",
+            "source": "be",
+            "children": []
+          }
+        ]
+      },
+      {
+        "key": "10.3",
+        "label": "Serious Dverse Events",
+        "source": null,
+        "children": [
+          {
+            "key": "10.3.1",
+            "label": "Definition of Seirous Adverse Event",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.3.2",
+            "label": "Serious Adverse Events Report",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.3.3",
+            "label": "Suspected Unexpected Serious Adverse Reaction Report",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.3.4",
+            "label": "Serious Adverse Events follow-up",
+            "source": "be",
+            "children": []
+          },
+          {
+            "key": "10.3.5",
+            "label": "Pregnancy Events",
+            "source": "be",
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "11",
+    "label": "Study Drug Table",
+    "source": "be",
+    "children": []
+  },
+  {
+    "key": "12",
+    "label": "Table of study procedures",
+    "source": "be",
+    "children": []
+  },
+  {
+    "key": "13",
+    "label": "Table of blood sampling and vital signs test",
+    "source": "be",
+    "children": []
+  }
+]
