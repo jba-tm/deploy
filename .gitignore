@@ -19,5 +19,5 @@ media/docx
 media/pdf
 protected/
 
-app/contrib/graph_knowledge/data
+data/
 graph_analysis_logs/

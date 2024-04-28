@@ -4,7 +4,7 @@ from app.contrib.graph_knowledge.utils import parquet_to_sql
 
 
 def trials_to_sql():
-    data_path = "app/contrib/graph_knowledge/data"
+    data_path = "data"
 
     parquet_file = f"{data_path}/Structured data/clinical_trials_kg_df.parquet"
 
