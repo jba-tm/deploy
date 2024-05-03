@@ -36,12 +36,12 @@ class Settings(BaseSettings):
 
     PROJECT_NAME: Optional[str] = 'project_name'
 
-    DATABASE_HOST: str
-    DATABASE_PORT: int
-    DATABASE_USER: str
-    DATABASE_PASSWORD: str
-    DATABASE_NAME: str
-    GK_DATABASE_NAME: str
+    DATABASE_HOST: Optional[str] = "127.0.0.1"
+    DATABASE_PORT: Optional[int] = 5432
+    DATABASE_USER: Optional[str] = "change_this"
+    DATABASE_PASSWORD: Optional[str] = "change_this"
+    DATABASE_NAME: Optional[str] = "change_this"
+    GK_DATABASE_NAME: Optional[str] = "gk_change_this"
     DATABASE_URL: Optional[PostgresDsn] = None
     GK_DATABASE_URL: Optional[PostgresDsn] = None
     TEST_DATABASE_URL: Optional[PostgresDsn] = None
@@ -116,10 +116,10 @@ class Settings(BaseSettings):
     LANGUAGES: tuple = ('en',)
 
     OPENAI_API_KEY: Optional[str] = None
-    OPENAI_MODEL_URL: AnyHttpUrl
-    BE_API_URL: AnyHttpUrl
-    PUBMED_API_URL: AnyHttpUrl
-    OG_API_URL: AnyHttpUrl
+    OPENAI_MODEL_URL: Optional[AnyHttpUrl] = None
+    BE_API_URL: Optional[AnyHttpUrl] = None
+    PUBMED_API_URL: Optional[AnyHttpUrl] = None
+    OG_API_URL: Optional[AnyHttpUrl] = None
 
     model_config = SettingsConfigDict(
         case_sensitive=True, env_file=".env", env_file_encoding='utf-8',
